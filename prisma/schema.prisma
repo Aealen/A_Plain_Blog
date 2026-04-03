@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ArticleStatus {
+  PUBLISHED
+  DRAFT
+  PRIVATE
+  TRASH
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  username  String   @unique
+  password  String
+  email     String   @unique
+  nickname String?
+  avatarUrl String?
+  bio       String?
+  role      UserRole  @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("created_at_updated_at_idx")
+  @@unique([username, email])
+}
+
+model Category {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String   @unique
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  articles Article[]
+
+  @@unique([slug])
+}
+
+model Tag {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  articles ArticleTag[]
+
+  @@unique([slug])
+}
+
+model Article {
+  id             String        @id @default(uuid()) @db.Uuid
+  title          String
+  slug           String        @unique
+  content        String
+  excerpt        String?
+  coverImage     String?
+  categoryId     String?
+  status         ArticleStatus @default(DRAFT)
+  sortOrder      Int           @default(0)
+  isRecommended  Boolean       @default(false)
+  viewCount      Int           @default(0)
+  seoTitle       String?
+  seoDescription String?
+  seoKeywords    String?
+  publishedAt    DateTime?
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  category    Category?  @relation(fields: [categoryId], references: [Category.id])
+  tags        ArticleTag[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([sortOrder(sort: Desc), publishedAt(sort: Desc)])
+  @@unique([slug])
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+
+  article Article @relation(fields: [articleId], references: [Article.id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [Tag.id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+}
+
+model FriendLink {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  url         String
+  avatar      String?
+  description String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+}
+
+model PageVisitSummary {
+  id   String @id @default(uuid()) @db.Uuid
+  path String
+  date DateTime @db.Date
+  pv   Int   @default(0)
+  uv   Int   @default(0)
+
+  @@unique([path, date])
+}
+
+model VisitLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  visitorId String
+  sessionId String
+  path      String
+  referrer  String?
+  userAgent String?
+  ip        String?
+  visitedAt DateTime @default(now()) @map("visited_at")
+
+  @@index([visitorId])
+  @@index([sessionId])
+  @@index([visitedAt])
+}
