@@ -12,8 +12,8 @@ export function generateExcerpt(content: string, maxLength: number = 200): strin
   const plainText = content
     .replace(/#{1,6}\s/g, '')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]+)\)/g, '$1')
-    .replace(/!\[([^\]]+)\]\([^)]+)\)/g, '$1')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
     .replace(/`([^`]+)`/g, '$1')
     .replace(/[-*_#>`|]/g, '')
     .replace(/\n+/g, ' ')

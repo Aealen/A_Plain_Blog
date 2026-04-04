@@ -1,7 +1,7 @@
 'use server'
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { ArticleStatus, from '@prisma/client'
+import { ArticleStatus } from '@prisma/client'
 import { ArticleFormData } from '@/types'
 import { generateSlug, generateExcerpt } from '@/lib/utils'
 export async function getArticles(options: {
@@ -88,7 +88,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
       seoTitle: data.seoTitle,
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
-      publishedAt: data.status === 'PUBLISHED' ? (data.publishedAt || new Date()) : data.publishedAt,
+      publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
     },
   })

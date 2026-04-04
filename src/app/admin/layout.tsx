@@ -19,7 +19,7 @@ export default async function AdminLayout({
         <header className="bg-white border-b px-6 py-4 flex justify-between items-center">
           <h2 className="text-lg font-medium">管理后台</h2>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{session?.user?.nickname || session?.user?.username}</span>
+            <span className="text-sm text-gray-600">{session?.user?.nickname || session?.user?.name}</span>
             <SignOutButton />
           </div>
         </header>

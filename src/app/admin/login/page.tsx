@@ -11,11 +11,13 @@ export default function LoginPage() {
     const result = await signIn('credentials', {
       username,
       password,
-      redirect: true,
+      redirect: false,
       callbackUrl: '/admin',
     })
     if (result?.error) {
       setError('用户名或密码错误')
+    } else {
+      window.location.href = '/admin'
     }
   }
   return (

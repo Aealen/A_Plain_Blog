@@ -5,10 +5,10 @@ export default async function DashboardPage() {
   const session = await auth()
   const [
     totalArticles,
-    publishedArticles
-    draftArticles
-    totalCategories
-    totalTags
+    publishedArticles,
+    draftArticles,
+    totalCategories,
+    totalTags,
     recentArticles
   ] = await Promise.all([
     prisma.article.count(),
@@ -28,7 +28,7 @@ export default async function DashboardPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">
-        欢迎回来, {session?.user?.nickname || session?.user?.username}!
+        欢迎回来, {session?.user?.nickname || session?.user?.name}!
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow p-6">
