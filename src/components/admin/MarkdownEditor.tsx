@@ -39,34 +39,34 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
   )
   const toc = extractTOC(value)
   return (
-    <div className="border rounded-lg overflow-hidden">
-      <div className="bg-gray-50 border-b px-3 py-2 flex items-center gap-1 flex-wrap">
+    <div className="border border-border rounded-[var(--radius-lg)] overflow-hidden bg-card">
+      <div className="bg-muted/50 border-b border-border px-3 py-2 flex items-center gap-1 flex-wrap">
         {toolbarButtons.map((btn) => (
-          <button key={btn.label} type="button" title={btn.title} onClick={() => insertMarkdown(btn.prefix, btn.suffix)} className="px-2 py-1 text-sm font-mono hover:bg-gray-200 rounded">{btn.label}</button>
+          <button key={btn.label} type="button" title={btn.title} onClick={() => insertMarkdown(btn.prefix, btn.suffix)} className="px-2 py-1 text-sm font-mono text-muted-foreground hover:bg-muted hover:text-foreground rounded-[var(--radius-sm)] transition-colors">{btn.label}</button>
         ))}
         <div className="flex-1" />
-        <button type="button" onClick={() => setIsPreview(!isPreview)} className={`px-3 py-1 text-sm rounded ${isPreview ? 'bg-blue-600 text-white' : 'hover:bg-gray-200'}`}>{isPreview ? '编辑' : '预览'}</button>
+        <button type="button" onClick={() => setIsPreview(!isPreview)} className={`px-3 py-1 text-sm font-mono font-medium rounded-[var(--radius-sm)] transition-colors ${isPreview ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted'}`}>{isPreview ? '编辑' : '预览'}</button>
       </div>
       <div className="flex">
         <div className="flex-1">
           {isPreview ? (
-            <div className="p-4 min-h-[500px] prose max-w-none text-gray-400 text-center py-20">预览功能将在前台展示时实现</div>
+            <div className="p-4 min-h-[500px] prose max-w-none text-muted-foreground text-center py-20">预览功能将在前台展示时实现</div>
           ) : (
-            <textarea data-editor="markdown" value={value} onChange={(e) => onChange(e.target.value)} placeholder="在这里编写 Markdown 内容..." className="w-full p-4 min-h-[500px] font-mono text-sm resize-none focus:outline-none" />
+            <textarea data-editor="markdown" value={value} onChange={(e) => onChange(e.target.value)} placeholder="在这里编写 Markdown 内容..." className="w-full p-4 min-h-[500px] font-mono text-sm resize-none focus:outline-none bg-card text-foreground" />
           )}
         </div>
         {toc.length > 0 && (
-          <div className="w-48 border-l bg-gray-50 p-3">
-            <h4 className="text-xs font-medium text-gray-500 mb-2">目录</h4>
+          <div className="w-48 border-l border-border bg-muted/30 p-3">
+            <h4 className="text-xs font-medium font-mono text-muted-foreground mb-2">目录</h4>
             <nav className="space-y-1">
               {toc.map((item) => (
-                <div key={item.id} className="text-xs text-gray-600 hover:text-blue-600 truncate" style={{ paddingLeft: `${(item.level - 1) * 8}px` }}>{item.text}</div>
+                <div key={item.id} className="text-xs text-muted-foreground hover:text-primary truncate cursor-default transition-colors" style={{ paddingLeft: `${(item.level - 1) * 8}px` }}>{item.text}</div>
               ))}
             </nav>
           </div>
         )}
       </div>
-      <div className="bg-gray-50 border-t px-3 py-1 flex items-center gap-4 text-xs text-gray-500">
+      <div className="bg-muted/50 border-t border-border px-3 py-1 flex items-center gap-4 text-xs text-muted-foreground font-mono">
         <span>{value.length} 字符</span>
         <span>{value.split(/\n/).length} 行</span>
       </div>

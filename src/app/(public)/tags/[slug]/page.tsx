@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getTagBySlug } from '@/actions/public/tag'
 import { getPublishedArticles } from '@/actions/public/article'
+import ArticleCard from '@/components/public/ArticleCard'
 
 interface TagArticlesPageProps {
   params: Promise<{ slug: string }>
@@ -27,48 +28,25 @@ export default async function TagArticlesPage({ params }: TagArticlesPageProps) 
   const { data: articles } = await getPublishedArticles({ tagId: tag.id })
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-[880px] mx-auto py-10 px-5">
       <header className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <Link href="/tags" className="hover:text-blue-600">标签</Link>
-          <span>/</span>
-          <span>{tag.name}</span>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-mono">
+          <Link href="/tags" className="hover:text-primary transition-colors">标签</Link>
+          <span className="text-border">/</span>
+          <span className="text-foreground">{tag.name}</span>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">{tag.name}</h1>
-        <p className="text-sm text-gray-400 mt-1">共 {tag._count.articles} 篇文章</p>
+        <h1 className="text-3xl font-bold font-mono text-foreground">{tag.name}</h1>
+        <p className="text-sm text-muted-foreground mt-1 font-mono">共 {tag._count.articles} 篇文章</p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">该标签下暂无文章</p>
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">该标签下暂无文章</p>
+        </div>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {articles.map((article) => (
-            <article key={article.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <Link href={`/articles/${article.slug}`} className="group">
-                <h2 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 mb-2">
-                  {article.title}
-                </h2>
-              </Link>
-              {article.excerpt && (
-                <p className="text-gray-500 text-sm mb-3 line-clamp-2">{article.excerpt}</p>
-              )}
-              <div className="flex items-center gap-4 text-sm text-gray-400">
-                {article.publishedAt && (
-                  <time dateTime={article.publishedAt.toISOString()}>
-                    {new Date(article.publishedAt).toLocaleDateString('zh-CN')}
-                  </time>
-                )}
-                <span>{article.viewCount} 阅读</span>
-                {article.category && (
-                  <Link
-                    href={`/categories/${article.category.slug}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    {article.category.name}
-                  </Link>
-                )}
-              </div>
-            </article>
+            <ArticleCard key={article.id} article={article} />
           ))}
         </div>
       )}

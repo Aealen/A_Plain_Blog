@@ -12,24 +12,29 @@ export default async function CategoriesPage() {
   const categories = await getCategories()
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">分类</h1>
+    <div className="max-w-[880px] mx-auto py-10 px-5">
+      <h1 className="text-3xl font-bold font-mono text-foreground mb-8">分类</h1>
 
       {categories.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">暂无分类</p>
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">暂无分类</p>
+          <p className="text-muted-foreground/60 text-sm mt-2">分类正在整理中...</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((category) => (
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
-              className="block bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 transition-all"
+              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
             >
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">{category.name}</h2>
+              <h2 className="text-lg font-bold font-mono text-foreground mb-2 group-hover:text-primary transition-colors">
+                {category.name}
+              </h2>
               {category.description && (
-                <p className="text-gray-500 text-sm mb-3 line-clamp-2">{category.description}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{category.description}</p>
               )}
-              <span className="text-sm text-blue-600">
+              <span className="text-sm text-primary font-mono">
                 {category._count.articles} 篇文章
               </span>
             </Link>

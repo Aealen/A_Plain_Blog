@@ -12,21 +12,24 @@ export default async function TagsPage() {
   const tags = await getTags()
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">标签</h1>
+    <div className="max-w-[880px] mx-auto py-10 px-5">
+      <h1 className="text-3xl font-bold font-mono text-foreground mb-8">标签</h1>
 
       {tags.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">暂无标签</p>
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">暂无标签</p>
+          <p className="text-muted-foreground/60 text-sm mt-2">标签正在整理中...</p>
+        </div>
       ) : (
         <div className="flex flex-wrap gap-3">
           {tags.map((tag) => (
             <Link
               key={tag.id}
               href={`/tags/${tag.slug}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-white rounded-full border border-gray-200 text-gray-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-card rounded-full border border-border text-foreground hover:border-primary/40 hover:text-primary hover:shadow-sm transition-all duration-300"
             >
-              <span className="font-medium">{tag.name}</span>
-              <span className="text-xs text-gray-400">({tag._count.articles})</span>
+              <span className="font-medium font-mono"># {tag.name}</span>
+              <span className="text-xs text-muted-foreground">({tag._count.articles})</span>
             </Link>
           ))}
         </div>

@@ -1,31 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-primary: #FF8400;
+  --color-primary-foreground: #FFFFFF;
+  --color-background: #F2F3F0;
+  --color-foreground: #111111;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #111111;
+  --color-border: #CBCCC9;
+  --color-muted: #F2F3F0;
+  --color-muted-foreground: #6B6B6B;
+  --color-accent: #FFF4E6;
+  --color-accent-foreground: #FF8400;
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #FFFFFF;
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-foreground);
+  background: var(--color-background);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* Focus-visible ring for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Remove outline for mouse clicks */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
 }
 
 /* Prose styles for markdown content */
 .prose {
   max-width: 65ch;
   color: #374151;
-  line-height: 1.75;
+  line-height: 1.8;
+  font-size: 1.0625rem;
 }
 .prose h1, .prose h2, .prose h3, .prose h4 {
-  color: #111827;
+  color: #111111;
+  font-family: var(--font-mono);
   font-weight: 700;
   margin-top: 2em;
   margin-bottom: 0.5em;
@@ -34,27 +98,28 @@ body {
 .prose h2 { font-size: 1.5em; line-height: 1.3333333; }
 .prose h3 { font-size: 1.25em; line-height: 1.6; }
 .prose p { margin-top: 1.25em; margin-bottom: 1.25em; }
-.prose a { color: #2563eb; text-decoration: underline; }
-.prose code { color: #dc2626; font-size: 0.875em; }
+.prose a { color: #FF8400; text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: #e67700; }
+.prose code { color: #FF8400; font-size: 0.875em; font-family: var(--font-mono); }
 .prose pre {
-  background-color: #1f2937;
+  background-color: #1a1a1a;
   color: #e5e7eb;
   overflow-x: auto;
-  border-radius: 0.5rem;
-  padding: 1em;
+  border-radius: 16px;
+  padding: 1.25em;
   margin: 1.5em 0;
 }
 .prose pre code { color: inherit; background: none; font-size: inherit; }
 .prose blockquote {
-  border-left: 4px solid #e5e7eb;
+  border-left: 4px solid #FF8400;
   padding-left: 1em;
   font-style: italic;
-  color: #6b7280;
+  color: #6B6B6B;
 }
 .prose ul, .prose ol { padding-left: 1.5em; margin: 1.25em 0; }
 .prose li { margin: 0.5em 0; }
-.prose img { border-radius: 0.5rem; margin: 1.5em 0; }
-.prose hr { border-color: #e5e7eb; margin: 2em 0; }
+.prose img { border-radius: 16px; margin: 1.5em 0; }
+.prose hr { border-color: #CBCCC9; margin: 2em 0; }
 .prose table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
-.prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.5em 1em; text-align: left; }
-.prose th { background: #f9fafb; font-weight: 600; }
+.prose th, .prose td { border: 1px solid #CBCCC9; padding: 0.5em 1em; text-align: left; }
+.prose th { background: #F2F3F0; font-weight: 600; }

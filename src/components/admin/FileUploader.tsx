@@ -66,29 +66,29 @@ export default function FileUploader({ onUpload, accept }: FileUploaderProps) {
         onDrop={handleDrop}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
         onDragLeave={() => setDragOver(false)}
-        className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-          dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-gray-50'
+        className={`border-2 border-dashed rounded-[var(--radius-lg)] p-8 text-center cursor-pointer transition-all duration-200 ${
+          dragOver ? 'border-primary bg-accent' : 'border-border hover:border-primary/40 bg-muted/30'
         } ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
       >
         <input ref={fileInputRef} type="file" onChange={handleFileChange} accept={accept} className="hidden" />
         {uploading ? (
-          <div className="text-gray-500">
+          <div className="text-muted-foreground">
             <svg className="animate-spin h-8 w-8 mx-auto mb-2" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            <p>上传中...</p>
+            <p className="font-mono text-sm">上传中...</p>
           </div>
         ) : (
-          <div className="text-gray-500">
-            <svg className="h-10 w-10 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-muted-foreground">
+            <svg className="h-10 w-10 mx-auto mb-2 text-muted-foreground/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16" />
             </svg>
-            <p>点击或拖拽文件到此处上传</p>
+            <p className="font-mono text-sm">点击或拖拽文件到此处上传</p>
           </div>
         )}
       </div>
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
     </div>
   )
 }

@@ -96,154 +96,90 @@ export default function FriendLinksPage() {
     setError('')
   }
 
+  const inputClass = "w-full px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">友链管理</h1>
+      <h1 className="text-2xl font-bold font-mono text-foreground mb-6">友链管理</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Form */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-medium mb-4">{editingId ? '编辑友链' : '新建友链'}</h2>
+        <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
+          <h2 className="text-base font-bold font-mono text-foreground mb-4">{editingId ? '编辑友链' : '新建友链'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <div className="bg-red-50 text-red-500 p-3 rounded text-sm">{error}</div>}
+            {error && <div className="bg-red-50 text-red-600 p-3 rounded-[var(--radius-sm)] text-sm">{error}</div>}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">名称</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">名称</label>
+              <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} required className={inputClass} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">URL</label>
-              <input
-                type="url"
-                value={formData.url}
-                onChange={e => setFormData({ ...formData, url: e.target.value })}
-                required
-                placeholder="https://"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">URL</label>
+              <input type="url" value={formData.url} onChange={e => setFormData({ ...formData, url: e.target.value })} required placeholder="https://" className={inputClass} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">头像</label>
-              <input
-                type="text"
-                value={formData.avatar}
-                onChange={e => setFormData({ ...formData, avatar: e.target.value })}
-                placeholder="头像图片 URL"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">头像</label>
+              <input type="text" value={formData.avatar} onChange={e => setFormData({ ...formData, avatar: e.target.value })} placeholder="头像图片 URL" className={inputClass} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">描述</label>
-              <textarea
-                value={formData.description}
-                onChange={e => setFormData({ ...formData, description: e.target.value })}
-                rows={2}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">描述</label>
+              <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={2} className={inputClass} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">排序</label>
-              <input
-                type="number"
-                value={formData.order}
-                onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">排序</label>
+              <input type="number" value={formData.order} onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })} className={inputClass} />
             </div>
             <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="isActive"
-                checked={formData.isActive}
-                onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
-                className="rounded"
-              />
-              <label htmlFor="isActive" className="text-sm text-gray-700">启用</label>
+              <input type="checkbox" id="isActive" checked={formData.isActive} onChange={e => setFormData({ ...formData, isActive: e.target.checked })} className="rounded accent-primary" />
+              <label htmlFor="isActive" className="text-sm text-muted-foreground">启用</label>
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+              <button type="submit" className="flex-1 bg-primary text-primary-foreground py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors">
                 {editingId ? '更新' : '创建'}
               </button>
               {editingId && (
-                <button type="button" onClick={handleCancel} className="px-4 py-2 border rounded-lg hover:bg-gray-50">
-                  取消
-                </button>
+                <button type="button" onClick={handleCancel} className="px-4 py-2 border border-border rounded-[var(--radius-sm)] hover:bg-muted transition-colors">取消</button>
               )}
             </div>
           </form>
         </div>
 
-        {/* Link List */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow">
-          <div className="p-4 border-b">
-            <h2 className="text-lg font-medium">友链列表 ({links.length})</h2>
+        <div className="lg:col-span-2 bg-card rounded-[var(--radius-lg)] border border-border">
+          <div className="p-4 border-b border-border">
+            <h2 className="text-base font-bold font-mono text-foreground">友链列表 ({links.length})</h2>
           </div>
-          <div className="divide-y">
+          <div className="divide-y divide-border">
             {links.map(link => (
               <div key={link.id} className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {link.avatar ? (
-                    <img
-                      src={link.avatar}
-                      alt={link.name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
+                    <img src={link.avatar} alt={link.name} className="w-10 h-10 rounded-full object-cover border border-border" />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+                    <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-primary text-sm font-bold font-mono">
                       {link.name.charAt(0)}
                     </div>
                   )}
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-medium">{link.name}</span>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        link.isActive
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-gray-100 text-gray-500'
+                      <span className="font-medium text-foreground">{link.name}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                        link.isActive ? 'bg-green-100 text-green-700' : 'bg-muted text-muted-foreground'
                       }`}>
                         {link.isActive ? '启用' : '禁用'}
                       </span>
-                      <span className="text-xs text-gray-400">排序: {link.order}</span>
                     </div>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {link.url}
-                    </a>
-                    {link.description && (
-                      <p className="text-sm text-gray-500 mt-0.5">{link.description}</p>
-                    )}
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:text-primary/80 transition-colors">{link.url}</a>
+                    {link.description && <p className="text-sm text-muted-foreground mt-0.5">{link.description}</p>}
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleToggle(link.id)}
-                    className={`text-sm ${
-                      link.isActive ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800'
-                    }`}
-                  >
+                <div className="flex gap-3">
+                  <button onClick={() => handleToggle(link.id)} className={`text-sm font-medium transition-colors ${link.isActive ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800'}`}>
                     {link.isActive ? '禁用' : '启用'}
                   </button>
-                  <button onClick={() => handleEdit(link)} className="text-sm text-blue-600 hover:text-blue-800">
-                    编辑
-                  </button>
-                  <button onClick={() => handleDelete(link.id)} className="text-sm text-red-600 hover:text-red-800">
-                    删除
-                  </button>
+                  <button onClick={() => handleEdit(link)} className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">编辑</button>
+                  <button onClick={() => handleDelete(link.id)} className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors">删除</button>
                 </div>
               </div>
             ))}
-            {links.length === 0 && (
-              <div className="p-8 text-center text-gray-400">暂无友链</div>
-            )}
+            {links.length === 0 && <div className="p-8 text-center text-muted-foreground">暂无友链</div>}
           </div>
         </div>
       </div>

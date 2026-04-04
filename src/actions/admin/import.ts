@@ -5,6 +5,7 @@ import { parseMarkdownFile, type ParsedFrontMatter } from '@/lib/markdown'
 import { generateSlug, generateExcerpt } from '@/lib/utils'
 import { ArticleStatus } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
+import JSZip from 'jszip'
 
 export async function importMarkdownFiles(files: { name: string; content: string }[]): Promise<{
   imported: number
@@ -79,4 +80,37 @@ export async function importMarkdownFiles(files: { name: string; content: string
   revalidatePath('/admin/articles')
   revalidatePath('/')
   return { imported, skipped, errors }
+}
+
+export async function importFromZip(file: File): Promise<{
+  imported: number
+  skipped: number
+  errors: string[]
+}> {
+  const session = await auth()
+  if (!session) throw new Error('未授权')
+
+  const arrayBuffer = await file.arrayBuffer()
+  const zip = await JSZip.loadAsync(arrayBuffer)
+
+  const markdownFiles: { name: string; content: string }[] = []
+
+  // Collect all .md files from the ZIP (forEach recursively iterates all paths)
+  const promises: Promise<void>[] = []
+  zip.forEach((relativePath, zipEntry) => {
+    if (!zipEntry.dir && relativePath.endsWith('.md')) {
+      promises.push(
+        zipEntry.async('string').then((content) => {
+          markdownFiles.push({ name: relativePath, content })
+        })
+      )
+    }
+  })
+  await Promise.all(promises)
+
+  if (markdownFiles.length === 0) {
+    return { imported: 0, skipped: 0, errors: ['ZIP 文件中未找到 Markdown 文件'] }
+  }
+
+  return importMarkdownFiles(markdownFiles)
 }

@@ -11,37 +11,39 @@ export default async function LinksPage() {
   const links = await getActiveFriendLinks()
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">友情链接</h1>
+    <div className="max-w-[880px] mx-auto py-10 px-5">
+      <h1 className="text-3xl font-bold font-mono text-foreground mb-8">友情链接</h1>
 
       {links.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">暂无友情链接</p>
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">暂无友情链接</p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {links.map((link) => (
             <a
               key={link.id}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 transition-all"
+              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-3">
                 {link.avatar ? (
                   <img
                     src={link.avatar}
                     alt={link.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-12 h-12 rounded-full object-cover border border-border"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
+                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold font-mono text-lg">
                     {link.name.charAt(0)}
                   </div>
                 )}
-                <h2 className="text-lg font-semibold text-gray-900">{link.name}</h2>
+                <h2 className="text-lg font-bold font-mono text-foreground group-hover:text-primary transition-colors">{link.name}</h2>
               </div>
               {link.description && (
-                <p className="text-gray-500 text-sm line-clamp-2">{link.description}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2">{link.description}</p>
               )}
             </a>
           ))}

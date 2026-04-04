@@ -1,23 +1,29 @@
 'use client'
-import { signIn } from 'next-auth/react'
+import { loginAction } from './actions'
 import { useState } from 'react'
 export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    const result = await signIn('credentials', {
-      username,
-      password,
-      redirect: false,
-      callbackUrl: '/admin',
-    })
-    if (result?.error) {
-      setError('用户名或密码错误')
-    } else {
-      window.location.href = '/admin'
+    setIsLoading(true)
+
+    try {
+      const result = await loginAction({ username, password })
+      
+      if (result?.error) {
+        setError('用户名或密码错误')
+      } else {
+        window.location.href = '/admin'
+      }
+    } catch (err) {
+      setError('登录失败，请重试')
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
@@ -58,9 +64,10 @@ export default function LoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full bg-primary text-primary-foreground py-2.5 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors"
+            disabled={isLoading}
+            className="w-full bg-primary text-primary-foreground py-2.5 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            登录
+            {isLoading ? '登录中...' : '登录'}
           </button>
         </form>
       </div>

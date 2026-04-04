@@ -1,21 +1,16 @@
-import { auth } from '@/lib/auth'
 import { NextResponse } from 'next/server'
 
-export default auth((req) => {
-  const isAuthPage = req.nextUrl.pathname === '/admin/login'
-  const isAdminRoute = req.nextUrl.pathname.startsWith('/admin')
-
-  if (!isAdminRoute) return NextResponse.next()
-
-  if (isAuthPage) return NextResponse.next()
-
-  if (!req.auth) {
-    return NextResponse.redirect(new URL('/admin/login', req.url))
+export default function middleware(req: any) {
+  const pathname = req.nextUrl.pathname
+  
+  // Redirect old admin/login to new login
+  if (pathname === '/admin/login') {
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   return NextResponse.next()
-})
+}
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/login'],
 }

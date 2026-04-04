@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getCategoryBySlug } from '@/actions/public/category'
 import { getPublishedArticles } from '@/actions/public/article'
+import ArticleCard from '@/components/public/ArticleCard'
 
 interface CategoryArticlesPageProps {
   params: Promise<{ slug: string }>
@@ -27,56 +28,28 @@ export default async function CategoryArticlesPage({ params }: CategoryArticlesP
   const { data: articles } = await getPublishedArticles({ categoryId: category.id })
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-[880px] mx-auto py-10 px-5">
       <header className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <Link href="/categories" className="hover:text-blue-600">分类</Link>
-          <span>/</span>
-          <span>{category.name}</span>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-mono">
+          <Link href="/categories" className="hover:text-primary transition-colors">分类</Link>
+          <span className="text-border">/</span>
+          <span className="text-foreground">{category.name}</span>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">{category.name}</h1>
+        <h1 className="text-3xl font-bold font-mono text-foreground">{category.name}</h1>
         {category.description && (
-          <p className="text-gray-500 mt-2">{category.description}</p>
+          <p className="text-muted-foreground mt-2">{category.description}</p>
         )}
-        <p className="text-sm text-gray-400 mt-1">共 {category._count.articles} 篇文章</p>
+        <p className="text-sm text-muted-foreground mt-1 font-mono">共 {category._count.articles} 篇文章</p>
       </header>
 
       {articles.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">该分类下暂无文章</p>
+        <div className="text-center py-20">
+          <p className="text-muted-foreground text-lg">该分类下暂无文章</p>
+        </div>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {articles.map((article) => (
-            <article key={article.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <Link href={`/articles/${article.slug}`} className="group">
-                <h2 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 mb-2">
-                  {article.title}
-                </h2>
-              </Link>
-              {article.excerpt && (
-                <p className="text-gray-500 text-sm mb-3 line-clamp-2">{article.excerpt}</p>
-              )}
-              <div className="flex items-center gap-4 text-sm text-gray-400">
-                {article.publishedAt && (
-                  <time dateTime={article.publishedAt.toISOString()}>
-                    {new Date(article.publishedAt).toLocaleDateString('zh-CN')}
-                  </time>
-                )}
-                <span>{article.viewCount} 阅读</span>
-                {article.tags.length > 0 && (
-                  <div className="flex gap-1">
-                    {article.tags.map(({ tag }) => (
-                      <Link
-                        key={tag.slug}
-                        href={`/tags/${tag.slug}`}
-                        className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
-                      >
-                        {tag.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
+            <ArticleCard key={article.id} article={article} />
           ))}
         </div>
       )}
