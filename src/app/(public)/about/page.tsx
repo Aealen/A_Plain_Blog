@@ -25,7 +25,7 @@ export default function AboutPage() {
           P
         </div>
 
-        <h1 className="text-3xl font-bold font-display text-foreground">plain.</h1>
+        <h1 className="text-3xl font-bold font-display text-foreground">Maxon's Blog</h1>
 
         <p className="text-tertiary mt-4 text-sm">一个简洁的博客</p>
       </div>

@@ -31,8 +31,7 @@ export default function LoginPage() {
       <div className="bg-card p-8 rounded-[var(--radius-lg)] border border-border shadow-lg w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-1 mb-2">
-            <span className="text-3xl font-bold font-mono tracking-tight text-foreground">plain</span>
-            <span className="text-3xl font-bold text-primary">.</span>
+            <span className="text-3xl font-bold font-mono tracking-tight text-foreground">Maxon's Blog</span>
           </div>
           <p className="text-sm text-muted-foreground font-mono">博客管理后台</p>
         </div>

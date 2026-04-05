@@ -19,7 +19,7 @@ export default function Header() {
     <>
       <header className="h-[72px] flex items-center justify-between px-5 md:px-[80px]">
         <Link href="/" className="font-display text-[24px] font-bold tracking-tight">
-          plain.
+          Maxon's Blog
         </Link>
 
         {/* Desktop nav */}

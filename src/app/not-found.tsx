@@ -18,8 +18,7 @@ export default function NotFound() {
           className="inline-flex items-center gap-1.5 mt-8 text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
           ← 返回
-          <span className="font-mono font-semibold">plain</span>
-          <span className="text-primary font-mono font-semibold">.</span>
+          <span className="font-mono font-semibold">Maxon's Blog</span>
         </Link>
       </div>
     </div>

@@ -21,8 +21,7 @@ export default function Sidebar() {
     <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
       <div className="p-5 border-b border-border">
         <Link href="/admin" className="flex items-center gap-1">
-          <span className="text-xl font-bold font-mono tracking-tight text-foreground">plain</span>
-          <span className="text-xl font-bold text-primary">.</span>
+          <span className="text-xl font-bold font-mono tracking-tight text-foreground">Maxon's Blog</span>
           <span className="text-xs text-muted-foreground ml-1 font-mono">admin</span>
         </Link>
       </div>

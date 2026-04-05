@@ -15,7 +15,7 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: 'plain.',
+  title: "Maxon's Blog",
   description: '一个简洁的博客',
 }
 
