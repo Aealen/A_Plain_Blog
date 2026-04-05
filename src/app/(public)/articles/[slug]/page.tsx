@@ -1,11 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeSlug from 'rehype-slug'
 import CodeThemeSwitcher from '@/components/public/CodeThemeSwitcher'
+import ArticleContent from '@/components/public/ArticleContent'
 import { getArticleBySlug, incrementViewCount } from '@/actions/public/article'
 
 interface ArticlePageProps {
@@ -171,9 +168,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* Content */}
         <div className="max-w-[880px] mx-auto px-5 md:px-0 py-10">
           <div className="prose max-w-[680px] mx-auto prose-headings:scroll-mt-20 text-base md:text-[17px]">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight, rehypeSlug]}>
-              {article.content}
-            </ReactMarkdown>
+            <ArticleContent content={article.content} />
           </div>
 
           {/* Theme Switcher + Back Link */}

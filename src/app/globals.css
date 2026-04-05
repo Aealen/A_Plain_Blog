@@ -128,43 +128,71 @@ html {
 }
 .prose pre code { color: inherit; background: none; font-size: inherit; border: none; padding: 0; }
 .prose pre code.hljs { display: block; overflow-x: auto; padding: 0; }
-/* Language label from rehype-highlight (adds class="language-xxx" to code) */
-.prose pre > code.hljs { padding-top: 0; }
-.prose pre:has(code[class*="language-"])::before {
-  position: absolute;
-  top: 0.5em;
-  right: 0.75em;
-  font-size: 0.65em;
+
+/* Code block toolbar container */
+.code-block-container {
+  overflow: hidden;
+  margin: 1.25em 0;
+  border-radius: 8px;
+  background: #22272e;
+  border: 1px solid #2d333b;
+  color: #adbac7;
+}
+@media (min-width: 768px) {
+  .code-block-container { border-radius: 16px; margin: 1.5em 0; }
+}
+.prose .code-block-container pre {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+.code-block-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  background: rgba(0, 0, 0, 0.15);
+}
+@media (min-width: 768px) {
+  .code-block-bar { height: 2.5rem; padding: 0 1rem; }
+}
+.code-block-lang {
   font-family: var(--font-mono);
-  color: #545d68;
+  opacity: 0.6;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  pointer-events: none;
+  font-size: 0.7rem;
 }
-.prose pre > code.language-javascript::before,
-.prose pre > code.language-js::before { content: "JS"; display: none; }
-.prose pre:has(code.language-javascript)::before,
-.prose pre:has(code.language-js)::before { content: "JavaScript"; }
-.prose pre:has(code.language-typescript)::before { content: "TypeScript"; }
-.prose pre:has(code.language-tsx)::before { content: "TSX"; }
-.prose pre:has(code.language-jsx)::before { content: "JSX"; }
-.prose pre:has(code.language-css)::before { content: "CSS"; }
-.prose pre:has(code.language-html)::before { content: "HTML"; }
-.prose pre:has(code.language-json)::before { content: "JSON"; }
-.prose pre:has(code.language-bash)::before,
-.prose pre:has(code.language-shell)::before { content: "Shell"; }
-.prose pre:has(code.language-python)::before { content: "Python"; }
-.prose pre:has(code.language-sql)::before { content: "SQL"; }
-.prose pre:has(code.language-go)::before { content: "Go"; }
-.prose pre:has(code.language-rust)::before { content: "Rust"; }
-.prose pre:has(code.language-java)::before { content: "Java"; }
-.prose pre:has(code.language-yaml)::before { content: "YAML"; }
-.prose pre:has(code.language-markdown)::before { content: "Markdown"; }
-.prose pre:has(code.language-diff)::before { content: "Diff"; }
-.prose pre:has(code[class*="language-"]) { padding-top: 2em; }
-@media (min-width: 768px) {
-  .prose pre:has(code[class*="language-"]) { padding-top: 2.5em; }
+.code-block-actions { display: flex; align-items: center; gap: 2px; }
+.code-block-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0.5;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s, background-color 0.15s;
 }
+.code-block-btn:hover { opacity: 1; background: rgba(128, 128, 128, 0.15); }
+
+/* Theme-specific container styles */
+[data-code-theme="atom-one-dark"] .code-block-container { background: #282c34; border-color: #3a3f4b; color: #abb2bf; }
+[data-code-theme="atom-one-light"] .code-block-container { background: #fafafa; border-color: #e0e0e0; color: #383a42; }
+[data-code-theme="atom-one-light"] .code-block-bar { background: rgba(0, 0, 0, 0.04); }
+[data-code-theme="nord"] .code-block-container { background: #2E3440; border-color: #3B4252; color: #D8DEE9; }
+[data-code-theme="tokyo-night-dark"] .code-block-container { background: #1a1b26; border-color: #24283b; color: #9aa5ce; }
+[data-code-theme="vs2015"] .code-block-container { background: #1E1E1E; border-color: #333; color: #DCDCDC; }
+[data-code-theme="github-dark-dimmed"] .code-block-container { background: #22272e; border-color: #2d333b; color: #adbac7; }
+[data-code-theme="mono-blue"] .code-block-container { background: #eaeef3; border-color: #d0d7de; color: #00193a; }
+[data-code-theme="mono-blue"] .code-block-bar { background: rgba(0, 0, 0, 0.04); }
+[data-code-theme="mono-blue"] .code-block-bar { background: rgba(0, 0, 0, 0.04); }
 .prose blockquote {
   border-left: 4px solid #000000;
   padding-left: 1em;
