@@ -7,7 +7,7 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col max-w-[1440px] mx-auto w-full">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />

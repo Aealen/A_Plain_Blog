@@ -8,84 +8,91 @@ export const dynamic = 'force-dynamic'
 export default async function HomePage() {
   const [recommended, articlesResult] = await Promise.all([
     getRecommendedArticles(),
-    getPublishedArticles({ page: 1, pageSize: 20 }),
+    getPublishedArticles({ page: 1, pageSize: 6 }),
   ])
 
-  const articles = articlesResult.data
   const heroArticle = recommended[0]
-  const moreRecommended = recommended.slice(1)
+  const articles = articlesResult.data
 
   return (
-    <div className="max-w-[1280px] mx-auto w-full px-5 lg:px-0 pt-[60px] pb-10">
+    <div className="px-5 md:px-[80px]">
       {/* Hero Section */}
       {heroArticle && (
-        <section className="mb-16">
-          <Link href={`/articles/${heroArticle.slug}`} className="group block">
-            <div className="flex items-stretch gap-[60px] h-[400px]">
-              {/* Left text area */}
-              <div className="flex flex-col justify-center w-[740px] shrink-0">
-                {heroArticle.category && (
-                  <span className="inline-block text-xs font-display font-medium text-primary bg-accent px-3 py-1 rounded-full mb-4 w-fit">
-                    {heroArticle.category.name}
-                  </span>
-                )}
-                <h2 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight mb-4 line-clamp-2 group-hover:text-primary transition-colors">
-                  {heroArticle.title}
-                </h2>
-                {heroArticle.excerpt && (
-                  <p className="text-muted-foreground leading-relaxed line-clamp-3 mb-4">
-                    {heroArticle.excerpt}
-                  </p>
-                )}
-                <div className="text-sm text-muted-foreground">
-                  {heroArticle.publishedAt && (
-                    <time className="font-display">
-                      {new Date(heroArticle.publishedAt).toLocaleDateString('zh-CN')}
-                    </time>
-                  )}
-                </div>
-              </div>
-              {/* Right image area */}
-              <div className="relative w-[480px] h-[400px] shrink-0 rounded-[var(--radius-lg)] overflow-hidden">
-                {heroArticle.coverImage ? (
-                  <Image
-                    src={heroArticle.coverImage}
-                    alt={heroArticle.title}
-                    fill
-                    sizes="480px"
-                    className="object-cover rounded-[var(--radius-lg)] group-hover:scale-105 transition-transform duration-700"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-primary/5 rounded-[var(--radius-lg)]" />
-                )}
-              </div>
+        <section className="flex flex-col md:flex-row items-center gap-[40px] md:gap-[60px] pt-[60px]">
+          {/* Left: Text Content */}
+          <div className="w-full md:w-[740px] flex flex-col justify-center">
+            {heroArticle.category && (
+              <span className="inline-block text-[12px] text-tertiary tracking-widest mb-6">
+                ✦ {heroArticle.category.name}
+              </span>
+            )}
+            <h1 className="font-display text-[32px] md:text-[44px] font-bold leading-[1.2] tracking-tight mb-6">
+              <Link
+                href={`/articles/${heroArticle.slug}`}
+                className="hover:opacity-80 transition-opacity"
+              >
+                {heroArticle.title}
+              </Link>
+            </h1>
+            {heroArticle.excerpt && (
+              <p className="text-[15px] text-muted-foreground leading-[1.6] mb-6">
+                {heroArticle.excerpt}
+              </p>
+            )}
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/articles/${heroArticle.slug}`}
+                className="text-[13px] font-medium hover:underline"
+              >
+                阅读全文
+              </Link>
+              <span className="text-tertiary text-[12px]">·</span>
+              <Link
+                href="/articles"
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200"
+              >
+                查看更多
+              </Link>
             </div>
-          </Link>
-        </section>
-      )}
+          </div>
 
-      {/* More Recommended */}
-      {moreRecommended.length > 0 && (
-        <section className="mb-16">
-          <h2 className="text-xl font-bold font-display text-foreground mb-6">推荐阅读</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {moreRecommended.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
+          {/* Right: Image */}
+          <div className="w-full md:w-[480px] h-[300px] md:h-[400px] rounded-lg overflow-hidden shrink-0 relative">
+            {heroArticle.coverImage ? (
+              <Image
+                src={heroArticle.coverImage}
+                alt={heroArticle.title}
+                fill
+                sizes="480px"
+                className="object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[200px] h-[200px] rounded-full bg-gradient-to-br from-zinc-200 to-zinc-300 opacity-60" />
+                </div>
+                <div className="absolute bottom-8 right-8 w-[120px] h-[120px] rounded-full bg-gradient-to-tl from-zinc-200 to-zinc-300 opacity-40" />
+                <div className="absolute top-12 left-12 w-[80px] h-[80px] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300 opacity-30 rotate-12" />
+              </div>
+            )}
           </div>
         </section>
       )}
 
-      {/* Latest Articles */}
-      <section>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold font-display text-foreground">最新文章</h2>
-          <Link href="/categories" className="text-sm text-muted-foreground hover:text-primary transition-colors font-display">
+      {/* Latest Articles Section */}
+      <section id="articles" className="pt-[60px] pb-[40px]">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-display text-[24px] md:text-[28px] font-bold tracking-tight">最新文章</h2>
+          <Link
+            href="/articles"
+            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
             查看全部 →
           </Link>
         </div>
+
         {articles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
             {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}

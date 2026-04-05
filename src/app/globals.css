@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #FF8400;
-  --color-primary-foreground: #111111;
-  --color-background: #F2F3F0;
+  --color-primary: #000000;
+  --color-primary-foreground: #FFFFFF;
+  --color-background: #FFFFFF;
   --color-foreground: #000000;
-  --color-card: #FFFFFF;
+  --color-card: #F4F4F5;
   --color-card-foreground: #000000;
   --color-border: #E4E4E7;
   --color-muted: #F4F4F5;
   --color-muted-foreground: #71717A;
   --color-tertiary: #A1A1AA;
-  --color-accent: #FFF4E6;
-  --color-accent-foreground: #FF8400;
+  --color-accent: #F4F4F5;
+  --color-accent-foreground: #000000;
   --color-destructive: #EF4444;
   --color-destructive-foreground: #FFFFFF;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -100,9 +100,9 @@ html {
 .prose h2 { font-size: 1.5em; line-height: 1.3333333; }
 .prose h3 { font-size: 1.25em; line-height: 1.6; }
 .prose p { margin-top: 1.25em; margin-bottom: 1.25em; }
-.prose a { color: #FF8400; text-decoration: underline; text-underline-offset: 2px; }
-.prose a:hover { color: #e67700; }
-.prose code { color: #FF8400; font-size: 0.875em; font-family: var(--font-mono); }
+.prose a { color: #000000; text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: #374151; }
+.prose code { color: #374151; font-size: 0.875em; font-family: var(--font-mono); }
 .prose pre {
   background-color: #1a1a1a;
   color: #e5e7eb;
@@ -113,7 +113,7 @@ html {
 }
 .prose pre code { color: inherit; background: none; font-size: inherit; }
 .prose blockquote {
-  border-left: 4px solid #FF8400;
+  border-left: 4px solid #000000;
   padding-left: 1em;
   font-style: italic;
   color: #71717A;

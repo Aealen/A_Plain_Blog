@@ -16,35 +16,27 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50">
-      <div className="max-w-[1280px] mx-auto px-5 lg:px-0 h-[72px] flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-1 group">
-          <span className="text-[28px] font-extrabold font-display tracking-tight text-foreground">
-            plain
-          </span>
-          <span className="text-[28px] font-extrabold text-primary group-hover:scale-125 transition-transform duration-300 origin-center">.</span>
+    <>
+      <header className="h-[72px] flex items-center justify-between px-5 md:px-[80px]">
+        <Link href="/" className="font-display text-[24px] font-bold tracking-tight">
+          plain.
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-[40px]">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors relative py-1 ${
+                className={`text-[13px] transition-colors duration-200 ${
                   isActive
-                    ? 'text-primary'
-                    : 'text-tertiary hover:text-foreground'
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${
-                    isActive ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
-                  }`}
-                />
               </Link>
             )
           })}
@@ -54,7 +46,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded-[var(--radius-sm)] text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="md:hidden flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground transition-colors"
           aria-label={mobileOpen ? '关闭菜单' : '打开菜单'}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -65,15 +57,15 @@ export default function Header() {
             )}
           </svg>
         </button>
-      </div>
+      </header>
 
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-          mobileOpen ? 'max-h-[400px] border-b border-border' : 'max-h-0'
+          mobileOpen ? 'max-h-[300px] border-b border-border' : 'max-h-0'
         }`}
       >
-        <nav className="px-5 pb-4 space-y-1">
+        <nav className="px-5 py-4 space-y-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
             return (
@@ -81,10 +73,10 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className={`block px-3 py-2.5 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${
+                className={`block px-3 py-2.5 rounded-lg text-[13px] transition-colors ${
                   isActive
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
@@ -93,6 +85,6 @@ export default function Header() {
           })}
         </nav>
       </div>
-    </header>
+    </>
   )
 }

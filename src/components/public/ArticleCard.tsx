@@ -25,100 +25,52 @@ function formatDate(date: Date | null): string {
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const hasCover = !!article.coverImage
-  const tags = article.tags.map((t) => t.tag)
-  const categoryTag = article.category ? (
-    <Link
-      href={`/categories/${article.category.slug}`}
-      className="text-primary hover:text-primary/80 font-medium font-display transition-colors"
-    >
-      {article.category.name}
-    </Link>
-  ) : null
-
   const formattedDate = article.publishedAt ? formatDate(article.publishedAt) : null
 
   return (
-    <article className="group bg-card rounded-[var(--radius-lg)] border border-border overflow-hidden hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-      {hasCover ? (
-        <>
-          <Link href={`/articles/${article.slug}`} className="block relative aspect-video overflow-hidden">
+    <article className="group">
+      <Link href={`/articles/${article.slug}`} className="block">
+        <div className="w-full h-[200px] rounded-lg overflow-hidden mb-4 relative">
+          {article.coverImage ? (
             <Image
-              src={article.coverImage!}
+              src={article.coverImage}
               alt={article.title}
               fill
-              sizes="(min-width: 600px)"
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </Link>
-          <div className="p-5">
-            {/* text content */}
-            <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-              {categoryTag}
-              {formattedDate && <span>{formattedDate}</span>}
-            </div>
-
-            <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-display leading-snug">
-              <Link href={`/articles/${article.slug}`} className="hover:text-primary transition-colors">
-                {article.title}
-              </Link>
-            </h3>
-
-            {article.excerpt && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-4 leading-relaxed">
-                {article.excerpt}
-              </p>
-            )}
-
-            {tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {tags.map((t) => (
-                  <Link
-                    key={t.slug}
-                    href={`/tags/${t.slug}`}
-                    className="inline-block text-xs px-2.5 py-1 bg-muted text-muted-foreground rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
-                  >
-                    #{t.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </>
-      ) : (
-        <div className="p-5">
-          <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-            {categoryTag}
-            {formattedDate && <span>{formattedDate}</span>}
-          </div>
-
-          <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-display leading-snug">
-            <Link href={`/articles/${article.slug}`} className="hover:text-primary transition-colors">
-              {article.title}
-            </Link>
-          </h3>
-
-          {article.excerpt && (
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-4 leading-relaxed">
-              {article.excerpt}
-            </p>
-          )}
-
-          {tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {tags.map((t) => (
-                <Link
-                  key={t.slug}
-                  href={`/tags/${t.slug}`}
-                  className="inline-block text-xs px-2.5 py-1 bg-muted text-muted-foreground rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
-                >
-                  #{t.name}
-                </Link>
-              ))}
-            </div>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200" />
           )}
         </div>
+      </Link>
+
+      {article.category && (
+        <Link
+          href={`/categories/${article.category.slug}`}
+          className="inline-block text-[11px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded mb-3 hover:bg-border transition-colors"
+        >
+          {article.category.name}
+        </Link>
+      )}
+
+      <h3 className="font-display text-[18px] font-semibold leading-[1.3] mb-3">
+        <Link
+          href={`/articles/${article.slug}`}
+          className="hover:text-indigo-600 transition-colors duration-200"
+        >
+          {article.title}
+        </Link>
+      </h3>
+
+      {article.excerpt && (
+        <p className="text-[13px] text-muted-foreground leading-[1.6] mb-3 line-clamp-2">
+          {article.excerpt}
+        </p>
+      )}
+
+      {formattedDate && (
+        <span className="text-[12px] text-tertiary">{formattedDate}</span>
       )}
     </article>
   )
