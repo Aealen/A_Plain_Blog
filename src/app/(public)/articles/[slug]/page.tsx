@@ -61,23 +61,23 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="max-w-[880px] mx-auto">
+      <article className="max-w-[880px] mx-auto pt-[60px] pb-10">
         {/* Article Header */}
         <header className="mb-10">
           {article.category && (
             <Link
               href={`/categories/${article.category.slug}`}
-              className="inline-block text-xs font-mono font-medium text-primary bg-accent px-3 py-1 rounded-full mb-4 hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="inline-block text-xs font-display font-medium text-primary bg-accent px-3 py-1 rounded-full mb-4 hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               {article.category.name}
             </Link>
           )}
-          <h1 className="text-3xl md:text-4xl font-bold font-mono text-foreground leading-tight mb-5">
+          <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight mb-5">
             {article.title}
           </h1>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             {article.publishedAt && (
-              <time dateTime={article.publishedAt.toISOString()} className="font-mono">
+              <time dateTime={article.publishedAt.toISOString()}>
                 {new Date(article.publishedAt).toLocaleDateString('zh-CN', {
                   year: 'numeric',
                   month: 'long',
@@ -120,7 +120,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
 
         {/* Content */}
-        <div className="prose max-w-none prose-headings:scroll-mt-20">
+        <div className="prose max-w-[680px] mx-auto prose-headings:scroll-mt-20">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight, rehypeSlug]}>
             {article.content}
           </ReactMarkdown>
@@ -130,7 +130,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="mt-12 pt-8 border-t border-border">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-mono"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-display"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

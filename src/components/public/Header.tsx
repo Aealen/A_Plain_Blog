@@ -9,8 +9,6 @@ const navLinks = [
   { href: '/categories', label: '分类' },
   { href: '/tags', label: '标签' },
   { href: '/archives', label: '归档' },
-  { href: '/about', label: '关于' },
-  { href: '/links', label: '友链' },
 ]
 
 export default function Header() {
@@ -18,17 +16,17 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <header className="bg-card/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
-      <div className="max-w-[1280px] mx-auto px-5 h-[72px] flex items-center justify-between">
+    <header className="sticky top-0 z-50">
+      <div className="max-w-[1280px] mx-auto px-5 lg:px-0 h-[72px] flex items-center justify-between">
         <Link href="/" className="flex items-center gap-1 group">
-          <span className="text-[22px] font-bold font-mono tracking-tight text-foreground">
+          <span className="text-[28px] font-extrabold font-display tracking-tight text-foreground">
             plain
           </span>
-          <span className="text-[22px] font-bold text-primary group-hover:scale-125 transition-transform duration-300 origin-center">.</span>
+          <span className="text-[28px] font-extrabold text-primary group-hover:scale-125 transition-transform duration-300 origin-center">.</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
             return (
@@ -38,7 +36,7 @@ export default function Header() {
                 className={`text-sm font-medium transition-colors relative py-1 ${
                   isActive
                     ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground'
+                    : 'text-tertiary hover:text-foreground'
                 }`}
               >
                 {link.label}

@@ -3,10 +3,10 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <footer className="bg-card border-t border-border mt-auto">
-      <div className="max-w-[1280px] mx-auto px-5 h-[72px] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="max-w-[1280px] mx-auto px-5 lg:px-0 h-[80px] flex flex-col sm:flex-row items-center justify-between gap-4">
         <span className="text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()}{' '}
-          <Link href="/" className="font-semibold text-foreground hover:text-primary transition-colors font-mono">
+          <Link href="/" className="font-semibold text-foreground hover:text-primary transition-colors font-display">
             plain<span className="text-primary">.</span>
           </Link>
           {' '}All rights reserved.

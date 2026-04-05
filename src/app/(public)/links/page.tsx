@@ -11,8 +11,9 @@ export default async function LinksPage() {
   const links = await getActiveFriendLinks()
 
   return (
-    <div className="max-w-[880px] mx-auto py-10 px-5">
-      <h1 className="text-3xl font-bold font-mono text-foreground mb-8">友情链接</h1>
+    <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
+
+      <h1 className="text-3xl font-bold font-display text-foreground mb-8">友情链接</h1>
 
       {links.length === 0 ? (
         <div className="text-center py-20">
@@ -36,11 +37,11 @@ export default async function LinksPage() {
                     className="w-12 h-12 rounded-full object-cover border border-border"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold font-mono text-lg">
+                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold font-display text-lg">
                     {link.name.charAt(0)}
                   </div>
                 )}
-                <h2 className="text-lg font-bold font-mono text-foreground group-hover:text-primary transition-colors">{link.name}</h2>
+                <h2 className="text-lg font-bold font-display text-foreground group-hover:text-primary transition-colors">{link.name}</h2>
               </div>
               {link.description && (
                 <p className="text-sm text-muted-foreground line-clamp-2">{link.description}</p>

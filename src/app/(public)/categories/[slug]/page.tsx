@@ -28,18 +28,19 @@ export default async function CategoryArticlesPage({ params }: CategoryArticlesP
   const { data: articles } = await getPublishedArticles({ categoryId: category.id })
 
   return (
-    <div className="max-w-[880px] mx-auto py-10 px-5">
+    <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
+
       <header className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-mono">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-display">
           <Link href="/categories" className="hover:text-primary transition-colors">分类</Link>
           <span className="text-border">/</span>
           <span className="text-foreground">{category.name}</span>
         </div>
-        <h1 className="text-3xl font-bold font-mono text-foreground">{category.name}</h1>
+        <h1 className="text-3xl font-bold font-display text-foreground">{category.name}</h1>
         {category.description && (
           <p className="text-muted-foreground mt-2">{category.description}</p>
         )}
-        <p className="text-sm text-muted-foreground mt-1 font-mono">共 {category._count.articles} 篇文章</p>
+        <p className="text-sm text-muted-foreground mt-1 font-display">共 {category._count.articles} 篇文章</p>
       </header>
 
       {articles.length === 0 ? (

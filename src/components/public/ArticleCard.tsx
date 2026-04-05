@@ -30,7 +30,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const categoryTag = article.category ? (
     <Link
       href={`/categories/${article.category.slug}`}
-      className="text-primary hover:text-primary/80 font-medium font-mono transition-colors"
+      className="text-primary hover:text-primary/80 font-medium font-display transition-colors"
     >
       {article.category.name}
     </Link>
@@ -59,7 +59,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
               {formattedDate && <span>{formattedDate}</span>}
             </div>
 
-            <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-mono leading-snug">
+            <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-display leading-snug">
               <Link href={`/articles/${article.slug}`} className="hover:text-primary transition-colors">
                 {article.title}
               </Link>
@@ -93,7 +93,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             {formattedDate && <span>{formattedDate}</span>}
           </div>
 
-          <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-mono leading-snug">
+          <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 font-display leading-snug">
             <Link href={`/articles/${article.slug}`} className="hover:text-primary transition-colors">
               {article.title}
             </Link>
