@@ -20,7 +20,7 @@ export default async function HomePage() {
       {heroArticle && (
         <section className="flex flex-col md:flex-row items-center gap-[40px] md:gap-[60px] pt-[60px]">
           {/* Left: Text Content */}
-          <div className="w-full md:w-[740px] flex flex-col justify-center">
+          <div className={`w-full flex flex-col justify-center ${heroArticle.coverImage ? 'md:w-[740px]' : 'md:w-full'}`}>
             {heroArticle.category && (
               <span className="inline-block text-[12px] text-tertiary tracking-widest mb-6">
                 ✦ {heroArticle.category.name}
@@ -56,9 +56,9 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right: Image */}
+          {/* Right: Image — only shown when cover image exists */}
+          {heroArticle.coverImage && (
           <div className="w-full md:w-[480px] h-[300px] md:h-[400px] rounded-lg overflow-hidden shrink-0 relative">
-            {heroArticle.coverImage ? (
               <Image
                 src={heroArticle.coverImage}
                 alt={heroArticle.title}
@@ -66,16 +66,8 @@ export default async function HomePage() {
                 sizes="480px"
                 className="object-cover"
               />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-[200px] h-[200px] rounded-full bg-gradient-to-br from-zinc-200 to-zinc-300 opacity-60" />
-                </div>
-                <div className="absolute bottom-8 right-8 w-[120px] h-[120px] rounded-full bg-gradient-to-tl from-zinc-200 to-zinc-300 opacity-40" />
-                <div className="absolute top-12 left-12 w-[80px] h-[80px] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300 opacity-30 rotate-12" />
-              </div>
-            )}
           </div>
+          )}
         </section>
       )}
 
