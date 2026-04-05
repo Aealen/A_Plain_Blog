@@ -15,7 +15,10 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: "Maxon's Blog",
+  title: {
+    default: "Maxon's Blog",
+    template: "%s | Maxon's Blog",
+  },
   description: '一个简洁的博客',
 }
 
