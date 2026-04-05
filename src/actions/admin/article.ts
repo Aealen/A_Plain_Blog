@@ -1,7 +1,7 @@
 'use server'
 import prisma from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
-import { ArticleStatus } from '@prisma/client'
+import { ArticleStatus, Prisma } from '@prisma/client'
 import { ArticleFormData } from '@/types'
 import { generateSlug, generateExcerpt } from '@/lib/utils'
 export async function getArticles(options: {
@@ -72,6 +72,41 @@ export async function createArticle(data: ArticleFormData) {
 }
 export async function updateArticle(id: string, data: ArticleFormData) {
   const slug = data.slug || generateSlug(data.title)
+  const current = await prisma.article.findUnique({ where: { id }, select: { status: true, draft: true } })
+  if (!current) throw new Error('文章不存在')
+
+  // For published articles: apply draft + update published content
+  // For draft/private articles: update directly
+  if (current.status === 'PUBLISHED' && current.draft) {
+    // Merge draft into formal fields, then apply new data on top
+    const d = current.draft as Record<string, unknown>
+    await prisma.articleTag.deleteMany({ where: { articleId: id } })
+    const article = await prisma.article.update({
+      where: { id },
+      data: {
+        title: (d.title as string) || data.title,
+        slug: slug || (d.slug as string),
+        content: (d.content as string) || data.content,
+        excerpt: (d.excerpt as string) || generateExcerpt((d.content as string) || data.content),
+        coverImage: (d.coverImage as string) ?? data.coverImage,
+        categoryId: (d.categoryId as string) || data.categoryId || null,
+        status: ArticleStatus.PUBLISHED,
+        sortOrder: (d.sortOrder as number) ?? data.sortOrder,
+        isRecommended: (d.isRecommended as boolean) ?? data.isRecommended,
+        seoTitle: (d.seoTitle as string) ?? data.seoTitle,
+        seoDescription: (d.seoDescription as string) ?? data.seoDescription,
+        seoKeywords: (d.seoKeywords as string) ?? data.seoKeywords,
+        publishedAt: new Date(),
+        draft: Prisma.JsonNull,
+        tags: { create: ((d.tagIds as string[]) || data.tagIds).map((tagId) => ({ tagId })) },
+      },
+    })
+    revalidatePath('/admin/articles')
+    revalidatePath('/')
+    return article
+  }
+
+  // No draft or non-published article: update directly
   await prisma.articleTag.deleteMany({ where: { articleId: id } })
   const article = await prisma.article.update({
     where: { id },
@@ -89,8 +124,72 @@ export async function updateArticle(id: string, data: ArticleFormData) {
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
       publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
+      draft: Prisma.JsonNull,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
     },
+  })
+  revalidatePath('/admin/articles')
+  revalidatePath('/')
+  return article
+}
+
+export async function saveDraft(id: string, data: ArticleFormData) {
+  const current = await prisma.article.findUnique({ where: { id }, select: { status: true } })
+  if (!current) throw new Error('文章不存在')
+
+  // Published articles: save to draft field only, don't touch formal content
+  if (current.status === 'PUBLISHED') {
+    const draftData = {
+      title: data.title,
+      slug: data.slug || generateSlug(data.title),
+      content: data.content,
+      excerpt: data.excerpt || generateExcerpt(data.content),
+      coverImage: data.coverImage || null,
+      categoryId: data.categoryId || null,
+      sortOrder: data.sortOrder,
+      isRecommended: data.isRecommended,
+      seoTitle: data.seoTitle || null,
+      seoDescription: data.seoDescription || null,
+      seoKeywords: data.seoKeywords || null,
+      tagIds: data.tagIds,
+    }
+    const article = await prisma.article.update({
+      where: { id },
+      data: { draft: draftData },
+    })
+    revalidatePath('/admin/articles')
+    return article
+  }
+
+  // Non-published articles (DRAFT/PRIVATE): save directly to formal fields
+  const slug = data.slug || generateSlug(data.title)
+  await prisma.articleTag.deleteMany({ where: { articleId: id } })
+  const article = await prisma.article.update({
+    where: { id },
+    data: {
+      title: data.title,
+      slug,
+      content: data.content,
+      excerpt: data.excerpt || generateExcerpt(data.content),
+      coverImage: data.coverImage,
+      categoryId: data.categoryId || null,
+      status: data.status,
+      sortOrder: data.sortOrder,
+      isRecommended: data.isRecommended,
+      seoTitle: data.seoTitle,
+      seoDescription: data.seoDescription,
+      seoKeywords: data.seoKeywords,
+      tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
+    },
+  })
+  revalidatePath('/admin/articles')
+  return article
+}
+
+export async function discardDraft(id: string) {
+  const article = await prisma.article.update({
+    where: { id },
+    data: { draft: Prisma.JsonNull },
   })
   revalidatePath('/admin/articles')
   revalidatePath('/')

@@ -2,7 +2,7 @@
 import { useState, useEffect, use, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { getArticleById, updateArticle } from '@/actions/admin/article'
+import { getArticleById, updateArticle, saveDraft, discardDraft } from '@/actions/admin/article'
 import { getCategoriesWithCount } from '@/actions/admin/category'
 import { getTagsWithCount } from '@/actions/admin/tag'
 import { generateSlug } from '@/lib/utils'
@@ -14,12 +14,20 @@ import type { ArticleFormData } from '@/types'
 interface CategoryItem { id: string; name: string; slug: string; _count: { articles: number } }
 interface TagItem { id: string; name: string; slug: string; _count: { articles: number } }
 
+interface DraftData {
+  title?: string; slug?: string; content?: string; excerpt?: string
+  coverImage?: string | null; categoryId?: string | null
+  sortOrder?: number; isRecommended?: boolean
+  seoTitle?: string | null; seoDescription?: string | null; seoKeywords?: string | null
+  tagIds?: string[]
+}
+
 interface ArticleDetail {
   id: string; title: string; slug: string; content: string
   excerpt: string | null; coverImage: string | null; categoryId: string | null
   status: string; sortOrder: number; isRecommended: boolean
   seoTitle: string | null; seoDescription: string | null; seoKeywords: string | null
-  publishedAt: Date | null
+  publishedAt: Date | null; draft: DraftData | null
   category: { id: string; name: string } | null
   tags: { tag: { id: string; name: string } }[]
 }
@@ -40,6 +48,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [slugError, setSlugError] = useState('')
+  const [hasDraft, setHasDraft] = useState(false)
 
   const [formData, setFormData] = useState({
     title: '', slug: '', content: '', excerpt: '', coverImage: '',
@@ -62,13 +71,27 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         if (!articleData) { setError('文章不存在'); setLoading(false); return }
         const a = articleData as ArticleDetail
         setArticle(a); setCategories(cats as CategoryItem[]); setTags(tagList as TagItem[])
+
+        // If published article has draft, use draft content for editing
+        const d = a.draft as DraftData | null
+        const useDraft = a.status === 'PUBLISHED' && d
+        setHasDraft(!!useDraft)
+
+        const source = useDraft ? d : a
         setFormData({
-          title: a.title, slug: a.slug, content: a.content,
-          excerpt: a.excerpt || '', coverImage: a.coverImage || '',
-          categoryId: a.categoryId || '', status: a.status as ArticleStatus,
-          sortOrder: a.sortOrder, isRecommended: a.isRecommended,
-          tagIds: a.tags.map(t => t.tag.id),
-          seoTitle: a.seoTitle || '', seoDescription: a.seoDescription || '', seoKeywords: a.seoKeywords || '',
+          title: (source?.title as string) || '',
+          slug: (source?.slug as string) || a.slug,
+          content: (source?.content as string) || '',
+          excerpt: (source?.excerpt as string) || '',
+          coverImage: ((source?.coverImage as string) || a.coverImage) || '',
+          categoryId: ((source?.categoryId as string) || a.categoryId) || '',
+          status: a.status as ArticleStatus,
+          sortOrder: (source?.sortOrder as number) ?? a.sortOrder,
+          isRecommended: (source?.isRecommended as boolean) ?? a.isRecommended,
+          tagIds: ((source as DraftData)?.tagIds) || a.tags.map(t => t.tag.id),
+          seoTitle: ((source?.seoTitle as string) || a.seoTitle) || '',
+          seoDescription: ((source?.seoDescription as string) || a.seoDescription) || '',
+          seoKeywords: ((source?.seoKeywords as string) || a.seoKeywords) || '',
         })
         if (a.seoTitle || a.seoDescription || a.seoKeywords) setShowSEO(true)
       } catch (err) { setError(err instanceof Error ? err.message : '加载失败') }
@@ -118,6 +141,39 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
     } catch (err) { setError(err instanceof Error ? err.message : '保存失败'); setSaving(false) }
   }
 
+  async function handleSaveDraft() {
+    setError(''); setSaving(true)
+    try {
+      const data: ArticleFormData = {
+        title: formData.title,
+        slug: resolvedSlug,
+        content: formData.content,
+        excerpt: formData.excerpt || undefined,
+        coverImage: formData.coverImage || undefined,
+        categoryId: formData.categoryId || undefined,
+        status: formData.status as ArticleStatus,
+        sortOrder: formData.sortOrder,
+        isRecommended: formData.isRecommended,
+        tagIds: formData.tagIds,
+        seoTitle: formData.seoTitle || undefined,
+        seoDescription: formData.seoDescription || undefined,
+        seoKeywords: formData.seoKeywords || undefined,
+      }
+      await saveDraft(id, data)
+      setHasDraft(true)
+      router.push('/admin/articles')
+    } catch (err) { setError(err instanceof Error ? err.message : '保存失败'); setSaving(false) }
+  }
+
+  async function handleDiscardDraft() {
+    if (!confirm('确定要撤销改动吗？将恢复到上次发布的状态。')) return
+    setError(''); setSaving(true)
+    try {
+      await discardDraft(id)
+      router.push('/admin/articles')
+    } catch (err) { setError(err instanceof Error ? err.message : '撤销失败'); setSaving(false) }
+  }
+
   if (loading) return <div className="flex items-center justify-center min-h-[400px]"><div className="text-muted-foreground font-mono">加载中...</div></div>
 
   if (error && !article) return (
@@ -135,6 +191,13 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
       </div>
 
       {error && <div className="bg-red-50 text-red-600 p-3 rounded-[var(--radius-sm)] mb-4 text-sm">{error}</div>}
+
+      {hasDraft && (
+        <div className="bg-amber-50 text-amber-700 p-3 rounded-[var(--radius-sm)] mb-4 text-sm flex items-center gap-2">
+          <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          此文章有未发布的草稿修改，前台仍展示旧版本
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-6">
@@ -180,7 +243,10 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         <div className="space-y-6">
           <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6 space-y-4">
             <button onClick={() => handleUpdate('PUBLISHED')} disabled={saving || !formData.title} className="w-full bg-primary text-primary-foreground py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors disabled:opacity-50">更新并发布</button>
-            <button onClick={() => handleUpdate(formData.status === 'TRASH' ? 'DRAFT' : formData.status)} disabled={saving || !formData.title} className="w-full bg-muted text-foreground py-2 rounded-[var(--radius-sm)] hover:bg-border transition-colors disabled:opacity-50">保存修改</button>
+            <button onClick={handleSaveDraft} disabled={saving || !formData.title} className="w-full bg-muted text-foreground py-2 rounded-[var(--radius-sm)] hover:bg-border transition-colors disabled:opacity-50">保存修改</button>
+            {hasDraft && (
+              <button onClick={handleDiscardDraft} disabled={saving} className="w-full text-red-500 border border-red-200 py-2 rounded-[var(--radius-sm)] hover:bg-red-50 transition-colors disabled:opacity-50 text-sm">撤销改动</button>
+            )}
             <Link href="/admin/articles" className="block w-full text-center py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">取消</Link>
           </div>
 

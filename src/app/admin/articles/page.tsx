@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete } from '@/actions/admin/article'
+import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete, discardDraft } from '@/actions/admin/article'
 import { ArticleStatus } from '@prisma/client'
 
 const statusTabs: { label: string; value: ArticleStatus | 'ALL' }[] = [
@@ -25,6 +25,7 @@ interface ArticleRow {
   title: string
   coverImage: string | null
   status: string
+  draft: unknown
   sortOrder: number
   viewCount: number
   createdAt: string
@@ -52,7 +53,7 @@ export default function ArticlesPage() {
       status: status === 'ALL' ? undefined : status,
       search: search || undefined,
     })
-    setArticles(result.data as ArticleRow[])
+    setArticles(result.data as unknown as ArticleRow[])
     setTotal(result.total)
     setTotalPages(result.totalPages)
     setLoading(false)
@@ -110,6 +111,12 @@ export default function ArticlesPage() {
     if (selectedIds.size === 0) return
     if (!confirm(`确定要将 ${selectedIds.size} 篇文章移入回收站吗？`)) return
     await batchDelete(Array.from(selectedIds))
+    await loadArticles()
+  }
+
+  async function handleDiscardDraft(id: string) {
+    if (!confirm('确定要撤销改动吗？将恢复到上次发布的状态。')) return
+    await discardDraft(id)
     await loadArticles()
   }
 
@@ -211,6 +218,9 @@ export default function ArticlesPage() {
                     <Link href={`/admin/articles/${article.id}`} className="font-medium text-foreground hover:text-primary transition-colors">
                       {article.title}
                     </Link>
+                    {Boolean(article.draft) && (
+                      <span className="ml-2 text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">有改动</span>
+                    )}
                     {article.tags.length > 0 && (
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {article.tags.map(t => (
@@ -239,6 +249,9 @@ export default function ArticlesPage() {
                         </>
                       ) : (
                         <button onClick={() => handleDelete(article.id)} className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors">删除</button>
+                      )}
+                      {article.status === 'PUBLISHED' && article.draft != null && (
+                        <button onClick={() => handleDiscardDraft(article.id)} className="text-sm text-amber-600 hover:text-amber-800 font-medium transition-colors">撤销改动</button>
                       )}
                     </div>
                   </td>
