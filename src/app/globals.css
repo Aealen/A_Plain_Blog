@@ -87,7 +87,10 @@ html {
   max-width: 65ch;
   color: #374151;
   line-height: 1.8;
-  font-size: 1.0625rem;
+  font-size: 1rem;
+}
+@media (min-width: 768px) {
+  .prose { font-size: 1.0625rem; }
 }
 .prose h1, .prose h2, .prose h3, .prose h4 {
   color: #000000;
@@ -96,9 +99,14 @@ html {
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
-.prose h1 { font-size: 2.25em; line-height: 1.1111111; }
-.prose h2 { font-size: 1.5em; line-height: 1.3333333; }
-.prose h3 { font-size: 1.25em; line-height: 1.6; }
+.prose h1 { font-size: 1.75em; line-height: 1.2; }
+.prose h2 { font-size: 1.375em; line-height: 1.3; }
+.prose h3 { font-size: 1.125em; line-height: 1.6; }
+@media (min-width: 768px) {
+  .prose h1 { font-size: 2.25em; line-height: 1.1111111; }
+  .prose h2 { font-size: 1.5em; line-height: 1.3333333; }
+  .prose h3 { font-size: 1.25em; line-height: 1.6; }
+}
 .prose p { margin-top: 1.25em; margin-bottom: 1.25em; }
 .prose a { color: #000000; text-decoration: underline; text-underline-offset: 2px; }
 .prose a:hover { color: #374151; }
@@ -107,9 +115,13 @@ html {
   background-color: #1a1a1a;
   color: #e5e7eb;
   overflow-x: auto;
-  border-radius: 16px;
-  padding: 1.25em;
-  margin: 1.5em 0;
+  border-radius: 8px;
+  padding: 1em;
+  margin: 1.25em 0;
+  font-size: 0.8125em;
+}
+@media (min-width: 768px) {
+  .prose pre { border-radius: 16px; padding: 1.25em; margin: 1.5em 0; font-size: 0.875em; }
 }
 .prose pre code { color: inherit; background: none; font-size: inherit; }
 .prose blockquote {
@@ -120,8 +132,14 @@ html {
 }
 .prose ul, .prose ol { padding-left: 1.5em; margin: 1.25em 0; }
 .prose li { margin: 0.5em 0; }
-.prose img { border-radius: 16px; margin: 1.5em 0; }
+.prose img { border-radius: 8px; margin: 1.25em 0; max-width: 100%; height: auto; }
+@media (min-width: 768px) {
+  .prose img { border-radius: 16px; margin: 1.5em 0; }
+}
 .prose hr { border-color: #E4E4E7; margin: 2em 0; }
-.prose table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
-.prose th, .prose td { border: 1px solid #E4E4E7; padding: 0.5em 1em; text-align: left; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1.5em 0; display: block; overflow-x: auto; }
+.prose th, .prose td { border: 1px solid #E4E4E7; padding: 0.5em 0.75em; text-align: left; }
+@media (min-width: 768px) {
+  .prose th, .prose td { padding: 0.5em 1em; }
+}
 .prose th { background: #F4F4F5; font-weight: 600; }

@@ -61,7 +61,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="max-w-[880px] mx-auto pt-[60px] pb-10">
+      <article className="max-w-[880px] mx-auto pt-12 pb-10 px-5 md:px-0">
         {/* Article Header */}
         <header className="mb-10">
           {article.category && (
@@ -120,7 +120,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
 
         {/* Content */}
-        <div className="prose max-w-[680px] mx-auto prose-headings:scroll-mt-20">
+        <div className="prose max-w-[680px] mx-auto prose-headings:scroll-mt-20 text-base md:text-[17px]">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight, rehypeSlug]}>
             {article.content}
           </ReactMarkdown>
