@@ -3,8 +3,8 @@ import { useState, useEffect, use, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getArticleById, updateArticle, saveDraft, discardDraft } from '@/actions/admin/article'
-import { getCategoriesWithCount } from '@/actions/admin/category'
-import { getTagsWithCount } from '@/actions/admin/tag'
+import { createCategory, getCategoriesWithCount } from '@/actions/admin/category'
+import { createTag, getTagsWithCount } from '@/actions/admin/tag'
 import { generateSlug } from '@/lib/utils'
 import MarkdownEditor from '@/components/admin/MarkdownEditor'
 import FileUploader from '@/components/admin/FileUploader'
@@ -49,6 +49,12 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
   const [error, setError] = useState('')
   const [slugError, setSlugError] = useState('')
   const [hasDraft, setHasDraft] = useState(false)
+  const [newCategoryName, setNewCategoryName] = useState('')
+  const [newCategoryError, setNewCategoryError] = useState('')
+  const [creatingCategory, setCreatingCategory] = useState(false)
+  const [newTagName, setNewTagName] = useState('')
+  const [newTagError, setNewTagError] = useState('')
+  const [creatingTag, setCreatingTag] = useState(false)
 
   const [formData, setFormData] = useState({
     title: '', slug: '', content: '', excerpt: '', coverImage: '',
@@ -111,6 +117,38 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
 
   function toggleTag(tagId: string) {
     setFormData(prev => ({ ...prev, tagIds: prev.tagIds.includes(tagId) ? prev.tagIds.filter(tid => tid !== tagId) : [...prev.tagIds, tagId] }))
+  }
+
+  async function handleCreateCategory() {
+    const name = newCategoryName.trim()
+    if (!name) return
+    setNewCategoryError(''); setCreatingCategory(true)
+    try {
+      const cat = await createCategory({ name, slug: '', order: 0 })
+      setCategories(prev => [...prev, { id: cat.id, name: cat.name, slug: cat.slug, _count: { articles: 0 } }])
+      setFormData(prev => ({ ...prev, categoryId: cat.id }))
+      setNewCategoryName('')
+    } catch (err) {
+      setNewCategoryError(err instanceof Error ? err.message : '创建失败')
+    } finally {
+      setCreatingCategory(false)
+    }
+  }
+
+  async function handleCreateTag() {
+    const name = newTagName.trim()
+    if (!name) return
+    setNewTagError(''); setCreatingTag(true)
+    try {
+      const tag = await createTag({ name, slug: '' })
+      setTags(prev => [...prev, { id: tag.id, name: tag.name, slug: tag.slug, _count: { articles: 0 } }])
+      setFormData(prev => ({ ...prev, tagIds: [...prev.tagIds, tag.id] }))
+      setNewTagName('')
+    } catch (err) {
+      setNewTagError(err instanceof Error ? err.message : '创建失败')
+    } finally {
+      setCreatingTag(false)
+    }
   }
 
   function handleCoverUpload(url: string) {
@@ -265,6 +303,25 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
               <option value="">无分类</option>
               {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
             </select>
+            <div className="mt-3 flex gap-2">
+              <input
+                type="text"
+                value={newCategoryName}
+                onChange={e => { setNewCategoryName(e.target.value); setNewCategoryError('') }}
+                placeholder="新建分类..."
+                className={`${inputClass} flex-1 text-sm`}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleCreateCategory() } }}
+              />
+              <button
+                type="button"
+                onClick={handleCreateCategory}
+                disabled={creatingCategory || !newCategoryName.trim()}
+                className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm disabled:opacity-50"
+              >
+                {creatingCategory ? '...' : '新建'}
+              </button>
+            </div>
+            {newCategoryError && <p className="mt-1 text-xs text-red-500">{newCategoryError}</p>}
           </div>
 
           <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
@@ -277,6 +334,25 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
               ))}
               {tags.length === 0 && <span className="text-sm text-muted-foreground">暂无标签</span>}
             </div>
+            <div className="mt-3 flex gap-2">
+              <input
+                type="text"
+                value={newTagName}
+                onChange={e => { setNewTagName(e.target.value); setNewTagError('') }}
+                placeholder="新建标签..."
+                className={`${inputClass} flex-1 text-sm`}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleCreateTag() } }}
+              />
+              <button
+                type="button"
+                onClick={handleCreateTag}
+                disabled={creatingTag || !newTagName.trim()}
+                className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm disabled:opacity-50"
+              >
+                {creatingTag ? '...' : '新建'}
+              </button>
+            </div>
+            {newTagError && <p className="mt-1 text-xs text-red-500">{newTagError}</p>}
           </div>
 
           <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6 space-y-4">
