@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import CodeThemeSwitcher from '@/components/public/CodeThemeSwitcher'
 import ArticleContent from '@/components/public/ArticleContent'
 import { getArticleBySlug, incrementViewCount } from '@/actions/public/article'
 
@@ -171,8 +170,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <ArticleContent content={article.content} />
           </div>
 
-          {/* Theme Switcher + Back Link */}
-          <div className="mt-12 pt-8 border-t border-border max-w-[680px] mx-auto flex items-center justify-between">
+          {/* Back Link */}
+          <div className="mt-12 pt-8 border-t border-border max-w-[680px] mx-auto">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-display"
@@ -182,7 +181,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </svg>
               返回首页
             </Link>
-            <CodeThemeSwitcher />
           </div>
         </div>
       </article>
