@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete } from '@/actions/admin/article'
 import { ArticleStatus } from '@prisma/client'
@@ -22,9 +23,12 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 interface ArticleRow {
   id: string
   title: string
+  coverImage: string | null
   status: string
   sortOrder: number
   viewCount: number
+  createdAt: string
+  updatedAt: string
   category: { id: string; name: string; slug: string } | null
   tags: { tag: { id: string; name: string; slug: string } }[]
 }
@@ -38,6 +42,7 @@ export default function ArticlesPage() {
   const [search, setSearch] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const loadArticles = useCallback(async () => {
     setLoading(true)
@@ -166,9 +171,12 @@ export default function ArticlesPage() {
               <th className="p-3 text-left w-10">
                 <input type="checkbox" checked={articles.length > 0 && selectedIds.size === articles.length} onChange={toggleSelectAll} className="rounded accent-primary" />
               </th>
+              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-16">封面</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground">标题</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">分类</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">状态</th>
+              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-36">创建时间</th>
+              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-36">更新时间</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-20">排序</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-20">阅读</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-40">操作</th>
@@ -176,14 +184,28 @@ export default function ArticlesPage() {
           </thead>
           <tbody className="divide-y divide-border">
             {loading ? (
-              <tr><td colSpan={7} className="p-8 text-center text-muted-foreground">加载中...</td></tr>
+              <tr><td colSpan={10} className="p-8 text-center text-muted-foreground">加载中...</td></tr>
             ) : articles.length === 0 ? (
-              <tr><td colSpan={7} className="p-8 text-center text-muted-foreground">暂无文章</td></tr>
+              <tr><td colSpan={10} className="p-8 text-center text-muted-foreground">暂无文章</td></tr>
             ) : (
               articles.map(article => (
                 <tr key={article.id} className="hover:bg-muted/30 transition-colors">
                   <td className="p-3">
                     <input type="checkbox" checked={selectedIds.has(article.id)} onChange={() => toggleSelect(article.id)} className="rounded accent-primary" />
+                  </td>
+                  <td className="p-3">
+                    {article.coverImage ? (
+                      <Image
+                        src={article.coverImage}
+                        alt={article.title}
+                        width={48}
+                        height={48}
+                        className="w-12 h-12 rounded object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setPreviewImage(article.coverImage)}
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-muted-foreground text-xs">-</div>
+                    )}
                   </td>
                   <td className="p-3">
                     <Link href={`/admin/articles/${article.id}`} className="font-medium text-foreground hover:text-primary transition-colors">
@@ -203,6 +225,8 @@ export default function ArticlesPage() {
                       {statusConfig[article.status]?.label || article.status}
                     </span>
                   </td>
+                  <td className="p-3 text-sm text-muted-foreground font-mono">{new Date(article.createdAt).toLocaleDateString('zh-CN')}</td>
+                  <td className="p-3 text-sm text-muted-foreground font-mono">{new Date(article.updatedAt).toLocaleDateString('zh-CN')}</td>
                   <td className="p-3 text-sm text-muted-foreground font-mono">{article.sortOrder}</td>
                   <td className="p-3 text-sm text-muted-foreground font-mono">{article.viewCount}</td>
                   <td className="p-3">
@@ -259,6 +283,31 @@ export default function ArticlesPage() {
               className="px-3 py-1 border border-border rounded-[var(--radius-sm)] text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
             >
               下一页
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Image Preview Modal */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div className="relative max-w-[90vw] max-h-[90vh]">
+            <Image
+              src={previewImage}
+              alt="预览"
+              width={800}
+              height={600}
+              className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setPreviewImage(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 bg-card border border-border rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground shadow-sm transition-colors"
+            >
+              ✕
             </button>
           </div>
         </div>
