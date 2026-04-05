@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
+import CodeThemeSwitcher from '@/components/public/CodeThemeSwitcher'
 import { getArticleBySlug, incrementViewCount } from '@/actions/public/article'
 
 interface ArticlePageProps {
@@ -175,8 +176,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </ReactMarkdown>
           </div>
 
-          {/* Back Link */}
-          <div className="mt-12 pt-8 border-t border-border max-w-[680px] mx-auto">
+          {/* Theme Switcher + Back Link */}
+          <div className="mt-12 pt-8 border-t border-border max-w-[680px] mx-auto flex items-center justify-between">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-display"
@@ -186,6 +187,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </svg>
               返回首页
             </Link>
+            <CodeThemeSwitcher />
           </div>
         </div>
       </article>

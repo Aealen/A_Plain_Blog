@@ -1,0 +1,852 @@
+/* Auto-generated code theme CSS - do not edit manually */
+/* Run: node scripts/generate-code-themes.js */
+
+/* Theme: atom-one-dark (Atom One Dark) */
+[data-code-theme="atom-one-dark"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="atom-one-dark"] code.hljs {
+  padding: 3px 5px
+}
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
+
+*/
+[data-code-theme="atom-one-dark"] .hljs {
+  color: #abb2bf;
+  background: #282c34
+}
+[data-code-theme="atom-one-dark"] .hljs-comment,
+[data-code-theme="atom-one-dark"] .hljs-quote {
+  color: #5c6370;
+  font-style: italic
+}
+[data-code-theme="atom-one-dark"] .hljs-doctag,
+[data-code-theme="atom-one-dark"] .hljs-keyword,
+[data-code-theme="atom-one-dark"] .hljs-formula {
+  color: #c678dd
+}
+[data-code-theme="atom-one-dark"] .hljs-section,
+[data-code-theme="atom-one-dark"] .hljs-name,
+[data-code-theme="atom-one-dark"] .hljs-selector-tag,
+[data-code-theme="atom-one-dark"] .hljs-deletion,
+[data-code-theme="atom-one-dark"] .hljs-subst {
+  color: #e06c75
+}
+[data-code-theme="atom-one-dark"] .hljs-literal {
+  color: #56b6c2
+}
+[data-code-theme="atom-one-dark"] .hljs-string,
+[data-code-theme="atom-one-dark"] .hljs-regexp,
+[data-code-theme="atom-one-dark"] .hljs-addition,
+[data-code-theme="atom-one-dark"] .hljs-attribute,
+[data-code-theme="atom-one-dark"] .hljs-meta .hljs-string {
+  color: #98c379
+}
+[data-code-theme="atom-one-dark"] .hljs-attr,
+[data-code-theme="atom-one-dark"] .hljs-variable,
+[data-code-theme="atom-one-dark"] .hljs-template-variable,
+[data-code-theme="atom-one-dark"] .hljs-type,
+[data-code-theme="atom-one-dark"] .hljs-selector-class,
+[data-code-theme="atom-one-dark"] .hljs-selector-attr,
+[data-code-theme="atom-one-dark"] .hljs-selector-pseudo,
+[data-code-theme="atom-one-dark"] .hljs-number {
+  color: #d19a66
+}
+[data-code-theme="atom-one-dark"] .hljs-symbol,
+[data-code-theme="atom-one-dark"] .hljs-bullet,
+[data-code-theme="atom-one-dark"] .hljs-link,
+[data-code-theme="atom-one-dark"] .hljs-meta,
+[data-code-theme="atom-one-dark"] .hljs-selector-id,
+[data-code-theme="atom-one-dark"] .hljs-title {
+  color: #61aeee
+}
+[data-code-theme="atom-one-dark"] .hljs-built_in,
+[data-code-theme="atom-one-dark"] .hljs-title.class_,
+[data-code-theme="atom-one-dark"] .hljs-class .hljs-title {
+  color: #e6c07b
+}
+[data-code-theme="atom-one-dark"] .hljs-emphasis {
+  font-style: italic
+}
+[data-code-theme="atom-one-dark"] .hljs-strong {
+  font-weight: bold
+}
+[data-code-theme="atom-one-dark"] .hljs-link {
+  text-decoration: underline
+}
+/* Theme: atom-one-light (Atom One Light) */
+[data-code-theme="atom-one-light"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="atom-one-light"] code.hljs {
+  padding: 3px 5px
+}
+/*
+
+Atom One Light by Daniel Gamage
+Original One Light Syntax theme from https://github.com/atom/one-light-syntax
+
+base:    #fafafa
+mono-1:  #383a42
+mono-2:  #686b77
+mono-3:  #a0a1a7
+hue-1:   #0184bb
+hue-2:   #4078f2
+hue-3:   #a626a4
+hue-4:   #50a14f
+hue-5:   #e45649
+hue-5-2: #c91243
+hue-6:   #986801
+hue-6-2: #c18401
+
+*/
+[data-code-theme="atom-one-light"] .hljs {
+  color: #383a42;
+  background: #fafafa
+}
+[data-code-theme="atom-one-light"] .hljs-comment,
+[data-code-theme="atom-one-light"] .hljs-quote {
+  color: #a0a1a7;
+  font-style: italic
+}
+[data-code-theme="atom-one-light"] .hljs-doctag,
+[data-code-theme="atom-one-light"] .hljs-keyword,
+[data-code-theme="atom-one-light"] .hljs-formula {
+  color: #a626a4
+}
+[data-code-theme="atom-one-light"] .hljs-section,
+[data-code-theme="atom-one-light"] .hljs-name,
+[data-code-theme="atom-one-light"] .hljs-selector-tag,
+[data-code-theme="atom-one-light"] .hljs-deletion,
+[data-code-theme="atom-one-light"] .hljs-subst {
+  color: #e45649
+}
+[data-code-theme="atom-one-light"] .hljs-literal {
+  color: #0184bb
+}
+[data-code-theme="atom-one-light"] .hljs-string,
+[data-code-theme="atom-one-light"] .hljs-regexp,
+[data-code-theme="atom-one-light"] .hljs-addition,
+[data-code-theme="atom-one-light"] .hljs-attribute,
+[data-code-theme="atom-one-light"] .hljs-meta .hljs-string {
+  color: #50a14f
+}
+[data-code-theme="atom-one-light"] .hljs-attr,
+[data-code-theme="atom-one-light"] .hljs-variable,
+[data-code-theme="atom-one-light"] .hljs-template-variable,
+[data-code-theme="atom-one-light"] .hljs-type,
+[data-code-theme="atom-one-light"] .hljs-selector-class,
+[data-code-theme="atom-one-light"] .hljs-selector-attr,
+[data-code-theme="atom-one-light"] .hljs-selector-pseudo,
+[data-code-theme="atom-one-light"] .hljs-number {
+  color: #986801
+}
+[data-code-theme="atom-one-light"] .hljs-symbol,
+[data-code-theme="atom-one-light"] .hljs-bullet,
+[data-code-theme="atom-one-light"] .hljs-link,
+[data-code-theme="atom-one-light"] .hljs-meta,
+[data-code-theme="atom-one-light"] .hljs-selector-id,
+[data-code-theme="atom-one-light"] .hljs-title {
+  color: #4078f2
+}
+[data-code-theme="atom-one-light"] .hljs-built_in,
+[data-code-theme="atom-one-light"] .hljs-title.class_,
+[data-code-theme="atom-one-light"] .hljs-class .hljs-title {
+  color: #c18401
+}
+[data-code-theme="atom-one-light"] .hljs-emphasis {
+  font-style: italic
+}
+[data-code-theme="atom-one-light"] .hljs-strong {
+  font-weight: bold
+}
+[data-code-theme="atom-one-light"] .hljs-link {
+  text-decoration: underline
+}
+/* Theme: nord (Nord) */
+[data-code-theme="nord"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="nord"] code.hljs {
+  padding: 3px 5px
+}
+/*
+ * Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
+ * Copyright (c) 2017-present Sven Greb <development@svengreb.de>
+ *
+ * Project:    Nord highlight.js
+ * Version:    0.1.0
+ * Repository: https://github.com/arcticicestudio/nord-highlightjs
+ * License:    MIT
+ * References:
+ *   https://github.com/arcticicestudio/nord
+ */
+/*
+
+Polar Night
+
+#2E3440
+#3B4252
+#434C5E
+#4C566A
+
+Snow Storm
+
+#D8DEE9
+#E5E9F0
+#ECEFF4
+
+Frost
+
+#8FBCBB
+#88C0D0
+#81A1C1
+#5E81AC
+
+Aurora
+
+#BF616A
+#D08770
+#EBCB8B
+#A3BE8C
+#B48EAD
+
+*/
+[data-code-theme="nord"] .hljs {
+  background: #2E3440
+}
+[data-code-theme="nord"] .hljs,
+[data-code-theme="nord"] .hljs-subst {
+  color: #D8DEE9
+}
+[data-code-theme="nord"] .hljs-selector-tag {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .hljs-selector-id {
+  color: #8FBCBB;
+  font-weight: bold
+}
+[data-code-theme="nord"] .hljs-selector-class {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-selector-attr {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-property {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .hljs-selector-pseudo {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .hljs-addition {
+  background-color: rgba(163, 190, 140, 0.5)
+}
+[data-code-theme="nord"] .hljs-deletion {
+  background-color: rgba(191, 97, 106, 0.5)
+}
+[data-code-theme="nord"] .hljs-built_in,
+[data-code-theme="nord"] .hljs-type {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-class {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-function {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .hljs-title.hljs-function,
+[data-code-theme="nord"] .hljs-function > .hljs-title {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .hljs-keyword,
+[data-code-theme="nord"] .hljs-literal,
+[data-code-theme="nord"] .hljs-symbol {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .hljs-number {
+  color: #B48EAD
+}
+[data-code-theme="nord"] .hljs-regexp {
+  color: #EBCB8B
+}
+[data-code-theme="nord"] .hljs-string {
+  color: #A3BE8C
+}
+[data-code-theme="nord"] .hljs-title {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-params {
+  color: #D8DEE9
+}
+[data-code-theme="nord"] .hljs-bullet {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .hljs-code {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-emphasis {
+  font-style: italic
+}
+[data-code-theme="nord"] .hljs-formula {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-strong {
+  font-weight: bold
+}
+[data-code-theme="nord"] .hljs-link:hover {
+  text-decoration: underline
+}
+[data-code-theme="nord"] .hljs-quote {
+  color: #4C566A
+}
+[data-code-theme="nord"] .hljs-comment {
+  color: #4C566A
+}
+[data-code-theme="nord"] .hljs-doctag {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-meta,
+[data-code-theme="nord"] .hljs-meta .hljs-keyword {
+  color: #5E81AC
+}
+[data-code-theme="nord"] .hljs-meta .hljs-string {
+  color: #A3BE8C
+}
+[data-code-theme="nord"] .hljs-attr {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .hljs-attribute {
+  color: #D8DEE9
+}
+[data-code-theme="nord"] .hljs-name {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .hljs-section {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .hljs-tag {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .hljs-variable {
+  color: #D8DEE9
+}
+[data-code-theme="nord"] .hljs-template-variable {
+  color: #D8DEE9
+}
+[data-code-theme="nord"] .hljs-template-tag {
+  color: #5E81AC
+}
+/* per language customizations */
+[data-code-theme="nord"] .language-abnf .hljs-attribute {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-abnf .hljs-symbol {
+  color: #EBCB8B
+}
+[data-code-theme="nord"] .language-apache .hljs-attribute {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-apache .hljs-section {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .language-arduino .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-aspectj .hljs-meta {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-aspectj > .hljs-title {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-bnf .hljs-attribute {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .language-clojure .hljs-name {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-clojure .hljs-symbol {
+  color: #EBCB8B
+}
+[data-code-theme="nord"] .language-coq .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-cpp .hljs-meta .hljs-string {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .language-css .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-css .hljs-keyword {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-diff .hljs-meta {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .language-ebnf .hljs-attribute {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .language-glsl .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-groovy .hljs-meta:not(:first-child) {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-haxe .hljs-meta {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-java .hljs-meta {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-ldif .hljs-attribute {
+  color: #8FBCBB
+}
+[data-code-theme="nord"] .language-lisp .hljs-name {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-lua .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-moonscript .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-nginx .hljs-attribute {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-nginx .hljs-section {
+  color: #5E81AC
+}
+[data-code-theme="nord"] .language-pf .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-processing .hljs-built_in {
+  color: #88C0D0
+}
+[data-code-theme="nord"] .language-scss .hljs-keyword {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .language-stylus .hljs-keyword {
+  color: #81A1C1
+}
+[data-code-theme="nord"] .language-swift .hljs-meta {
+  color: #D08770
+}
+[data-code-theme="nord"] .language-vim .hljs-built_in {
+  color: #88C0D0;
+  font-style: italic
+}
+[data-code-theme="nord"] .language-yaml .hljs-meta {
+  color: #D08770
+}
+/* Theme: tokyo-night-dark (Tokyo Night) */
+[data-code-theme="tokyo-night-dark"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="tokyo-night-dark"] code.hljs {
+  padding: 3px 5px
+}
+/*!
+  Theme: Tokyo-night-Dark
+  origin: https://github.com/enkia/tokyo-night-vscode-theme
+  Description: Original highlight.js style
+  Author: (c) Henri Vandersleyen <hvandersleyen@gmail.com>
+  License: see project LICENSE
+  Touched: 2022
+*/
+/*  Comment */
+[data-code-theme="tokyo-night-dark"] .hljs-meta,
+[data-code-theme="tokyo-night-dark"] .hljs-comment {
+  color: #565f89
+}
+/* Red */
+/*INFO: This keyword, HTML elements, Regex group symbol, CSS units, Terminal Red */
+[data-code-theme="tokyo-night-dark"] .hljs-tag,
+[data-code-theme="tokyo-night-dark"] .hljs-doctag,
+[data-code-theme="tokyo-night-dark"] .hljs-selector-id,
+[data-code-theme="tokyo-night-dark"] .hljs-selector-class,
+[data-code-theme="tokyo-night-dark"] .hljs-regexp,
+[data-code-theme="tokyo-night-dark"] .hljs-template-tag,
+[data-code-theme="tokyo-night-dark"] .hljs-selector-pseudo,
+[data-code-theme="tokyo-night-dark"] .hljs-selector-attr,
+[data-code-theme="tokyo-night-dark"] .hljs-variable.language_,
+[data-code-theme="tokyo-night-dark"] .hljs-deletion {
+  color: #f7768e
+}
+/*Orange */
+/*INFO: Number and Boolean constants, Language support constants */
+[data-code-theme="tokyo-night-dark"] .hljs-variable,
+[data-code-theme="tokyo-night-dark"] .hljs-template-variable,
+[data-code-theme="tokyo-night-dark"] .hljs-number,
+[data-code-theme="tokyo-night-dark"] .hljs-literal,
+[data-code-theme="tokyo-night-dark"] .hljs-type,
+[data-code-theme="tokyo-night-dark"] .hljs-params,
+[data-code-theme="tokyo-night-dark"] .hljs-link {
+  color: #ff9e64
+}
+/*  Yellow */
+/* INFO:  	Function parameters, Regex character sets, Terminal Yellow */
+[data-code-theme="tokyo-night-dark"] .hljs-built_in,
+[data-code-theme="tokyo-night-dark"] .hljs-attribute {
+  color: #e0af68
+}
+/* cyan */
+/* INFO: Language support functions, CSS HTML elements */
+[data-code-theme="tokyo-night-dark"] .hljs-selector-tag {
+  color: #2ac3de
+}
+/* light blue */
+/* INFO: Object properties, Regex quantifiers and flags, Markdown headings, Terminal Cyan, Markdown code, Import/export keywords */
+[data-code-theme="tokyo-night-dark"] .hljs-keyword,
+[data-code-theme="tokyo-night-dark"] .hljs-title.function_,
+[data-code-theme="tokyo-night-dark"] .hljs-title,
+[data-code-theme="tokyo-night-dark"] .hljs-title.class_,
+[data-code-theme="tokyo-night-dark"] .hljs-title.class_.inherited__,
+[data-code-theme="tokyo-night-dark"] .hljs-subst,
+[data-code-theme="tokyo-night-dark"] .hljs-property {
+  color: #7dcfff
+}
+/*Green*/
+/* INFO: Object literal keys, Markdown links, Terminal Green */
+[data-code-theme="tokyo-night-dark"] .hljs-selector-tag {
+  color: #73daca
+}
+/*Green(er) */
+/* INFO: Strings, CSS class names */
+[data-code-theme="tokyo-night-dark"] .hljs-quote,
+[data-code-theme="tokyo-night-dark"] .hljs-string,
+[data-code-theme="tokyo-night-dark"] .hljs-symbol,
+[data-code-theme="tokyo-night-dark"] .hljs-bullet,
+[data-code-theme="tokyo-night-dark"] .hljs-addition {
+  color: #9ece6a
+}
+/* Blue */
+/* INFO:  	Function names, CSS property names, Terminal Blue */
+[data-code-theme="tokyo-night-dark"] .hljs-code,
+[data-code-theme="tokyo-night-dark"] .hljs-formula,
+[data-code-theme="tokyo-night-dark"] .hljs-section {
+  color: #7aa2f7
+}
+/* Magenta */
+/*INFO: Control Keywords, Storage Types, Regex symbols and operators, HTML Attributes, Terminal Magenta */
+[data-code-theme="tokyo-night-dark"] .hljs-name,
+[data-code-theme="tokyo-night-dark"] .hljs-keyword,
+[data-code-theme="tokyo-night-dark"] .hljs-operator,
+[data-code-theme="tokyo-night-dark"] .hljs-keyword,
+[data-code-theme="tokyo-night-dark"] .hljs-char.escape_,
+[data-code-theme="tokyo-night-dark"] .hljs-attr {
+  color: #bb9af7
+}
+/* white*/
+/* INFO: Variables, Class names, Terminal White */
+[data-code-theme="tokyo-night-dark"] .hljs-punctuation {
+  color: #c0caf5
+}
+[data-code-theme="tokyo-night-dark"] .hljs {
+  background: #1a1b26;
+  color: #9aa5ce
+}
+[data-code-theme="tokyo-night-dark"] .hljs-emphasis {
+  font-style: italic
+}
+[data-code-theme="tokyo-night-dark"] .hljs-strong {
+  font-weight: bold
+}
+/* Theme: vs2015 (VS 2015) */
+[data-code-theme="vs2015"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="vs2015"] code.hljs {
+  padding: 3px 5px
+}
+/*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ */
+[data-code-theme="vs2015"] .hljs {
+  background: #1E1E1E;
+  color: #DCDCDC
+}
+[data-code-theme="vs2015"] .hljs-keyword,
+[data-code-theme="vs2015"] .hljs-literal,
+[data-code-theme="vs2015"] .hljs-symbol,
+[data-code-theme="vs2015"] .hljs-name {
+  color: #569CD6
+}
+[data-code-theme="vs2015"] .hljs-link {
+  color: #569CD6;
+  text-decoration: underline
+}
+[data-code-theme="vs2015"] .hljs-built_in,
+[data-code-theme="vs2015"] .hljs-type {
+  color: #4EC9B0
+}
+[data-code-theme="vs2015"] .hljs-number,
+[data-code-theme="vs2015"] .hljs-class {
+  color: #B8D7A3
+}
+[data-code-theme="vs2015"] .hljs-string,
+[data-code-theme="vs2015"] .hljs-meta .hljs-string {
+  color: #D69D85
+}
+[data-code-theme="vs2015"] .hljs-regexp,
+[data-code-theme="vs2015"] .hljs-template-tag {
+  color: #9A5334
+}
+[data-code-theme="vs2015"] .hljs-subst,
+[data-code-theme="vs2015"] .hljs-function,
+[data-code-theme="vs2015"] .hljs-title,
+[data-code-theme="vs2015"] .hljs-params,
+[data-code-theme="vs2015"] .hljs-formula {
+  color: #DCDCDC
+}
+[data-code-theme="vs2015"] .hljs-comment,
+[data-code-theme="vs2015"] .hljs-quote {
+  color: #57A64A;
+  font-style: italic
+}
+[data-code-theme="vs2015"] .hljs-doctag {
+  color: #608B4E
+}
+[data-code-theme="vs2015"] .hljs-meta,
+[data-code-theme="vs2015"] .hljs-meta .hljs-keyword,
+[data-code-theme="vs2015"] .hljs-tag {
+  color: #9B9B9B
+}
+[data-code-theme="vs2015"] .hljs-variable,
+[data-code-theme="vs2015"] .hljs-template-variable {
+  color: #BD63C5
+}
+[data-code-theme="vs2015"] .hljs-attr,
+[data-code-theme="vs2015"] .hljs-attribute {
+  color: #9CDCFE
+}
+[data-code-theme="vs2015"] .hljs-section {
+  color: gold
+}
+[data-code-theme="vs2015"] .hljs-emphasis {
+  font-style: italic
+}
+[data-code-theme="vs2015"] .hljs-strong {
+  font-weight: bold
+}
+/*.hljs-code {
+  font-family:'Monospace';
+}*/
+[data-code-theme="vs2015"] .hljs-bullet,
+[data-code-theme="vs2015"] .hljs-selector-tag,
+[data-code-theme="vs2015"] .hljs-selector-id,
+[data-code-theme="vs2015"] .hljs-selector-class,
+[data-code-theme="vs2015"] .hljs-selector-attr,
+[data-code-theme="vs2015"] .hljs-selector-pseudo {
+  color: #D7BA7D
+}
+[data-code-theme="vs2015"] .hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%
+}
+[data-code-theme="vs2015"] .hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%
+}
+/* Theme: github-dark-dimmed (GitHub Dark Dimmed) */
+[data-code-theme="github-dark-dimmed"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="github-dark-dimmed"] code.hljs {
+  padding: 3px 5px
+}
+/*!
+  Theme: GitHub Dark Dimmed
+  Description: Dark dimmed theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Colors taken from GitHub's CSS
+*/
+[data-code-theme="github-dark-dimmed"] .hljs {
+  color: #adbac7;
+  background: #22272e
+}
+[data-code-theme="github-dark-dimmed"] .hljs-doctag,
+[data-code-theme="github-dark-dimmed"] .hljs-keyword,
+[data-code-theme="github-dark-dimmed"] .hljs-meta .hljs-keyword,
+[data-code-theme="github-dark-dimmed"] .hljs-template-tag,
+[data-code-theme="github-dark-dimmed"] .hljs-template-variable,
+[data-code-theme="github-dark-dimmed"] .hljs-type,
+[data-code-theme="github-dark-dimmed"] .hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: #f47067
+}
+[data-code-theme="github-dark-dimmed"] .hljs-title,
+[data-code-theme="github-dark-dimmed"] .hljs-title.class_,
+[data-code-theme="github-dark-dimmed"] .hljs-title.class_.inherited__,
+[data-code-theme="github-dark-dimmed"] .hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: #dcbdfb
+}
+[data-code-theme="github-dark-dimmed"] .hljs-attr,
+[data-code-theme="github-dark-dimmed"] .hljs-attribute,
+[data-code-theme="github-dark-dimmed"] .hljs-literal,
+[data-code-theme="github-dark-dimmed"] .hljs-meta,
+[data-code-theme="github-dark-dimmed"] .hljs-number,
+[data-code-theme="github-dark-dimmed"] .hljs-operator,
+[data-code-theme="github-dark-dimmed"] .hljs-variable,
+[data-code-theme="github-dark-dimmed"] .hljs-selector-attr,
+[data-code-theme="github-dark-dimmed"] .hljs-selector-class,
+[data-code-theme="github-dark-dimmed"] .hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: #6cb6ff
+}
+[data-code-theme="github-dark-dimmed"] .hljs-regexp,
+[data-code-theme="github-dark-dimmed"] .hljs-string,
+[data-code-theme="github-dark-dimmed"] .hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: #96d0ff
+}
+[data-code-theme="github-dark-dimmed"] .hljs-built_in,
+[data-code-theme="github-dark-dimmed"] .hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: #f69d50
+}
+[data-code-theme="github-dark-dimmed"] .hljs-comment,
+[data-code-theme="github-dark-dimmed"] .hljs-code,
+[data-code-theme="github-dark-dimmed"] .hljs-formula {
+  /* prettylights-syntax-comment */
+  color: #768390
+}
+[data-code-theme="github-dark-dimmed"] .hljs-name,
+[data-code-theme="github-dark-dimmed"] .hljs-quote,
+[data-code-theme="github-dark-dimmed"] .hljs-selector-tag,
+[data-code-theme="github-dark-dimmed"] .hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: #8ddb8c
+}
+[data-code-theme="github-dark-dimmed"] .hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: #adbac7
+}
+[data-code-theme="github-dark-dimmed"] .hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: #316dca;
+  font-weight: bold
+}
+[data-code-theme="github-dark-dimmed"] .hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: #eac55f
+}
+[data-code-theme="github-dark-dimmed"] .hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: #adbac7;
+  font-style: italic
+}
+[data-code-theme="github-dark-dimmed"] .hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: #adbac7;
+  font-weight: bold
+}
+[data-code-theme="github-dark-dimmed"] .hljs-addition {
+  /* prettylights-syntax-markup-inserted */
+  color: #b4f1b4;
+  background-color: #1b4721
+}
+[data-code-theme="github-dark-dimmed"] .hljs-deletion {
+  /* prettylights-syntax-markup-deleted */
+  color: #ffd8d3;
+  background-color: #78191b
+}
+[data-code-theme="github-dark-dimmed"] .hljs-char.escape_,
+[data-code-theme="github-dark-dimmed"] .hljs-link,
+[data-code-theme="github-dark-dimmed"] .hljs-params,
+[data-code-theme="github-dark-dimmed"] .hljs-property,
+[data-code-theme="github-dark-dimmed"] .hljs-punctuation,
+[data-code-theme="github-dark-dimmed"] .hljs-tag {
+  /* purposely ignored */
+  
+}
+/* Theme: mono-blue (Mono Blue) */
+[data-code-theme="mono-blue"] pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em
+}
+[data-code-theme="mono-blue"] code.hljs {
+  padding: 3px 5px
+}
+/*
+  Five-color theme from a single blue hue.
+*/
+[data-code-theme="mono-blue"] .hljs {
+  background: #eaeef3;
+  color: #00193a
+}
+[data-code-theme="mono-blue"] .hljs-keyword,
+[data-code-theme="mono-blue"] .hljs-selector-tag,
+[data-code-theme="mono-blue"] .hljs-title,
+[data-code-theme="mono-blue"] .hljs-section,
+[data-code-theme="mono-blue"] .hljs-doctag,
+[data-code-theme="mono-blue"] .hljs-name,
+[data-code-theme="mono-blue"] .hljs-strong {
+  font-weight: bold
+}
+[data-code-theme="mono-blue"] .hljs-comment {
+  color: #738191
+}
+[data-code-theme="mono-blue"] .hljs-string,
+[data-code-theme="mono-blue"] .hljs-title,
+[data-code-theme="mono-blue"] .hljs-section,
+[data-code-theme="mono-blue"] .hljs-built_in,
+[data-code-theme="mono-blue"] .hljs-literal,
+[data-code-theme="mono-blue"] .hljs-type,
+[data-code-theme="mono-blue"] .hljs-addition,
+[data-code-theme="mono-blue"] .hljs-tag,
+[data-code-theme="mono-blue"] .hljs-quote,
+[data-code-theme="mono-blue"] .hljs-name,
+[data-code-theme="mono-blue"] .hljs-selector-id,
+[data-code-theme="mono-blue"] .hljs-selector-class {
+  color: #0048ab
+}
+[data-code-theme="mono-blue"] .hljs-meta,
+[data-code-theme="mono-blue"] .hljs-subst,
+[data-code-theme="mono-blue"] .hljs-symbol,
+[data-code-theme="mono-blue"] .hljs-regexp,
+[data-code-theme="mono-blue"] .hljs-attribute,
+[data-code-theme="mono-blue"] .hljs-deletion,
+[data-code-theme="mono-blue"] .hljs-variable,
+[data-code-theme="mono-blue"] .hljs-template-variable,
+[data-code-theme="mono-blue"] .hljs-link,
+[data-code-theme="mono-blue"] .hljs-bullet {
+  color: #4c81c9
+}
+[data-code-theme="mono-blue"] .hljs-emphasis {
+  font-style: italic
+}

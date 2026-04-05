@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/code-themes.css";
 
 @theme {
   --color-primary: #000000;
@@ -112,18 +113,58 @@ html {
 .prose a:hover { color: #374151; }
 .prose code { color: #374151; font-size: 0.875em; font-family: var(--font-mono); }
 .prose pre {
-  background-color: #1a1a1a;
-  color: #e5e7eb;
+  background-color: #22272e;
+  color: #adbac7;
   overflow-x: auto;
   border-radius: 8px;
   padding: 1em;
   margin: 1.25em 0;
   font-size: 0.8125em;
+  border: 1px solid #2d333b;
+  position: relative;
 }
 @media (min-width: 768px) {
   .prose pre { border-radius: 16px; padding: 1.25em; margin: 1.5em 0; font-size: 0.875em; }
 }
-.prose pre code { color: inherit; background: none; font-size: inherit; }
+.prose pre code { color: inherit; background: none; font-size: inherit; border: none; padding: 0; }
+.prose pre code.hljs { display: block; overflow-x: auto; padding: 0; }
+/* Language label from rehype-highlight (adds class="language-xxx" to code) */
+.prose pre > code.hljs { padding-top: 0; }
+.prose pre:has(code[class*="language-"])::before {
+  position: absolute;
+  top: 0.5em;
+  right: 0.75em;
+  font-size: 0.65em;
+  font-family: var(--font-mono);
+  color: #545d68;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+.prose pre > code.language-javascript::before,
+.prose pre > code.language-js::before { content: "JS"; display: none; }
+.prose pre:has(code.language-javascript)::before,
+.prose pre:has(code.language-js)::before { content: "JavaScript"; }
+.prose pre:has(code.language-typescript)::before { content: "TypeScript"; }
+.prose pre:has(code.language-tsx)::before { content: "TSX"; }
+.prose pre:has(code.language-jsx)::before { content: "JSX"; }
+.prose pre:has(code.language-css)::before { content: "CSS"; }
+.prose pre:has(code.language-html)::before { content: "HTML"; }
+.prose pre:has(code.language-json)::before { content: "JSON"; }
+.prose pre:has(code.language-bash)::before,
+.prose pre:has(code.language-shell)::before { content: "Shell"; }
+.prose pre:has(code.language-python)::before { content: "Python"; }
+.prose pre:has(code.language-sql)::before { content: "SQL"; }
+.prose pre:has(code.language-go)::before { content: "Go"; }
+.prose pre:has(code.language-rust)::before { content: "Rust"; }
+.prose pre:has(code.language-java)::before { content: "Java"; }
+.prose pre:has(code.language-yaml)::before { content: "YAML"; }
+.prose pre:has(code.language-markdown)::before { content: "Markdown"; }
+.prose pre:has(code.language-diff)::before { content: "Diff"; }
+.prose pre:has(code[class*="language-"]) { padding-top: 2em; }
+@media (min-width: 768px) {
+  .prose pre:has(code[class*="language-"]) { padding-top: 2.5em; }
+}
 .prose blockquote {
   border-left: 4px solid #000000;
   padding-left: 1em;

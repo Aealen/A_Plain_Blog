@@ -1,0 +1,40 @@
+{
+  "themes": [
+    {
+      "id": "atom-one-dark",
+      "label": "Atom One Dark",
+      "isDefault": false
+    },
+    {
+      "id": "atom-one-light",
+      "label": "Atom One Light",
+      "isDefault": false
+    },
+    {
+      "id": "nord",
+      "label": "Nord",
+      "isDefault": false
+    },
+    {
+      "id": "tokyo-night-dark",
+      "label": "Tokyo Night",
+      "isDefault": false
+    },
+    {
+      "id": "vs2015",
+      "label": "VS 2015",
+      "isDefault": false
+    },
+    {
+      "id": "github-dark-dimmed",
+      "label": "GitHub Dark Dimmed",
+      "isDefault": true
+    },
+    {
+      "id": "mono-blue",
+      "label": "Mono Blue",
+      "isDefault": false
+    }
+  ],
+  "defaultTheme": "github-dark-dimmed"
+}

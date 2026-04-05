@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="zh-CN" data-code-theme="github-dark-dimmed" className={`${inter.variable} ${outfit.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         {children}
       </body>
