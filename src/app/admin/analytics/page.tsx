@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { getVisitStats, getTopPages } from '@/lib/visitor'
+import { fetchVisitStats, fetchTopPages } from '@/actions/admin/analytics'
 
 interface DailyStat {
   date: string
@@ -12,6 +12,7 @@ interface TopPage {
   path: string
   pv: number
   uv: number
+  title: string | null
 }
 
 export default function AnalyticsPage() {
@@ -23,7 +24,7 @@ export default function AnalyticsPage() {
 
   async function loadData() {
     try {
-      const [stats, pages] = await Promise.all([getVisitStats(30), getTopPages(10)])
+      const [stats, pages] = await Promise.all([fetchVisitStats(30), fetchTopPages(10)])
       setDailyStats(stats)
       setTopPages(pages)
     } finally {
@@ -100,11 +101,15 @@ export default function AnalyticsPage() {
             ) : (
               topPages.map((page, index) => (
                 <div key={page.path} className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium font-mono text-muted-foreground w-6">{index + 1}.</span>
-                    <span className="text-sm text-foreground truncate max-w-xs">{page.path}</span>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-sm font-medium font-mono text-muted-foreground w-6 shrink-0">{index + 1}.</span>
+                    {page.title ? (
+                      <span className="text-sm text-foreground truncate">{page.title}</span>
+                    ) : (
+                      <span className="text-sm text-muted-foreground truncate">{page.path}</span>
+                    )}
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground font-mono">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground font-mono shrink-0">
                     <span>PV: {page.pv.toLocaleString()}</span>
                     <span>UV: {page.uv.toLocaleString()}</span>
                   </div>

@@ -1,7 +1,14 @@
 import slugify from 'slugify'
+import { pinyin } from 'pinyin-pro'
 
 export function generateSlug(text: string): string {
-  return slugify(text, { lower: true, strict: true })
+  // Convert Chinese characters to pinyin, preserve non-Chinese segments
+  const converted = text.replace(/[\u4e00-\u9fff]+/g, (match) =>
+    pinyin(match, { toneType: 'none', separator: '-' })
+  )
+  const result = slugify(converted, { lower: true, strict: true })
+  // Fallback: if slug is empty, use timestamp
+  return result || Date.now().toString()
 }
 
 export function truncate(text: string, maxLength: number): string {

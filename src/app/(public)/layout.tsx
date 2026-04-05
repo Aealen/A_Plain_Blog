@@ -1,5 +1,6 @@
 import Header from '@/components/public/Header'
 import Footer from '@/components/public/Footer'
+import VisitTracker from '@/components/public/VisitTracker'
 
 export default function PublicLayout({
   children,
@@ -11,6 +12,7 @@ export default function PublicLayout({
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <VisitTracker />
     </div>
   )
 }
