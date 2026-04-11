@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { getUserProfile, updateProfile, updatePassword } from '@/actions/admin/user'
+import FileUploader from '@/components/admin/FileUploader'
 
 interface UserProfile {
   id: string
@@ -99,8 +100,16 @@ export default function ProfilePage() {
               <input type="email" value={profileForm.email} onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })} required className={inputClass} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">头像 URL</label>
-              <input type="url" value={profileForm.avatarUrl} onChange={(e) => setProfileForm({ ...profileForm, avatarUrl: e.target.value })} placeholder="https://example.com/avatar.jpg" className={inputClass} />
+              <label className="block text-sm font-medium text-muted-foreground mb-1">头像</label>
+              {profileForm.avatarUrl && (
+                <div className="mb-2">
+                  <img src={profileForm.avatarUrl} alt="头像预览" className="w-16 h-16 rounded-full object-cover border border-border" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                </div>
+              )}
+              <div className="mb-2">
+                <input type="url" value={profileForm.avatarUrl} onChange={(e) => setProfileForm({ ...profileForm, avatarUrl: e.target.value })} placeholder="或手动输入头像 URL" className={inputClass} />
+              </div>
+              <FileUploader onUpload={(url) => setProfileForm({ ...profileForm, avatarUrl: url })} accept="image/*" purpose="avatars" />
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">个人简介</label>
