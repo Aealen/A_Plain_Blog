@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useCallback, useMemo, useRef, type ReactNode } from 'react'
 import { extractTOC } from '@/lib/markdown'
+import { uploadToOss } from '@/lib/upload-client'
 import { generateSlug } from '@/lib/utils'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -53,6 +54,49 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
     },
     [value, onChange]
   )
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const handleImageUpload = useCallback(async (file: File) => {
+    const placeholder = `![上传中...]()`
+    const cursorPos = value.length
+    const newValue = value + (value && !value.endsWith('\n') ? '\n' : '') + placeholder + '\n'
+    onChange(newValue)
+
+    try {
+      const result = await uploadToOss(file, 'editor')
+      const finalMarkdown = newValue.replace(placeholder, `![图片](${result.url})`)
+      onChange(finalMarkdown)
+    } catch {
+      const finalMarkdown = newValue.replace(placeholder, `![上传失败]()`)
+      onChange(finalMarkdown)
+    }
+  }, [value, onChange])
+
+  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        e.preventDefault()
+        const file = item.getAsFile()
+        if (file) handleImageUpload(file)
+        return
+      }
+    }
+  }, [handleImageUpload])
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    const files = e.dataTransfer?.files
+    if (!files) return
+    for (const file of files) {
+      if (file.type.startsWith('image/')) {
+        e.preventDefault()
+        handleImageUpload(file)
+        return
+      }
+    }
+  }, [handleImageUpload])
+
   const toc = extractTOC(value)
 
   const showEditor = viewMode === 'edit' || viewMode === 'split'
@@ -142,14 +186,17 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
           ))}
         </div>
       </div>
-      <div className="flex">
+      <div className="flex" onDrop={showEditor ? handleDrop : undefined} onDragOver={showEditor ? (e) => e.preventDefault() : undefined}>
         {showEditor && (
           <div className={showPreview ? 'flex-1 border-r border-border' : 'flex-1'}>
             <textarea
+              ref={textareaRef}
               data-editor="markdown"
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              placeholder="在这里编写 Markdown 内容..."
+              onPaste={handlePaste}
+              onDrop={handleDrop}
+              placeholder="在这里编写 Markdown 内容...&#10;支持粘贴或拖拽图片上传"
               className="w-full p-4 min-h-[500px] font-mono text-sm resize-none focus:outline-none bg-card text-foreground"
             />
           </div>
