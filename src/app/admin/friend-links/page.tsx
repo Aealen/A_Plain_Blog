@@ -8,6 +8,7 @@ import {
   toggleFriendLink,
 } from '@/actions/admin/friendLink'
 import type { FriendLinkFormData } from '@/types'
+import FileUploader from '@/components/admin/FileUploader'
 
 interface FriendLinkItem {
   id: string
@@ -33,6 +34,7 @@ export default function FriendLinksPage() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<FriendLinkFormData>(emptyForm)
   const [error, setError] = useState('')
+  const [showAvatarUploader, setShowAvatarUploader] = useState(false)
 
   useEffect(() => { loadLinks() }, [])
 
@@ -52,6 +54,7 @@ export default function FriendLinksPage() {
       }
       setFormData(emptyForm)
       setEditingId(null)
+      setShowAvatarUploader(false)
       await loadLinks()
     } catch (err) {
       setError(err instanceof Error ? err.message : '操作失败')
@@ -93,7 +96,13 @@ export default function FriendLinksPage() {
   function handleCancel() {
     setEditingId(null)
     setFormData(emptyForm)
+    setShowAvatarUploader(false)
     setError('')
+  }
+
+  function handleAvatarUpload(url: string) {
+    setFormData({ ...formData, avatar: url })
+    setShowAvatarUploader(false)
   }
 
   const inputClass = "w-full px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -117,7 +126,30 @@ export default function FriendLinksPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">头像</label>
-              <input type="text" value={formData.avatar} onChange={e => setFormData({ ...formData, avatar: e.target.value })} placeholder="头像图片 URL" className={inputClass} />
+              {formData.avatar && (
+                <div className="mb-2">
+                  <img src={formData.avatar} alt="头像预览" className="w-10 h-10 rounded-full object-cover border border-border" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                </div>
+              )}
+              <div className="mb-2 flex gap-2">
+                <input type="text" value={formData.avatar} onChange={e => setFormData({ ...formData, avatar: e.target.value })} placeholder="头像图片 URL" className={inputClass} />
+                <button
+                  type="button"
+                  onClick={() => setShowAvatarUploader(!showAvatarUploader)}
+                  className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm"
+                >
+                  上传
+                </button>
+              </div>
+              {showAvatarUploader && (
+                <div className="mb-2 border border-border rounded-[var(--radius-sm)] p-3 bg-muted/30">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs font-medium text-foreground">上传头像</span>
+                    <button type="button" onClick={() => setShowAvatarUploader(false)} className="text-xs text-muted-foreground hover:text-foreground transition-colors">关闭</button>
+                  </div>
+                  <FileUploader onUpload={handleAvatarUpload} accept="image/*" purpose="avatars" />
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">描述</label>
