@@ -1,13 +1,15 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
+import { uploadToOss, type UploadPurpose } from '@/lib/upload-client'
 
 interface FileUploaderProps {
   onUpload: (url: string) => void
   accept?: string
+  purpose: UploadPurpose
 }
 
-export default function FileUploader({ onUpload, accept }: FileUploaderProps) {
+export default function FileUploader({ onUpload, accept, purpose }: FileUploaderProps) {
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -16,36 +18,15 @@ export default function FileUploader({ onUpload, accept }: FileUploaderProps) {
   const uploadFile = useCallback(async (file: File) => {
     setUploading(true)
     setError(null)
-
     try {
-      const res = await fetch('/api/upload/sts')
-      if (!res.ok) throw new Error('获取上传凭证失败')
-      const sts = await res.json()
-
-      const date = new Date()
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const ext = file.name.split('.').pop()
-      const key = `uploads/${year}/${month}/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`
-
-      const formData = new FormData()
-      formData.append('key', key)
-      formData.append('OSSAccessKeyId', sts.accessKeyId)
-      if (sts.securityToken) formData.append('x-oss-security-token', sts.securityToken)
-      formData.append('file', file)
-
-      const uploadUrl = `https://${sts.bucket}.${sts.region}.aliyuncs.com`
-      const uploadRes = await fetch(uploadUrl, { method: 'POST', body: formData })
-      if (!uploadRes.ok) throw new Error('上传失败')
-
-      const fileUrl = `${uploadUrl}/${key}`
-      onUpload(fileUrl)
+      const result = await uploadToOss(file, purpose)
+      onUpload(result.url)
     } catch (err) {
       setError(err instanceof Error ? err.message : '上传失败')
     } finally {
       setUploading(false)
     }
-  }, [onUpload])
+  }, [onUpload, purpose])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
