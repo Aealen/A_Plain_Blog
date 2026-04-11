@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import { createHmac } from 'crypto'
 import STS from 'ali-oss/lib/sts'
 
 const VALID_PURPOSES = ['covers', 'avatars', 'editor'] as const
@@ -53,6 +53,10 @@ export async function getSTSUploadCredentials(
     throw new Error(`Invalid purpose: ${purpose}. Must be one of: ${VALID_PURPOSES.join(', ')}`)
   }
 
+  if (!/^[a-zA-Z0-9]{1,10}$/.test(fileExt)) {
+    throw new Error(`Invalid file extension: ${fileExt}`)
+  }
+
   const cfg = getConfig()
   const sts = new STS({
     accessKeyId: cfg.accessKeyId,
@@ -101,7 +105,7 @@ export async function getSTSUploadCredentials(
   }
 
   const policyBase64 = Buffer.from(JSON.stringify(policyDoc), 'utf-8').toString('base64')
-  const signature = crypto.createHmac('sha1', creds.accessKeySecret).update(policyBase64).digest('base64')
+  const signature = createHmac('sha1', creds.accessKeySecret).update(policyBase64).digest('base64')
 
   return {
     url: `${host}/${key}`,
