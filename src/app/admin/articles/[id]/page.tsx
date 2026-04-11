@@ -381,7 +381,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
                   <span className="text-sm font-medium text-foreground">上传封面图片</span>
                   <button type="button" onClick={() => setShowCoverUploader(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">关闭</button>
                 </div>
-                <FileUploader onUpload={handleCoverUpload} accept="image/*" />
+                <FileUploader onUpload={handleCoverUpload} accept="image/*" purpose="covers" />
               </div>
             )}
 
