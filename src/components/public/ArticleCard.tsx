@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -24,7 +25,7 @@ function formatDate(date: Date | null): string {
   })
 }
 
-export default function ArticleCard({ article }: ArticleCardProps) {
+export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
   const formattedDate = article.publishedAt ? formatDate(article.publishedAt) : null
 
   return (
@@ -77,4 +78,4 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       )}
     </article>
   )
-}
+})
