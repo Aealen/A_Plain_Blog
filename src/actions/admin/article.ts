@@ -244,3 +244,15 @@ export async function batchDelete(ids: string[]) {
   await prisma.article.updateMany({ where: { id: { in: ids } }, data: { status: 'TRASH' } })
   revalidatePath('/admin/articles')
 }
+
+export async function toggleRecommended(id: string) {
+  const article = await prisma.article.findUnique({ where: { id }, select: { isRecommended: true } })
+  if (!article) throw new Error('文章不存在')
+  const updated = await prisma.article.update({
+    where: { id },
+    data: { isRecommended: !article.isRecommended },
+  })
+  revalidatePath('/admin/articles')
+  revalidatePath('/')
+  return updated
+}

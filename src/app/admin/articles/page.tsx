@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete, discardDraft } from '@/actions/admin/article'
+import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete, discardDraft, toggleRecommended } from '@/actions/admin/article'
 import { importMarkdownFiles } from '@/actions/admin/import'
 import { ArticleStatus } from '@prisma/client'
 
@@ -26,6 +26,7 @@ interface ArticleRow {
   title: string
   coverImage: string | null
   status: string
+  isRecommended: boolean
   draft: unknown
   sortOrder: number
   viewCount: number
@@ -170,6 +171,17 @@ export default function ArticlesPage() {
     await loadArticles()
   }
 
+  async function handleToggleRecommended(id: string, currentValue: boolean) {
+    // Optimistic update
+    setArticles(prev => prev.map(a => a.id === id ? { ...a, isRecommended: !currentValue } : a))
+    try {
+      await toggleRecommended(id)
+    } catch {
+      // Revert on error
+      setArticles(prev => prev.map(a => a.id === id ? { ...a, isRecommended: currentValue } : a))
+    }
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -247,6 +259,7 @@ export default function ArticlesPage() {
               <SortHeader field="title">标题</SortHeader>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">分类</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">状态</th>
+              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-16">推荐</th>
               <SortHeader field="createdAt">创建时间</SortHeader>
               <SortHeader field="updatedAt">更新时间</SortHeader>
               <SortHeader field="sortOrder">排序</SortHeader>
@@ -299,6 +312,15 @@ export default function ArticlesPage() {
                     <span className={`inline-block text-xs px-2 py-1 rounded-full font-medium ${statusConfig[article.status]?.color || 'bg-muted text-muted-foreground'}`}>
                       {statusConfig[article.status]?.label || article.status}
                     </span>
+                  </td>
+                  <td className="p-3">
+                    <input
+                      type="checkbox"
+                      checked={article.isRecommended}
+                      onChange={() => handleToggleRecommended(article.id, article.isRecommended)}
+                      className="rounded accent-primary"
+                      title={article.isRecommended ? '取消推荐' : '设为推荐'}
+                    />
                   </td>
                   <td className="p-3 text-sm text-muted-foreground font-mono">{new Date(article.createdAt).toLocaleDateString('zh-CN')}</td>
                   <td className="p-3 text-sm text-muted-foreground font-mono">{new Date(article.updatedAt).toLocaleDateString('zh-CN')}</td>

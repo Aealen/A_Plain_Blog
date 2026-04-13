@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import { getPublishedArticles, getRecommendedArticles } from '@/actions/public/article'
 import ArticleCard from '@/components/public/ArticleCard'
+import HeroCarousel from '@/components/public/HeroCarousel'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,64 +12,13 @@ export default async function HomePage() {
     getPublishedArticles({ page: 1, pageSize: 6 }),
   ])
 
-  const heroArticle = recommended[0]
   const articles = articlesResult.data
 
   return (
     <div className="px-5 md:px-[80px]">
-      {/* Hero Section */}
-      {heroArticle && (
-        <section className="flex flex-col md:flex-row items-center gap-[40px] md:gap-[60px] pt-[60px]">
-          {/* Left: Text Content */}
-          <div className={`w-full flex flex-col justify-center ${heroArticle.coverImage ? 'md:w-[740px]' : 'md:w-full'}`}>
-            {heroArticle.categories.length > 0 && (
-              <span className="inline-block text-[12px] text-tertiary tracking-widest mb-6">
-                ✦ {heroArticle.categories.map(c => c.category.name).join(' / ')}
-              </span>
-            )}
-            <h1 className="font-display text-[32px] md:text-[44px] font-bold leading-[1.2] tracking-tight mb-6">
-              <Link
-                href={`/articles/${heroArticle.slug}`}
-                className="hover:opacity-80 transition-opacity"
-              >
-                {heroArticle.title}
-              </Link>
-            </h1>
-            {heroArticle.excerpt && (
-              <p className="text-[15px] text-muted-foreground leading-[1.6] mb-6">
-                {heroArticle.excerpt}
-              </p>
-            )}
-            <div className="flex items-center gap-4">
-              <Link
-                href={`/articles/${heroArticle.slug}`}
-                className="text-[13px] font-medium hover:underline"
-              >
-                阅读全文
-              </Link>
-              <span className="text-tertiary text-[12px]">·</span>
-              <Link
-                href="/articles"
-                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                查看更多
-              </Link>
-            </div>
-          </div>
-
-          {/* Right: Image — only shown when cover image exists */}
-          {heroArticle.coverImage && (
-          <div className="w-full md:w-[480px] h-[300px] md:h-[400px] rounded-lg overflow-hidden shrink-0 relative">
-              <Image
-                src={heroArticle.coverImage}
-                alt={heroArticle.title}
-                fill
-                sizes="480px"
-                className="object-cover"
-              />
-          </div>
-          )}
-        </section>
+      {/* Hero Carousel */}
+      {recommended.length > 0 && (
+        <HeroCarousel articles={recommended} />
       )}
 
       {/* Latest Articles Section */}
