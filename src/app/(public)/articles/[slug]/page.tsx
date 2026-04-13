@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import ArticleContent from '@/components/public/ArticleContent'
 import { getArticleBySlug, incrementViewCount } from '@/actions/public/article'
+import { getItemColor } from '@/lib/colors'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>
@@ -129,7 +130,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={c.category.slug}
                       href={`/categories/${c.category.slug}`}
-                      className="inline-block text-xs font-display font-medium text-primary bg-accent px-3 py-1 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                      className="inline-block text-xs font-display font-medium px-3 py-1 rounded-full transition-opacity hover:opacity-80"
+                      style={getItemColor(c.category.name)}
                     >
                       {c.category.name}
                     </Link>
@@ -163,7 +165,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
-                      className="text-xs px-2.5 py-1 bg-muted text-muted-foreground rounded-full hover:bg-accent hover:text-accent-foreground transition-colors"
+                      className="text-xs px-2.5 py-1 rounded-full transition-opacity hover:opacity-80"
+                      style={getItemColor(tag.name)}
                     >
                       #{tag.name}
                     </Link>

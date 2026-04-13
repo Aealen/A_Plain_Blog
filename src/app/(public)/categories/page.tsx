@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getCategories } from '@/actions/public/category'
+import { getItemColor } from '@/lib/colors'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +27,8 @@ export default async function CategoriesPage() {
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
-              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
+              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:shadow-lg transition-all duration-300"
+              style={{ borderLeftColor: getItemColor(category.name).color, borderLeftWidth: '3px' }}
             >
               <h2 className="text-lg font-bold font-display text-foreground mb-2 group-hover:text-primary transition-colors">
                 {category.name}

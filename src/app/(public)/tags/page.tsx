@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTags } from '@/actions/public/tag'
+import { getItemColor } from '@/lib/colors'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,7 +28,11 @@ export default async function TagsPage() {
             <Link
               key={tag.id}
               href={`/tags/${tag.slug}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-card rounded-full border border-border text-foreground hover:border-primary/40 hover:text-primary hover:shadow-sm transition-all duration-300"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border text-foreground hover:shadow-sm transition-all duration-300"
+              style={{
+                ...getItemColor(tag.name),
+                borderColor: getItemColor(tag.name).backgroundColor,
+              }}
             >
               <span className="font-medium font-display"># {tag.name}</span>
               <span className="text-xs text-muted-foreground">({tag._count.articles})</span>

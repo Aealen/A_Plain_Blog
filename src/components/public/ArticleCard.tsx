@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { getItemColor } from '@/lib/colors'
 
 interface ArticleCardProps {
   article: {
@@ -50,7 +51,8 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
             <Link
               key={c.category.slug}
               href={`/categories/${c.category.slug}`}
-              className="inline-block text-[11px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded hover:bg-border transition-colors"
+              className="inline-block text-[11px] font-medium px-2 py-0.5 rounded transition-opacity hover:opacity-80"
+              style={getItemColor(c.category.name)}
             >
               {c.category.name}
             </Link>
