@@ -14,7 +14,7 @@ interface ArticleData {
   slug: string
   excerpt?: string | null
   coverImage?: string | null
-  publishedAt: Date | null
+  createdAt: Date | null
   viewCount: number
   categories: { category: { name: string; slug: string } }[]
   tags: { tag: { name: string; slug: string } }[]

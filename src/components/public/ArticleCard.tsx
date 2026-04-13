@@ -10,7 +10,7 @@ interface ArticleCardProps {
     slug: string
     excerpt?: string | null
     coverImage?: string | null
-    publishedAt: Date | null
+    createdAt: Date | null
     viewCount: number
     categories: { category: { name: string; slug: string } }[]
     tags: { tag: { name: string; slug: string } }[]
@@ -27,7 +27,7 @@ function formatDate(date: Date | null): string {
 }
 
 export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
-  const formattedDate = article.publishedAt ? formatDate(article.publishedAt) : null
+  const formattedDate = article.createdAt ? formatDate(article.createdAt) : null
 
   return (
     <article className="group">

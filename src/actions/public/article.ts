@@ -27,7 +27,7 @@ export async function getPublishedArticles(options: {
   const [data, total] = await Promise.all([
     prisma.article.findMany({
       where,
-      orderBy: { publishedAt: 'desc' },
+      orderBy: { createdAt: 'desc' },
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: {
@@ -54,7 +54,7 @@ export async function getArticleBySlug(slug: string) {
 export async function getRecommendedArticles() {
   return prisma.article.findMany({
     where: { status: ArticleStatus.PUBLISHED, isRecommended: true },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: { createdAt: 'desc' },
     take: 6,
     include: {
       categories: { select: { category: { select: { name: true, slug: true } } } },
