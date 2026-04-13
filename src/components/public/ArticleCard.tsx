@@ -29,9 +29,9 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <article className="group">
-      <Link href={`/articles/${article.slug}`} className="block">
-        <div className="w-full h-[200px] rounded-lg overflow-hidden mb-4 relative">
-          {article.coverImage ? (
+      {article.coverImage && (
+        <Link href={`/articles/${article.slug}`} className="block">
+          <div className="w-full h-[200px] rounded-lg overflow-hidden mb-4 relative">
             <Image
               src={article.coverImage}
               alt={article.title}
@@ -39,11 +39,9 @@ export default function ArticleCard({ article }: ArticleCardProps) {
               sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-          ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200" />
-          )}
-        </div>
-      </Link>
+          </div>
+        </Link>
+      )}
 
       {article.categories.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-3">
