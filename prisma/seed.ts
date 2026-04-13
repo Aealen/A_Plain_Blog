@@ -16,6 +16,7 @@ async function main() {
       password: adminPassword,
       email: 'admin@example.com',
       nickname: '管理员',
+      bio: '博客管理员',
       role: 'ADMIN',
     },
   })
@@ -58,10 +59,13 @@ async function main() {
     data: {
       title: '欢迎来到我的博客',
       slug: 'hello-world',
-      content: '# 欢迎来到我的博客\n\n这是第一篇文章。\n\n## 快速开始\n\n这是一个基于 **Next.js** 构建的博客系统。\n\n### 特性\n\n- Markdown 编辑器\n- 文章管理\n- 分类和标签\n- 访问统计\n\n```javascript\nconsole.log(\'Hello, World!\')\n```',
+      content: '# 欢迎来到我的博客\n\n这是第一篇文章。\n\n## 快速开始\n\n这是一个基于 **Next.js** 构建的博客系统。\n\n### 特性\n\n- Markdown 编辑器\n- 文章管理\n- 分类和标签\n- 访问统计\n- 阿里云 OSS 图片上传\n\n```javascript\nconsole.log(\'Hello, World!\')\n```',
       excerpt: '这是第一篇文章，描述了一个基于 Next.js 构建的博客系统。',
       status: 'PUBLISHED',
+      isRecommended: true,
       sortOrder: 0,
+      seoTitle: '欢迎来到我的博客',
+      seoDescription: '基于 Next.js 构建的博客系统，支持 Markdown 编辑、分类标签管理、访问统计等功能。',
       categoryId: defaultCategory.id,
       publishedAt: new Date(),
       tags: {
@@ -73,6 +77,16 @@ async function main() {
     },
   })
   console.log(`Article: ${article.title}`)
+
+  // Create sample friend links
+  const friendLinks = [
+    { name: 'GitHub', url: 'https://github.com', description: '全球最大的代码托管平台', order: 0 },
+    { name: 'Next.js', url: 'https://nextjs.org', description: 'React 全栈框架', order: 1 },
+  ]
+  for (const link of friendLinks) {
+    await prisma.friendLink.create({ data: link })
+  }
+  console.log(`Friend links: ${friendLinks.map(l => l.name).join(', ')}`)
 
   console.log('\nSeed completed successfully!')
 }
