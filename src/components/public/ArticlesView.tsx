@@ -73,14 +73,20 @@ export default function ArticlesView({
     [masonryArticles, columnCount]
   )
 
-  function switchView(newView: ViewMode) {
-    setView(newView)
-    if (newView === 'grid') {
-      router.push('/articles', { scroll: false })
-    } else {
+  // 同步服务端 props 变化到客户端状态
+  useEffect(() => {
+    setView(initialView)
+    if (initialView === 'masonry') {
       setMasonryArticles(initialArticles)
       setMasonryPage(1)
       setMasonryHasMore(totalPages > 1)
+    }
+  }, [initialView, initialArticles, totalPages])
+
+  function switchView(newView: ViewMode) {
+    if (newView === 'grid') {
+      router.push('/articles', { scroll: false })
+    } else {
       router.push('/articles?view=masonry', { scroll: false })
     }
   }
