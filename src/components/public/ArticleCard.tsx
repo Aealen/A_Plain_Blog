@@ -28,14 +28,15 @@ function formatDate(date: Date | null): string {
 
 export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
   const formattedDate = article.createdAt ? formatDate(article.createdAt) : null
+  const hasCover = !!article.coverImage
 
   return (
-    <article className="group">
-      {article.coverImage && (
-        <Link href={`/articles/${article.slug}`} className="block">
+    <article className="group flex flex-col h-full">
+      {hasCover && (
+        <Link href={`/articles/${article.slug}`} className="block shrink-0">
           <div className="w-full h-[200px] rounded-lg overflow-hidden mb-4 relative">
             <Image
-              src={article.coverImage}
+              src={article.coverImage!}
               alt={article.title}
               fill
               sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
@@ -45,38 +46,40 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
         </Link>
       )}
 
-      {article.categories.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {article.categories.map(c => (
-            <Link
-              key={c.category.slug}
-              href={`/categories/${c.category.slug}`}
-              className="inline-block text-[11px] font-medium px-2 py-0.5 rounded transition-opacity hover:opacity-80"
-              style={getItemColor(c.category.name)}
-            >
-              {c.category.name}
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className={hasCover ? '' : 'flex-1 flex flex-col min-h-0'}>
+        {article.categories.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {article.categories.map(c => (
+              <Link
+                key={c.category.slug}
+                href={`/categories/${c.category.slug}`}
+                className="inline-block text-[11px] font-medium px-2 py-0.5 rounded transition-opacity hover:opacity-80"
+                style={getItemColor(c.category.name)}
+              >
+                {c.category.name}
+              </Link>
+            ))}
+          </div>
+        )}
 
-      <h3 className="font-display text-[18px] font-semibold leading-[1.3] mb-3">
-        <Link
-          href={`/articles/${article.slug}`}
-          className="hover:text-indigo-600 transition-colors duration-200"
-        >
-          {article.title}
-        </Link>
-      </h3>
+        <h3 className="font-display text-[18px] font-semibold leading-[1.3] mb-3">
+          <Link
+            href={`/articles/${article.slug}`}
+            className="hover:text-indigo-600 transition-colors duration-200"
+          >
+            {article.title}
+          </Link>
+        </h3>
 
-      {article.excerpt && (
-        <p className="text-[13px] text-muted-foreground leading-[1.6] mb-3 line-clamp-2">
-          {article.excerpt}
-        </p>
-      )}
+        {article.excerpt && (
+          <p className={`text-[13px] text-muted-foreground leading-[1.6] mb-3 ${hasCover ? 'line-clamp-2' : 'flex-1 min-h-0 overflow-hidden'}`}>
+            {article.excerpt}
+          </p>
+        )}
+      </div>
 
       {formattedDate && (
-        <span className="text-[12px] text-tertiary">{formattedDate}</span>
+        <span className="text-[12px] text-tertiary mt-auto shrink-0">{formattedDate}</span>
       )}
     </article>
   )

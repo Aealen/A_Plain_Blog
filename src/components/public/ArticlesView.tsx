@@ -147,7 +147,7 @@ export default function ArticlesView({
 
       {view === 'grid' ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-stretch">
             {initialArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
@@ -179,7 +179,7 @@ export default function ArticlesView({
         </>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-stretch">
             {columns.map((column, i) => (
               <div key={i} className="flex flex-col gap-[32px]">
                 {column.map(article => (
