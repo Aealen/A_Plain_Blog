@@ -88,9 +88,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   {article.title}
                 </h1>
                 <div className="flex items-center justify-center gap-4 text-sm text-white/75">
+                  {article.createdAt && (
+                    <time dateTime={article.createdAt.toISOString()}>
+                      创建于 {new Date(article.createdAt).toLocaleDateString('zh-CN', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  )}
                   {article.publishedAt && (
                     <time dateTime={article.publishedAt.toISOString()}>
-                      {new Date(article.publishedAt).toLocaleDateString('zh-CN', {
+                      发布于 {new Date(article.publishedAt).toLocaleDateString('zh-CN', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -142,9 +151,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 {article.title}
               </h1>
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+                {article.createdAt && (
+                  <time dateTime={article.createdAt.toISOString()}>
+                    创建于 {new Date(article.createdAt).toLocaleDateString('zh-CN', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                )}
                 {article.publishedAt && (
                   <time dateTime={article.publishedAt.toISOString()}>
-                    {new Date(article.publishedAt).toLocaleDateString('zh-CN', {
+                    发布于 {new Date(article.publishedAt).toLocaleDateString('zh-CN', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
