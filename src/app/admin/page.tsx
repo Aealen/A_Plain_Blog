@@ -21,7 +21,7 @@ export default async function DashboardPage() {
       orderBy: { publishedAt: 'desc' },
       take: 5,
       include: {
-        category: { select: { name: true } },
+        categories: { select: { category: { select: { name: true } } } },
       },
     }),
   ])
@@ -58,7 +58,7 @@ export default async function DashboardPage() {
               <div>
                 <Link href={`/admin/articles/${article.id}`} className="font-medium text-foreground hover:text-primary transition-colors font-mono">{article.title}</Link>
                 <div className="text-sm text-muted-foreground mt-1 flex items-center gap-3">
-                  {article.category?.name && <span>{article.category.name}</span>}
+                  {article.categories.length > 0 && <span>{article.categories.map(c => c.category.name).join(', ')}</span>}
                   <span>{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('zh-CN') : ''}</span>
                 </div>
               </div>

@@ -14,7 +14,7 @@ interface ExportArticle {
   publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
-  category: { name: string; slug: string } | null
+  categories: { category: { name: string; slug: string } }[]
   tags: { tag: { name: string; slug: string } }[]
   seoTitle: string | null
   seoDescription: string | null
@@ -29,7 +29,7 @@ function formatFrontMatter(article: ExportArticle): string {
   lines.push(`updated: ${article.updatedAt.toISOString()}`)
   if (article.excerpt) lines.push(`excerpt: "${article.excerpt.replace(/"/g, '\\"')}"`)
   if (article.coverImage) lines.push(`coverImage: "${article.coverImage}"`)
-  if (article.category) lines.push(`category: "${article.category.name}"`)
+  if (article.categories.length > 0) lines.push(`categories: [${article.categories.map(c => `"${c.category.name}"`).join(', ')}]`)
   if (article.tags.length > 0) lines.push(`tags: [${article.tags.map(t => `"${t.tag.name}"`).join(', ')}]`)
   lines.push(`status: ${article.status}`)
   if (article.isRecommended) lines.push('isRecommended: true')
@@ -47,7 +47,7 @@ export async function exportArticle(id: string): Promise<{ filename: string; con
   const article = await prisma.article.findUnique({
     where: { id },
     include: {
-      category: { select: { name: true, slug: true } },
+      categories: { select: { category: { select: { name: true, slug: true } } } },
       tags: { select: { tag: { select: { name: true, slug: true } } } },
     },
   })
@@ -70,7 +70,7 @@ export async function exportAllArticles(): Promise<{ filename: string; content: 
   const articles = await prisma.article.findMany({
     where: { status: { not: 'TRASH' } },
     include: {
-      category: { select: { name: true, slug: true } },
+      categories: { select: { category: { select: { name: true, slug: true } } } },
       tags: { select: { tag: { select: { name: true, slug: true } } } },
     },
     orderBy: { publishedAt: 'desc' },

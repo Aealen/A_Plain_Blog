@@ -7,6 +7,7 @@ export interface ParsedFrontMatter {
   excerpt?: string
   coverImage?: string
   category?: string
+  categories: string[]
   tags: string[]
   date?: Date
   updated?: Date
@@ -27,6 +28,7 @@ export function parseMarkdownFile(fileContent: string, fileName?: string): Parse
     excerpt: data.excerpt || data.description,
     coverImage: data.cover || data.coverImage,
     category: data.category,
+    categories: Array.isArray(data.categories) ? data.categories : [],
     tags: Array.isArray(data.tags) ? data.tags : [],
     date: data.date ? new Date(data.date) : undefined,
     updated: data.updated ? new Date(data.updated) : undefined,

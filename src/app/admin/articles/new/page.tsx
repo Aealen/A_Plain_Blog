@@ -36,7 +36,7 @@ export default function NewArticlePage() {
 
   const [formData, setFormData] = useState({
     title: '', slug: '', content: '', excerpt: '', coverImage: '',
-    categoryId: '', status: 'DRAFT' as ArticleStatus, sortOrder: 0,
+    categoryIds: [] as string[], status: 'DRAFT' as ArticleStatus, sortOrder: 0,
     isRecommended: false, tagIds: [] as string[],
     seoTitle: '', seoDescription: '', seoKeywords: '',
     createdAt: '',
@@ -74,6 +74,13 @@ export default function NewArticlePage() {
     }))
   }
 
+  function toggleCategory(catId: string) {
+    setFormData(prev => ({
+      ...prev,
+      categoryIds: prev.categoryIds.includes(catId) ? prev.categoryIds.filter(id => id !== catId) : [...prev.categoryIds, catId],
+    }))
+  }
+
   async function handleCreateCategory() {
     const name = newCategoryName.trim()
     if (!name) return
@@ -81,7 +88,7 @@ export default function NewArticlePage() {
     try {
       const cat = await createCategory({ name, slug: '', order: 0 })
       setCategories(prev => [...prev, { id: cat.id, name: cat.name, slug: cat.slug, _count: { articles: 0 } }])
-      setFormData(prev => ({ ...prev, categoryId: cat.id }))
+      setFormData(prev => ({ ...prev, categoryIds: [...prev.categoryIds, cat.id] }))
       setNewCategoryName('')
     } catch (err) {
       setNewCategoryError(err instanceof Error ? err.message : '创建失败')
@@ -120,7 +127,7 @@ export default function NewArticlePage() {
         content: formData.content,
         excerpt: formData.excerpt || undefined,
         coverImage: formData.coverImage || undefined,
-        categoryId: formData.categoryId || undefined,
+        categoryIds: formData.categoryIds,
         status,
         sortOrder: formData.sortOrder,
         isRecommended: formData.isRecommended,
@@ -197,10 +204,14 @@ export default function NewArticlePage() {
 
           <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
             <label className="block text-sm font-medium text-muted-foreground mb-2">分类</label>
-            <select value={formData.categoryId} onChange={e => setFormData({ ...formData, categoryId: e.target.value })} className={inputClass}>
-              <option value="">无分类</option>
-              {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
-            </select>
+            <div className="flex flex-wrap gap-2">
+              {categories.map(cat => (
+                <button key={cat.id} type="button" onClick={() => toggleCategory(cat.id)} className={`text-sm px-3 py-1 rounded-full border transition-colors ${
+                  formData.categoryIds.includes(cat.id) ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-foreground border-border hover:border-primary'
+                }`}>{cat.name}</button>
+              ))}
+              {categories.length === 0 && <span className="text-sm text-muted-foreground">暂无分类</span>}
+            </div>
             <div className="mt-3 flex gap-2">
               <input
                 type="text"

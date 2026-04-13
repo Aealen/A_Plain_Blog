@@ -15,7 +15,7 @@ export async function getArticles(options: {
   const pageSize = options.pageSize || 20
   const where: Record<string, unknown> = {}
   if (options.status) where.status = options.status
-  if (options.categoryId) where.categoryId = options.categoryId
+  if (options.categoryId) where.categories = { some: { categoryId: options.categoryId } }
   if (options.search) {
     where.OR = [
       { title: { contains: options.search, mode: 'insensitive' } },
@@ -29,7 +29,7 @@ export async function getArticles(options: {
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: {
-        category: { select: { id: true, name: true, slug: true } },
+        categories: { select: { category: { select: { id: true, name: true, slug: true } } } },
         tags: { select: { tag: { select: { id: true, name: true, slug: true } } } },
       },
     }),
@@ -40,7 +40,7 @@ export async function getArticles(options: {
 export async function getArticleById(id: string) {
   return prisma.article.findUnique({
     where: { id },
-    include: { category: true, tags: { select: { tag: true } } },
+    include: { categories: { select: { category: true } }, tags: { select: { tag: true } } },
   })
 }
 export async function createArticle(data: ArticleFormData) {
@@ -55,7 +55,6 @@ export async function createArticle(data: ArticleFormData) {
       content: data.content,
       excerpt,
       coverImage: data.coverImage,
-      categoryId: data.categoryId || null,
       status: data.status,
       sortOrder: data.sortOrder,
       isRecommended: data.isRecommended,
@@ -65,6 +64,7 @@ export async function createArticle(data: ArticleFormData) {
       publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
       createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
+      categories: { create: data.categoryIds.map((categoryId) => ({ categoryId })) },
     },
   })
   revalidatePath('/admin/articles')
@@ -82,6 +82,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
     // Merge draft into formal fields, then apply new data on top
     const d = current.draft as Record<string, unknown>
     await prisma.articleTag.deleteMany({ where: { articleId: id } })
+    await prisma.articleCategory.deleteMany({ where: { articleId: id } })
     const article = await prisma.article.update({
       where: { id },
       data: {
@@ -90,7 +91,6 @@ export async function updateArticle(id: string, data: ArticleFormData) {
         content: (d.content as string) || data.content,
         excerpt: (d.excerpt as string) || generateExcerpt((d.content as string) || data.content),
         coverImage: (d.coverImage as string) ?? data.coverImage,
-        categoryId: (d.categoryId as string) || data.categoryId || null,
         status: ArticleStatus.PUBLISHED,
         sortOrder: (d.sortOrder as number) ?? data.sortOrder,
         isRecommended: (d.isRecommended as boolean) ?? data.isRecommended,
@@ -101,6 +101,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
         createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
         draft: Prisma.JsonNull,
         tags: { create: ((d.tagIds as string[]) || data.tagIds).map((tagId) => ({ tagId })) },
+        categories: { create: ((d.categoryIds as string[]) || data.categoryIds).map((categoryId) => ({ categoryId })) },
       },
     })
     revalidatePath('/admin/articles')
@@ -110,6 +111,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
 
   // No draft or non-published article: update directly
   await prisma.articleTag.deleteMany({ where: { articleId: id } })
+  await prisma.articleCategory.deleteMany({ where: { articleId: id } })
   const article = await prisma.article.update({
     where: { id },
     data: {
@@ -118,7 +120,6 @@ export async function updateArticle(id: string, data: ArticleFormData) {
       content: data.content,
       excerpt: data.excerpt || generateExcerpt(data.content),
       coverImage: data.coverImage,
-      categoryId: data.categoryId || null,
       status: data.status,
       sortOrder: data.sortOrder,
       isRecommended: data.isRecommended,
@@ -129,6 +130,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
       createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       draft: Prisma.JsonNull,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
+      categories: { create: data.categoryIds.map((categoryId) => ({ categoryId })) },
     },
   })
   revalidatePath('/admin/articles')
@@ -148,13 +150,13 @@ export async function saveDraft(id: string, data: ArticleFormData) {
       content: data.content,
       excerpt: data.excerpt || generateExcerpt(data.content),
       coverImage: data.coverImage || null,
-      categoryId: data.categoryId || null,
       sortOrder: data.sortOrder,
       isRecommended: data.isRecommended,
       seoTitle: data.seoTitle || null,
       seoDescription: data.seoDescription || null,
       seoKeywords: data.seoKeywords || null,
       tagIds: data.tagIds,
+      categoryIds: data.categoryIds,
       createdAt: data.createdAt || null,
     }
     const article = await prisma.article.update({
@@ -168,6 +170,7 @@ export async function saveDraft(id: string, data: ArticleFormData) {
   // Non-published articles (DRAFT/PRIVATE): save directly to formal fields
   const slug = data.slug || generateSlug(data.title)
   await prisma.articleTag.deleteMany({ where: { articleId: id } })
+  await prisma.articleCategory.deleteMany({ where: { articleId: id } })
   const article = await prisma.article.update({
     where: { id },
     data: {
@@ -176,7 +179,6 @@ export async function saveDraft(id: string, data: ArticleFormData) {
       content: data.content,
       excerpt: data.excerpt || generateExcerpt(data.content),
       coverImage: data.coverImage,
-      categoryId: data.categoryId || null,
       status: data.status,
       sortOrder: data.sortOrder,
       isRecommended: data.isRecommended,
@@ -186,6 +188,7 @@ export async function saveDraft(id: string, data: ArticleFormData) {
       publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
       createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
+      categories: { create: data.categoryIds.map((categoryId) => ({ categoryId })) },
     },
   })
   revalidatePath('/admin/articles')

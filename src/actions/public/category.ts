@@ -9,7 +9,7 @@ export async function getCategories() {
       _count: {
         select: {
           articles: {
-            where: { status: ArticleStatus.PUBLISHED },
+            where: { article: { status: ArticleStatus.PUBLISHED } },
           },
         },
       },
@@ -24,7 +24,7 @@ export async function getCategoryBySlug(slug: string) {
       _count: {
         select: {
           articles: {
-            where: { status: ArticleStatus.PUBLISHED },
+            where: { article: { status: ArticleStatus.PUBLISHED } },
           },
         },
       },

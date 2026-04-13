@@ -13,7 +13,7 @@ export async function getPublishedArticles(options: {
   const pageSize = options.pageSize || 10
   const where: Record<string, unknown> = { status: ArticleStatus.PUBLISHED }
 
-  if (options.categoryId) where.categoryId = options.categoryId
+  if (options.categoryId) where.categories = { some: { categoryId: options.categoryId } }
   if (options.tagId) {
     where.tags = { some: { tagId: options.tagId } }
   }
@@ -31,7 +31,7 @@ export async function getPublishedArticles(options: {
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: {
-        category: { select: { name: true, slug: true } },
+        categories: { select: { category: { select: { name: true, slug: true } } } },
         tags: { select: { tag: { select: { name: true, slug: true } } } },
       },
     }),
@@ -45,7 +45,7 @@ export async function getArticleBySlug(slug: string) {
   return prisma.article.findUnique({
     where: { slug },
     include: {
-      category: { select: { name: true, slug: true } },
+      categories: { select: { category: { select: { name: true, slug: true } } } },
       tags: { select: { tag: { select: { name: true, slug: true } } } },
     },
   })
@@ -57,7 +57,7 @@ export async function getRecommendedArticles() {
     orderBy: { publishedAt: 'desc' },
     take: 6,
     include: {
-      category: { select: { name: true, slug: true } },
+      categories: { select: { category: { select: { name: true, slug: true } } } },
       tags: { select: { tag: { select: { name: true, slug: true } } } },
     },
   })
@@ -69,7 +69,7 @@ export async function getPopularArticles(limit: number = 10) {
     orderBy: { viewCount: 'desc' },
     take: limit,
     include: {
-      category: { select: { name: true, slug: true } },
+      categories: { select: { category: { select: { name: true, slug: true } } } },
       tags: { select: { tag: { select: { name: true, slug: true } } } },
     },
   })

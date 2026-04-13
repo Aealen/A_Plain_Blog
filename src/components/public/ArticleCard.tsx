@@ -10,7 +10,7 @@ interface ArticleCardProps {
     coverImage?: string | null
     publishedAt: Date | null
     viewCount: number
-    category: { name: string; slug: string } | null
+    categories: { category: { name: string; slug: string } }[]
     tags: { tag: { name: string; slug: string } }[]
   }
 }
@@ -45,13 +45,18 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         </div>
       </Link>
 
-      {article.category && (
-        <Link
-          href={`/categories/${article.category.slug}`}
-          className="inline-block text-[11px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded mb-3 hover:bg-border transition-colors"
-        >
-          {article.category.name}
-        </Link>
+      {article.categories.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {article.categories.map(c => (
+            <Link
+              key={c.category.slug}
+              href={`/categories/${c.category.slug}`}
+              className="inline-block text-[11px] font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded hover:bg-border transition-colors"
+            >
+              {c.category.name}
+            </Link>
+          ))}
+        </div>
       )}
 
       <h3 className="font-display text-[18px] font-semibold leading-[1.3] mb-3">

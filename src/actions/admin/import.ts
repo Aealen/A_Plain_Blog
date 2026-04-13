@@ -38,13 +38,22 @@ export async function importMarkdownFiles(files: { name: string; content: string
       }
 
       let categoryId: string | null = null
+      const categoryIds: string[] = []
       if (parsed.category) {
         const category = await prisma.category.upsert({
           where: { slug: generateSlug(parsed.category) },
           update: {},
           create: { name: parsed.category, slug: generateSlug(parsed.category) },
         })
-        categoryId = category.id
+        categoryIds.push(category.id)
+      }
+      for (const catName of parsed.categories) {
+        const category = await prisma.category.upsert({
+          where: { slug: generateSlug(catName) },
+          update: {},
+          create: { name: catName, slug: generateSlug(catName) },
+        })
+        if (!categoryIds.includes(category.id)) categoryIds.push(category.id)
       }
 
       const tagIds: string[] = []
@@ -64,10 +73,10 @@ export async function importMarkdownFiles(files: { name: string; content: string
           content: parsed.content,
           excerpt: parsed.excerpt || generateExcerpt(parsed.content),
           coverImage: parsed.coverImage,
-          categoryId,
           status: (parsed.status as ArticleStatus) || ArticleStatus.PUBLISHED,
           publishedAt: parsed.status === 'PUBLISHED' || !parsed.status ? (parsed.date || new Date()) : null,
           tags: { create: tagIds.map(tagId => ({ tagId })) },
+          categories: { create: categoryIds.map(catId => ({ categoryId: catId })) },
         },
       })
       imported++

@@ -70,13 +70,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
             <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 md:pb-16 px-6">
               <div className="max-w-[680px] w-full text-center">
-                {article.category && (
-                  <Link
-                    href={`/categories/${article.category.slug}`}
-                    className="inline-block text-xs font-display font-medium text-white/90 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full mb-4 hover:bg-white/25 transition-colors"
-                  >
-                    {article.category.name}
-                  </Link>
+                {article.categories.length > 0 && (
+                  <div className="flex flex-wrap justify-center gap-2 mb-4">
+                    {article.categories.map(c => (
+                      <Link
+                        key={c.category.slug}
+                        href={`/categories/${c.category.slug}`}
+                        className="inline-block text-xs font-display font-medium text-white/90 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
+                      >
+                        {c.category.name}
+                      </Link>
+                    ))}
+                  </div>
                 )}
                 <h1 className="text-2xl md:text-4xl font-bold font-display text-white leading-tight mb-4 drop-shadow-lg">
                   {article.title}
@@ -118,13 +123,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         ) : (
           <div className="max-w-[880px] mx-auto pt-12 pb-10 px-5 md:px-0">
             <header className="mb-10 text-center">
-              {article.category && (
-                <Link
-                  href={`/categories/${article.category.slug}`}
-                  className="inline-block text-xs font-display font-medium text-primary bg-accent px-3 py-1 rounded-full mb-4 hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {article.category.name}
-                </Link>
+              {article.categories.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {article.categories.map(c => (
+                    <Link
+                      key={c.category.slug}
+                      href={`/categories/${c.category.slug}`}
+                      className="inline-block text-xs font-display font-medium text-primary bg-accent px-3 py-1 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                    >
+                      {c.category.name}
+                    </Link>
+                  ))}
+                </div>
               )}
               <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight mb-5">
                 {article.title}

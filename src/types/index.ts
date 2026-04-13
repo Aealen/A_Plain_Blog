@@ -6,7 +6,7 @@ export interface ArticleFormData {
   content: string
   excerpt?: string
   coverImage?: string
-  categoryId?: string
+  categoryIds: string[]
   status: ArticleStatus
   sortOrder: number
   isRecommended: boolean
@@ -70,7 +70,7 @@ export interface ParsedArticle {
   content: string
   excerpt?: string
   coverImage?: string
-  category?: string
+  categories: string[]
   tags: string[]
   date?: Date
   updated?: Date

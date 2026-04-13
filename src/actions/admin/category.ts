@@ -26,7 +26,7 @@ export async function updateCategory(id: string, data: CategoryFormData) {
   return category
 }
 export async function deleteCategory(id: string) {
-  const articlesCount = await prisma.article.count({ where: { categoryId: id } })
+  const articlesCount = await prisma.articleCategory.count({ where: { categoryId: id } })
   if (articlesCount > 0) throw new Error('该分类下还有文章，无法删除')
   await prisma.category.delete({ where: { id } })
   revalidatePath('/admin/categories')

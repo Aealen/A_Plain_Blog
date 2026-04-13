@@ -30,7 +30,7 @@ interface ArticleRow {
   viewCount: number
   createdAt: string
   updatedAt: string
-  category: { id: string; name: string; slug: string } | null
+  categories: { category: { id: string; name: string; slug: string } }[]
   tags: { tag: { id: string; name: string; slug: string } }[]
 }
 
@@ -229,7 +229,7 @@ export default function ArticlesPage() {
                       </div>
                     )}
                   </td>
-                  <td className="p-3 text-sm text-muted-foreground">{article.category?.name || '-'}</td>
+                  <td className="p-3 text-sm text-muted-foreground">{article.categories.length > 0 ? article.categories.map(c => c.category.name).join(', ') : '-'}</td>
                   <td className="p-3">
                     <span className={`inline-block text-xs px-2 py-1 rounded-full font-medium ${statusConfig[article.status]?.color || 'bg-muted text-muted-foreground'}`}>
                       {statusConfig[article.status]?.label || article.status}

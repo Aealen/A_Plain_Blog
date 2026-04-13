@@ -66,12 +66,16 @@ async function main() {
       sortOrder: 0,
       seoTitle: '欢迎来到我的博客',
       seoDescription: '基于 Next.js 构建的博客系统，支持 Markdown 编辑、分类标签管理、访问统计等功能。',
-      categoryId: defaultCategory.id,
       publishedAt: new Date(),
       tags: {
         create: [
           { tagId: nextjsTag.id },
           { tagId: reactTag.id },
+        ],
+      },
+      categories: {
+        create: [
+          { categoryId: defaultCategory.id },
         ],
       },
     },

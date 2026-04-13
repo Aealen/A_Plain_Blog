@@ -21,9 +21,9 @@ export default async function HomePage() {
         <section className="flex flex-col md:flex-row items-center gap-[40px] md:gap-[60px] pt-[60px]">
           {/* Left: Text Content */}
           <div className={`w-full flex flex-col justify-center ${heroArticle.coverImage ? 'md:w-[740px]' : 'md:w-full'}`}>
-            {heroArticle.category && (
+            {heroArticle.categories.length > 0 && (
               <span className="inline-block text-[12px] text-tertiary tracking-widest mb-6">
-                ✦ {heroArticle.category.name}
+                ✦ {heroArticle.categories.map(c => c.category.name).join(' / ')}
               </span>
             )}
             <h1 className="font-display text-[32px] md:text-[44px] font-bold leading-[1.2] tracking-tight mb-6">

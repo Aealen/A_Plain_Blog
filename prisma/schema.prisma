@@ -41,7 +41,7 @@ model Category {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  articles Article[]
+  articles ArticleCategory[]
 }
 
 model Tag {
@@ -60,7 +60,6 @@ model Article {
   content        String
   excerpt        String?
   coverImage     String?
-  categoryId     String?       @db.Uuid
   status         ArticleStatus @default(DRAFT)
   sortOrder      Int           @default(0)
   isRecommended  Boolean       @default(false)
@@ -73,8 +72,8 @@ model Article {
   createdAt      DateTime?     @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
 
-  category Category?    @relation(fields: [categoryId], references: [id])
-  tags     ArticleTag[]
+  tags       ArticleTag[]
+  categories ArticleCategory[]
 }
 
 model ArticleTag {
@@ -85,6 +84,16 @@ model ArticleTag {
   tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([articleId, tagId])
+}
+
+model ArticleCategory {
+  articleId  String @db.Uuid
+  categoryId String @db.Uuid
+
+  article  Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, categoryId])
 }
 
 model FriendLink {
