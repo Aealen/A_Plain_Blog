@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete, discardDraft } from '@/actions/admin/article'
+import { importMarkdownFiles } from '@/actions/admin/import'
 import { ArticleStatus } from '@prisma/client'
 
 const statusTabs: { label: string; value: ArticleStatus | 'ALL' }[] = [
@@ -44,6 +45,10 @@ export default function ArticlesPage() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const [importing, setImporting] = useState(false)
+  const [importResult, setImportResult] = useState<{ imported: number; skipped: number; errors: string[] } | null>(null)
+  const [sortBy, setSortBy] = useState('sortOrder')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
   const loadArticles = useCallback(async () => {
     setLoading(true)
@@ -52,19 +57,64 @@ export default function ArticlesPage() {
       pageSize: 20,
       status: status === 'ALL' ? undefined : status,
       search: search || undefined,
+      sortBy,
+      sortOrder,
     })
     setArticles(result.data as unknown as ArticleRow[])
     setTotal(result.total)
     setTotalPages(result.totalPages)
     setLoading(false)
     setSelectedIds(new Set())
-  }, [page, status, search])
+  }, [page, status, search, sortBy, sortOrder])
 
   useEffect(() => { loadArticles() }, [loadArticles])
+
+  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    setImporting(true); setImportResult(null)
+    try {
+      const entries = await Promise.all(
+        Array.from(files).map(async f => ({ name: f.name, content: await f.text() }))
+      )
+      const result = await importMarkdownFiles(entries)
+      setImportResult(result)
+      if (result.imported > 0) await loadArticles()
+    } catch (err) {
+      setImportResult({ imported: 0, skipped: 1, errors: [err instanceof Error ? err.message : '导入失败'] })
+    } finally {
+      setImporting(false)
+      e.target.value = ''
+    }
+  }
 
   function handleStatusTab(value: ArticleStatus | 'ALL') {
     setStatus(value)
     setPage(1)
+  }
+
+  function handleSort(field: string) {
+    if (sortBy === field) {
+      setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortBy(field)
+      setSortOrder('desc')
+    }
+  }
+
+  function SortHeader({ field, children }: { field: string; children: React.ReactNode }) {
+    const active = sortBy === field
+    return (
+      <th
+        className="p-3 text-left text-sm font-medium font-mono text-muted-foreground cursor-pointer select-none hover:text-foreground transition-colors"
+        onClick={() => handleSort(field)}
+      >
+        <span className="inline-flex items-center gap-1">
+          {children}
+          <span className="text-xs">{active ? (sortOrder === 'asc' ? '↑' : '↓') : '↕'}</span>
+        </span>
+      </th>
+    )
   }
 
   function handleSearch(e: React.FormEvent) {
@@ -124,10 +174,25 @@ export default function ArticlesPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold font-mono text-foreground">文章管理</h1>
-        <Link href="/admin/articles/new" className="bg-primary text-primary-foreground px-4 py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors">
-          新建文章
-        </Link>
+        <div className="flex gap-2">
+          <label className={`bg-muted text-foreground px-4 py-2 rounded-[var(--radius-sm)] font-medium transition-colors cursor-pointer ${importing ? 'opacity-50 pointer-events-none' : 'hover:bg-border'}`}>
+            {importing ? '导入中...' : '导入 Markdown'}
+            <input type="file" accept=".md,.markdown" multiple onChange={handleImport} className="hidden" />
+          </label>
+          <Link href="/admin/articles/new" className="bg-primary text-primary-foreground px-4 py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors">
+            新建文章
+          </Link>
+        </div>
       </div>
+
+      {importResult && (
+        <div className={`p-3 rounded-[var(--radius-sm)] mb-4 text-sm ${importResult.errors.length > 0 ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'}`}>
+          导入完成：成功 {importResult.imported} 篇，跳过 {importResult.skipped} 篇
+          {importResult.errors.length > 0 && (
+            <ul className="mt-1 list-disc list-inside">{importResult.errors.map((err, i) => <li key={i}>{err}</li>)}</ul>
+          )}
+        </div>
+      )}
 
       {/* Status Tabs */}
       <div className="flex gap-1 mb-4 bg-card rounded-[var(--radius-lg)] border border-border p-1">
@@ -179,13 +244,13 @@ export default function ArticlesPage() {
                 <input type="checkbox" checked={articles.length > 0 && selectedIds.size === articles.length} onChange={toggleSelectAll} className="rounded accent-primary" />
               </th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-16">封面</th>
-              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground">标题</th>
+              <SortHeader field="title">标题</SortHeader>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">分类</th>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-24">状态</th>
-              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-36">创建时间</th>
-              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-36">更新时间</th>
-              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-20">排序</th>
-              <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-20">阅读</th>
+              <SortHeader field="createdAt">创建时间</SortHeader>
+              <SortHeader field="updatedAt">更新时间</SortHeader>
+              <SortHeader field="sortOrder">排序</SortHeader>
+              <SortHeader field="viewCount">阅读</SortHeader>
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-40">操作</th>
             </tr>
           </thead>

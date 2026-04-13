@@ -10,6 +10,8 @@ export async function getArticles(options: {
   status?: ArticleStatus
   search?: string
   categoryId?: string
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
 }) {
   const page = options.page || 1
   const pageSize = options.pageSize || 20
@@ -22,10 +24,17 @@ export async function getArticles(options: {
       { content: { contains: options.search, mode: 'insensitive' } },
     ]
   }
+  const allowedSortFields = ['createdAt', 'updatedAt', 'publishedAt', 'sortOrder', 'viewCount', 'title']
+  const sortBy = options.sortBy && allowedSortFields.includes(options.sortBy) ? options.sortBy : 'sortOrder'
+  const sortOrder = options.sortOrder || 'desc'
+  const orderBy = sortBy === 'sortOrder'
+    ? [{ sortOrder: sortOrder } as const, { publishedAt: 'desc' as const }]
+    : [{ [sortBy]: sortOrder } as const]
+
   const [data, total] = await Promise.all([
     prisma.article.findMany({
       where,
-      orderBy: [{ sortOrder: 'desc' }, { publishedAt: 'desc' }],
+      orderBy,
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: {

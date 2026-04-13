@@ -75,6 +75,7 @@ export async function importMarkdownFiles(files: { name: string; content: string
           coverImage: parsed.coverImage,
           status: (parsed.status as ArticleStatus) || ArticleStatus.PUBLISHED,
           publishedAt: parsed.status === 'PUBLISHED' || !parsed.status ? (parsed.date || new Date()) : null,
+          createdAt: parsed.date || undefined,
           tags: { create: tagIds.map(tagId => ({ tagId })) },
           categories: { create: categoryIds.map(catId => ({ categoryId: catId })) },
         },
