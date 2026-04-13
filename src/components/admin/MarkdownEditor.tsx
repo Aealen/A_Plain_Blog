@@ -143,9 +143,17 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
       if (children && typeof children === 'object' && 'props' in children) return extractText((children as React.ReactElement<{ children?: ReactNode }>).props.children)
       return ''
     }
+    const headingIdCount = new Map<string, number>()
     function createHeading(level: number) {
       return function Heading({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement> & { children?: ReactNode }) {
-        const id = extractText(children) ? generateSlug(extractText(children)) : undefined
+        const text = extractText(children)
+        let id: string | undefined
+        if (text) {
+          const baseId = generateSlug(text)
+          const count = headingIdCount.get(baseId) ?? 0
+          headingIdCount.set(baseId, count + 1)
+          id = count === 0 ? baseId : `${baseId}-${count}`
+        }
         return React.createElement(`h${level}`, { ...props, id }, children)
       }
     }

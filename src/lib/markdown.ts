@@ -39,11 +39,15 @@ export function parseMarkdownFile(fileContent: string, fileName?: string): Parse
 export function extractTOC(content: string): Array<{ id: string; text: string; level: number }> {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm
   const toc: Array<{ id: string; text: string; level: number }> = []
+  const idCount = new Map<string, number>()
   let match
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length
     const text = match[2].trim()
-    const id = generateSlug(text)
+    const baseId = generateSlug(text)
+    const count = idCount.get(baseId) ?? 0
+    idCount.set(baseId, count + 1)
+    const id = count === 0 ? baseId : `${baseId}-${count}`
     toc.push({ id, text, level })
   }
   return toc
