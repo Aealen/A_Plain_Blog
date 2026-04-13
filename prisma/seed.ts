@@ -92,6 +92,17 @@ async function main() {
   }
   console.log(`Friend links: ${friendLinks.map(l => l.name).join(', ')}`)
 
+  // Create default site config
+  await prisma.siteConfig.upsert({
+    where: { key: 'favicon' },
+    update: {},
+    create: {
+      key: 'favicon',
+      value: '',
+    },
+  })
+  console.log('Site config: favicon (empty)')
+
   console.log('\nSeed completed successfully!')
 }
 

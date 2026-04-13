@@ -1,4 +1,4 @@
-export type UploadPurpose = 'covers' | 'avatars' | 'editor'
+export type UploadPurpose = 'covers' | 'avatars' | 'editor' | 'site'
 
 interface UploadResult {
   url: string

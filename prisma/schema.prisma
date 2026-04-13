@@ -128,3 +128,8 @@ model VisitLog {
   ip        String?
   visitedAt DateTime @default(now()) @map("visited_at")
 }
+
+model SiteConfig {
+  key   String @id
+  value String
+}

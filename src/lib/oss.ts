@@ -1,7 +1,7 @@
 import { createHmac } from 'crypto'
 import STS from 'ali-oss/lib/sts'
 
-const VALID_PURPOSES = ['covers', 'avatars', 'editor'] as const
+const VALID_PURPOSES = ['covers', 'avatars', 'editor', 'site'] as const
 export type UploadPurpose = (typeof VALID_PURPOSES)[number]
 
 interface STSCredentials {
