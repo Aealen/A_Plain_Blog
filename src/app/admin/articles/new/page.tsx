@@ -39,6 +39,7 @@ export default function NewArticlePage() {
     categoryId: '', status: 'DRAFT' as ArticleStatus, sortOrder: 0,
     isRecommended: false, tagIds: [] as string[],
     seoTitle: '', seoDescription: '', seoKeywords: '',
+    createdAt: '',
   })
 
   const resolvedSlug = useMemo(() => {
@@ -127,6 +128,7 @@ export default function NewArticlePage() {
         seoTitle: formData.seoTitle || undefined,
         seoDescription: formData.seoDescription || undefined,
         seoKeywords: formData.seoKeywords || undefined,
+        createdAt: formData.createdAt || null,
       }
       await createArticle(data)
       router.push('/admin/articles')
@@ -297,6 +299,16 @@ export default function NewArticlePage() {
               />
               {slugError && <p className="mt-1 text-xs text-red-500">{slugError}</p>}
               <p className="mt-1 text-xs text-muted-foreground">仅允许小写字母、数字和连字符（-）</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">创建时间</label>
+              <input
+                type="datetime-local"
+                value={formData.createdAt}
+                onChange={e => setFormData({ ...formData, createdAt: e.target.value })}
+                className={inputClass}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">留空则自动使用当前时间</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">排序</label>

@@ -70,7 +70,7 @@ model Article {
   seoKeywords    String?
   publishedAt    DateTime?
   draft          Json?
-  createdAt      DateTime      @default(now()) @map("created_at")
+  createdAt      DateTime?     @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
 
   category Category?    @relation(fields: [categoryId], references: [id])

@@ -63,6 +63,7 @@ export async function createArticle(data: ArticleFormData) {
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
       publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
+      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
     },
   })
@@ -97,6 +98,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
         seoDescription: (d.seoDescription as string) ?? data.seoDescription,
         seoKeywords: (d.seoKeywords as string) ?? data.seoKeywords,
         publishedAt: new Date(),
+        createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
         draft: Prisma.JsonNull,
         tags: { create: ((d.tagIds as string[]) || data.tagIds).map((tagId) => ({ tagId })) },
       },
@@ -124,6 +126,7 @@ export async function updateArticle(id: string, data: ArticleFormData) {
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
       publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
+      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       draft: Prisma.JsonNull,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
     },
@@ -152,6 +155,7 @@ export async function saveDraft(id: string, data: ArticleFormData) {
       seoDescription: data.seoDescription || null,
       seoKeywords: data.seoKeywords || null,
       tagIds: data.tagIds,
+      createdAt: data.createdAt || null,
     }
     const article = await prisma.article.update({
       where: { id },
@@ -179,6 +183,8 @@ export async function saveDraft(id: string, data: ArticleFormData) {
       seoTitle: data.seoTitle,
       seoDescription: data.seoDescription,
       seoKeywords: data.seoKeywords,
+      publishedAt: data.status === 'PUBLISHED' ? new Date() : null,
+      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
       tags: { create: data.tagIds.map((tagId) => ({ tagId })) },
     },
   })

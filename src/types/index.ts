@@ -14,6 +14,7 @@ export interface ArticleFormData {
   seoDescription?: string
   seoKeywords?: string
   tagIds: string[]
+  createdAt?: string | null
 }
 
 export interface CategoryFormData {

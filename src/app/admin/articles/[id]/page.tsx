@@ -19,7 +19,7 @@ interface DraftData {
   coverImage?: string | null; categoryId?: string | null
   sortOrder?: number; isRecommended?: boolean
   seoTitle?: string | null; seoDescription?: string | null; seoKeywords?: string | null
-  tagIds?: string[]
+  tagIds?: string[]; createdAt?: string | null
 }
 
 interface ArticleDetail {
@@ -27,7 +27,7 @@ interface ArticleDetail {
   excerpt: string | null; coverImage: string | null; categoryId: string | null
   status: string; sortOrder: number; isRecommended: boolean
   seoTitle: string | null; seoDescription: string | null; seoKeywords: string | null
-  publishedAt: Date | null; draft: DraftData | null
+  createdAt: Date; publishedAt: Date | null; draft: DraftData | null
   category: { id: string; name: string } | null
   tags: { tag: { id: string; name: string } }[]
 }
@@ -35,6 +35,13 @@ interface ArticleDetail {
 const inputClass = "w-full px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
 
 const SLUG_REGEX = /^[a-z0-9-]+$/
+
+function toDatetimeLocal(date: Date | string | null | undefined): string {
+  if (!date) return ''
+  const d = new Date(date)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
 
 export default function EditArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -61,6 +68,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
     categoryId: '', status: 'DRAFT' as ArticleStatus, sortOrder: 0,
     isRecommended: false, tagIds: [] as string[],
     seoTitle: '', seoDescription: '', seoKeywords: '',
+    createdAt: '',
   })
 
   const resolvedSlug = useMemo(() => {
@@ -98,6 +106,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
           seoTitle: ((source?.seoTitle as string) || a.seoTitle) || '',
           seoDescription: ((source?.seoDescription as string) || a.seoDescription) || '',
           seoKeywords: ((source?.seoKeywords as string) || a.seoKeywords) || '',
+          createdAt: toDatetimeLocal((source as DraftData)?.createdAt ?? a.createdAt),
         })
         if (a.seoTitle || a.seoDescription || a.seoKeywords) setShowSEO(true)
       } catch (err) { setError(err instanceof Error ? err.message : '加载失败') }
@@ -173,6 +182,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         seoTitle: formData.seoTitle || undefined,
         seoDescription: formData.seoDescription || undefined,
         seoKeywords: formData.seoKeywords || undefined,
+        createdAt: formData.createdAt || null,
       }
       await updateArticle(id, data)
       router.push('/admin/articles')
@@ -196,6 +206,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         seoTitle: formData.seoTitle || undefined,
         seoDescription: formData.seoDescription || undefined,
         seoKeywords: formData.seoKeywords || undefined,
+        createdAt: formData.createdAt || null,
       }
       await saveDraft(id, data)
       setHasDraft(true)
@@ -401,6 +412,16 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
               />
               {slugError && <p className="mt-1 text-xs text-red-500">{slugError}</p>}
               <p className="mt-1 text-xs text-muted-foreground">仅允许小写字母、数字和连字符（-）</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">创建时间</label>
+              <input
+                type="datetime-local"
+                value={formData.createdAt}
+                onChange={e => setFormData({ ...formData, createdAt: e.target.value })}
+                className={inputClass}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">留空则自动使用当前时间</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">排序</label>
