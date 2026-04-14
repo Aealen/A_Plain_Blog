@@ -1,10 +1,18 @@
 'use client'
 import { signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getSiteName } from '@/actions/public/site'
+import { DEFAULT_SITE_NAME } from '@/lib/constants'
 export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [siteName, setSiteName] = useState(DEFAULT_SITE_NAME)
+
+  useEffect(() => {
+    getSiteName().then(setSiteName)
+  }, [])
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -25,7 +33,7 @@ export default function LoginPage() {
       <div className="bg-card p-8 rounded-[var(--radius-lg)] border border-border shadow-lg w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-1 mb-2">
-            <span className="text-3xl font-bold font-mono tracking-tight text-foreground">Maxon's Blog</span>
+            <span className="text-3xl font-bold font-mono tracking-tight text-foreground">{siteName}</span>
           </div>
           <p className="text-sm text-muted-foreground font-mono">博客管理后台</p>
         </div>

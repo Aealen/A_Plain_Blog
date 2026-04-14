@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
-export default function Footer() {
+export default function Footer({ siteName }: { siteName: string }) {
   return (
     <footer className="h-[80px] flex items-center justify-between px-5 md:px-[80px] border-t border-border mt-auto">
       <span className="text-[13px] text-tertiary">
-        &copy; {new Date().getFullYear()} Maxon's Blog. All rights reserved.
+        &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
       </span>
       <nav className="flex items-center gap-6">
         <Link

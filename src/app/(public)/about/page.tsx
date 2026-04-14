@@ -5,7 +5,10 @@ export const metadata = {
   description: '关于本站',
 }
 
-export default function AboutPage() {
+import { getSiteName } from '@/actions/public/site'
+
+export default async function AboutPage() {
+  const siteName = await getSiteName()
   const techs = [
     'Next.js 15',
     'TypeScript',
@@ -25,7 +28,7 @@ export default function AboutPage() {
           P
         </div>
 
-        <h1 className="text-3xl font-bold font-display text-foreground">Maxon's Blog</h1>
+        <h1 className="text-3xl font-bold font-display text-foreground">{siteName}</h1>
 
         <p className="text-tertiary mt-4 text-sm">一个简洁的博客</p>
       </div>

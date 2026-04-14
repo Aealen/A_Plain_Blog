@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import '@/app/globals.css'
-import { getSiteFavicon } from '@/actions/public/site'
+import { getSiteFavicon, getSiteName } from '@/actions/public/site'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,12 +15,15 @@ const outfit = Outfit({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  title: {
-    default: "Maxon's Blog",
-    template: "%s | Maxon's Blog",
-  },
-  description: '一个简洁的博客',
+export async function generateMetadata(): Promise<Metadata> {
+  const siteName = await getSiteName()
+  return {
+    title: {
+      default: siteName,
+      template: `%s | ${siteName}`,
+    },
+    description: '一个简洁的博客',
+  }
 }
 
 export default async function RootLayout({

@@ -14,7 +14,7 @@ const menuItems = [
   { label: '个人设置', href: '/admin/profile', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ siteName }: { siteName: string }) {
   const pathname = usePathname()
   const isActive = (href: string) => href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
 
@@ -22,7 +22,7 @@ export default function Sidebar() {
     <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
       <div className="p-5 border-b border-border">
         <Link href="/admin" className="flex items-center gap-1">
-          <span className="text-xl font-bold font-mono tracking-tight text-foreground">Maxon's Blog</span>
+          <span className="text-xl font-bold font-mono tracking-tight text-foreground">{siteName}</span>
           <span className="text-xs text-muted-foreground ml-1 font-mono">admin</span>
         </Link>
       </div>

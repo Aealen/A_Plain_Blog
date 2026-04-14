@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/archives', label: '归档' },
 ]
 
-export default function Header() {
+export default function Header({ siteName }: { siteName: string }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -19,7 +19,7 @@ export default function Header() {
     <>
       <header className="h-[72px] flex items-center justify-between px-5 md:px-[80px]">
         <Link href="/" className="font-display text-[24px] font-bold tracking-tight">
-          Maxon's Blog
+          {siteName}
         </Link>
 
         {/* Desktop nav */}

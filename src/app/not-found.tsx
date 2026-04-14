@@ -1,6 +1,8 @@
 import Link from 'next/link'
+import { getSiteName } from '@/actions/public/site'
 
-export default function NotFound() {
+export default async function NotFound() {
+  const siteName = await getSiteName()
   return (
     <div className="flex-1 flex items-center justify-center">
       <div className="text-center">
@@ -18,7 +20,7 @@ export default function NotFound() {
           className="inline-flex items-center gap-1.5 mt-8 text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
           ← 返回
-          <span className="font-mono font-semibold">Maxon's Blog</span>
+          <span className="font-mono font-semibold">{siteName}</span>
         </Link>
       </div>
     </div>

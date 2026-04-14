@@ -2,6 +2,7 @@ import Sidebar from '@/components/admin/Sidebar'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
+import { getSiteName } from '@/actions/public/site'
 
 export default async function AdminLayout({
   children,
@@ -11,12 +12,14 @@ export default async function AdminLayout({
   const session = await auth()
   if (!session) redirect('/login')
 
+  const siteName = await getSiteName()
+
   const avatarUrl = session?.user?.avatarUrl
   const displayName = session?.user?.nickname || session?.user?.name || 'User'
 
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar siteName={siteName} />
       <main className="flex-1 flex flex-col min-w-0">
         <header className="bg-card border-b border-border px-6 h-14 flex items-center justify-between shrink-0">
           <h2 className="text-sm font-mono font-medium text-muted-foreground">管理后台</h2>
