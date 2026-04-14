@@ -15,7 +15,7 @@ export default function LoginPage() {
       callbackUrl: '/admin',
     })
     if (result?.error) {
-      setError('用户名或密码错误')
+      setError('用户名/邮箱或密码错误')
     } else {
       window.location.href = '/admin'
     }
@@ -34,12 +34,13 @@ export default function LoginPage() {
             <div className="bg-red-50 text-red-600 p-3 rounded-[var(--radius-sm)] text-sm">{error}</div>
           )}
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-muted-foreground mb-1">用户名</label>
+            <label htmlFor="username" className="block text-sm font-medium text-muted-foreground mb-1">用户名或邮箱</label>
             <input
               id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              placeholder="请输入用户名或邮箱"
               required
               className="w-full px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
             />

@@ -39,6 +39,7 @@ export interface FriendLinkFormData {
 }
 
 export interface ProfileFormData {
+  username: string
   nickname?: string
   email: string
   avatarUrl?: string

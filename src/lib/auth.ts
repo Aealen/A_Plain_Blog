@@ -23,8 +23,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null
         }
 
+        const isEmail = username.includes('@')
         const user = await prisma.user.findUnique({
-          where: { username },
+          where: isEmail ? { email: username } : { username },
         })
 
         if (!user) return null
@@ -56,6 +57,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.role = (user as any).role
         token.id = user.id
         token.nickname = (user as any).nickname
+        token.avatarUrl = (user as any).avatarUrl
       }
       return token
     },
@@ -66,6 +68,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: token.id as string,
           role: token.role as string,
           nickname: token.nickname as string,
+          avatarUrl: token.avatarUrl as string | null,
         }
       }
       return session

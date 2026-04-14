@@ -7,9 +7,18 @@ import { ProfileFormData, PasswordFormData } from '@/types'
 export async function updateProfile(data: ProfileFormData) {
   const session = await auth()
   if (!session?.user?.id) throw new Error('未登录')
+
+  if (data.username) {
+    const existing = await prisma.user.findFirst({
+      where: { username: data.username, NOT: { id: session.user.id } },
+    })
+    if (existing) throw new Error('该用户名已被使用')
+  }
+
   const user = await prisma.user.update({
     where: { id: session.user.id },
     data: {
+      username: data.username,
       nickname: data.nickname,
       email: data.email,
       avatarUrl: data.avatarUrl,

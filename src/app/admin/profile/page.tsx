@@ -18,6 +18,7 @@ const inputClass = "w-full px-3 py-2 border border-border rounded-[var(--radius-
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [profileForm, setProfileForm] = useState({
+    username: '',
     nickname: '',
     email: '',
     avatarUrl: '',
@@ -38,6 +39,7 @@ export default function ProfilePage() {
     if (data) {
       setProfile(data)
       setProfileForm({
+        username: data.username,
         nickname: data.nickname || '',
         email: data.email,
         avatarUrl: data.avatarUrl || '',
@@ -89,7 +91,7 @@ export default function ProfilePage() {
             )}
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">用户名</label>
-              <input type="text" value={profile.username} disabled className={`${inputClass} opacity-50 cursor-not-allowed`} />
+              <input type="text" value={profileForm.username} onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })} required className={inputClass} />
             </div>
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-1">昵称</label>
