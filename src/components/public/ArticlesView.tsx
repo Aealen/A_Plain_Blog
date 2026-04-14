@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import ArticleCard from './ArticleCard'
@@ -66,6 +66,7 @@ export default function ArticlesView({
   const [masonryPage, setMasonryPage] = useState(1)
   const [masonryHasMore, setMasonryHasMore] = useState(totalPages > 1)
   const [loadingMore, setLoadingMore] = useState(false)
+  const sentinelRef = useRef<HTMLDivElement>(null)
 
   const columnCount = useColumnCount()
   const columns = useMemo(
@@ -104,6 +105,21 @@ export default function ArticlesView({
       setLoadingMore(false)
     }
   }, [masonryPage, loadingMore])
+
+  // 瀑布流自动加载：滚动到底部时触发
+  useEffect(() => {
+    if (view !== 'masonry' || !masonryHasMore) return
+    const sentinel = sentinelRef.current
+    if (!sentinel) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore()
+      },
+      { rootMargin: '200px' }
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [view, masonryHasMore, loadMore])
 
   return (
     <>
@@ -179,7 +195,7 @@ export default function ArticlesView({
         </>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-start">
             {columns.map((column, i) => (
               <div key={i} className="flex flex-col gap-[32px]">
                 {column.map(article => (
@@ -200,6 +216,7 @@ export default function ArticlesView({
               </button>
             </div>
           )}
+          <div ref={sentinelRef} />
         </>
       )}
     </>
