@@ -78,8 +78,16 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
         )}
       </div>
 
-      {formattedDate && (
-        <span className="text-[12px] text-tertiary mt-auto shrink-0">{formattedDate}</span>
+      {(formattedDate || article.viewCount > 0) && (
+        <span className="text-[12px] text-tertiary mt-auto shrink-0 flex items-center gap-2">
+          {formattedDate}
+          {article.viewCount > 0 && (
+            <span className="inline-flex items-center gap-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              {article.viewCount}
+            </span>
+          )}
+        </span>
       )}
     </article>
   )
