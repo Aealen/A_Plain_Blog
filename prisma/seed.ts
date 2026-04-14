@@ -93,15 +93,24 @@ async function main() {
   console.log(`Friend links: ${friendLinks.map(l => l.name).join(', ')}`)
 
   // Create default site config
-  await prisma.siteConfig.upsert({
-    where: { key: 'favicon' },
-    update: {},
-    create: {
-      key: 'favicon',
-      value: '',
-    },
-  })
-  console.log('Site config: favicon (empty)')
+  const siteConfigs = [
+    { key: 'favicon', value: '' },
+    { key: 'siteName', value: "Maxon's Blog" },
+    { key: 'about_avatar', value: '' },
+    { key: 'about_nickname', value: '' },
+    { key: 'about_subtitle', value: '一个简洁的博客' },
+    { key: 'about_bio', value: '' },
+    { key: 'about_techs', value: 'Next.js 15, TypeScript, Tailwind CSS, Prisma ORM, PostgreSQL, NextAuth.js, React Markdown' },
+    { key: 'about_contact', value: 'admin@example.com' },
+  ]
+  for (const config of siteConfigs) {
+    await prisma.siteConfig.upsert({
+      where: { key: config.key },
+      update: {},
+      create: config,
+    })
+  }
+  console.log(`Site configs: ${siteConfigs.map(c => c.key).join(', ')}`)
 
   console.log('\nSeed completed successfully!')
 }
