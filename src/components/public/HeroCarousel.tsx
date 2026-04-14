@@ -38,7 +38,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
       setCurrent(target)
       setVisible(true)
       switchingRef.current = false
-    }, 350)
+    }, 600)
   }, [total])
 
   const next = useCallback(() => goTo(current + 1), [current, goTo])
@@ -55,7 +55,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
         setCurrent(prev => (prev + 1) % total)
         setVisible(true)
         switchingRef.current = false
-      }, 350)
+      }, 600)
     }, 5000)
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
@@ -74,7 +74,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
       onMouseLeave={() => setPaused(false)}
     >
       {/* Left: Text Content */}
-      <div className={`w-full flex flex-col justify-center transition-all duration-[350ms] ease-in-out ${article.coverImage ? 'md:w-[740px]' : 'md:w-full'} ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+      <div className={`w-full flex flex-col justify-center transition-all duration-[600ms] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'} ${article.coverImage ? 'md:w-[740px]' : 'md:w-full'}`} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
         {article.categories.length > 0 && (
           <span className="inline-block text-[12px] text-tertiary tracking-widest mb-6">
             ✦ {article.categories.map(c => c.category.name).join(' / ')}
@@ -100,19 +100,12 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
           >
             阅读全文
           </Link>
-          <span className="text-tertiary text-[12px]">·</span>
-          <Link
-            href="/articles"
-            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            查看更多
-          </Link>
         </div>
       </div>
 
       {/* Right: Image */}
       {article.coverImage && (
-        <div className={`w-full md:w-[480px] h-[300px] md:h-[400px] rounded-lg overflow-hidden shrink-0 relative transition-all duration-[350ms] ease-in-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+        <div className={`w-full md:w-[480px] h-[300px] md:h-[400px] rounded-lg overflow-hidden shrink-0 relative transition-all duration-[600ms] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'}`} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
           <Image
             src={article.coverImage}
             alt={article.title}
