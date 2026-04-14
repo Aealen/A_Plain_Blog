@@ -196,13 +196,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
 
         {/* Content */}
-        <div className="max-w-[880px] mx-auto px-5 md:px-0 py-10">
-          <div className="prose max-w-[680px] mx-auto prose-headings:scroll-mt-20 text-base md:text-[17px]">
+        <div className="w-full mx-5 md:mx-[80px] py-10">
+          <div className="prose prose-headings:scroll-mt-20 text-base md:text-[17px]" style={{ maxWidth: '100%' }}>
             <ArticleContent content={article.content} />
           </div>
 
           {/* Back Link */}
-          <div className="mt-12 pt-8 border-t border-border max-w-[680px] mx-auto">
+          <div className="mt-12 pt-8 border-t border-border">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-display"

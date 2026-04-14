@@ -85,7 +85,7 @@ html {
 
 /* Prose styles for markdown content */
 .prose {
-  max-width: 65ch;
+  max-width: none;
   color: #374151;
   line-height: 1.8;
   font-size: 1rem;
