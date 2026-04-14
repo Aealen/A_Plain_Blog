@@ -78,21 +78,20 @@ export async function getPopularArticles(limit: number = 10) {
 export async function getArchives() {
   const articles = await prisma.article.findMany({
     where: { status: ArticleStatus.PUBLISHED },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: { createdAt: 'desc' },
     select: {
       id: true,
       title: true,
       slug: true,
-      publishedAt: true,
+      createdAt: true,
     },
   })
 
-  const archives: Record<string, Record<string, { id: string; title: string; slug: string; publishedAt: Date | null }[]>> = {}
+  const archives: Record<string, Record<string, { id: string; title: string; slug: string; createdAt: Date }[]>> = {}
   for (const article of articles) {
-    if (!article.publishedAt) continue
-    const date = new Date(article.publishedAt)
-    const year = String(date.getFullYear())
-    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const date = new Date(article.createdAt)
+    const year = String(date.getUTCFullYear())
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
 
     if (!archives[year]) archives[year] = {}
     if (!archives[year][month]) archives[year][month] = []

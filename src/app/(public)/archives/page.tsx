@@ -35,12 +35,12 @@ export default async function ArchivesPage() {
                       <ul className="space-y-2 ml-2">
                         {articles.map((article) => (
                           <li key={article.id} className="flex items-center gap-4 group">
-                            {article.publishedAt && (
+                            {article.createdAt && (
                               <time
-                                dateTime={article.publishedAt.toISOString()}
+                                dateTime={article.createdAt.toISOString()}
                                 className="text-xs text-tertiary shrink-0 w-20"
                               >
-                                {new Date(article.publishedAt).toLocaleDateString('zh-CN')}
+                                {new Date(article.createdAt).toLocaleDateString('zh-CN')}
                               </time>
                             )}
                             <Link
