@@ -1,4 +1,10 @@
 import prisma from '@/lib/prisma'
+
+/** 将本地日期转为 UTC 午夜的 Date 对象，避免时区偏移 */
+function toUTCDate(date: Date = new Date()): Date {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+}
+
 interface VisitData {
   visitorId: string
   sessionId: string
@@ -7,9 +13,10 @@ interface VisitData {
   userAgent?: string
   ip?: string
 }
+
 export async function recordVisit(data: VisitData) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = toUTCDate()
+
   await prisma.visitLog.create({
     data: {
       visitorId: data.visitorId,
@@ -20,9 +27,11 @@ export async function recordVisit(data: VisitData) {
       ip: data.ip,
     },
   })
+
   const existing = await prisma.pageVisitSummary.findUnique({
     where: { path_date: { path: data.path, date: today } },
   })
+
   if (existing) {
     const todayVisits = await prisma.visitLog.findMany({
       where: { visitorId: data.visitorId, path: data.path, visitedAt: { gte: today } },
@@ -41,14 +50,16 @@ export async function recordVisit(data: VisitData) {
     })
   }
 }
+
 export async function getVisitStats(days: number = 30) {
-  const since = new Date()
-  since.setDate(since.getDate() - days)
-  since.setHours(0, 0, 0, 0)
+  const now = new Date()
+  const since = toUTCDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() - days))
+
   const dailyStats = await prisma.pageVisitSummary.findMany({
     where: { date: { gte: since } },
     orderBy: { date: 'asc' },
   })
+
   const statsByDate = new Map<string, { pv: number; uv: number }>()
   for (const stat of dailyStats) {
     const dateKey = stat.date.toISOString().split('T')[0]
@@ -57,16 +68,20 @@ export async function getVisitStats(days: number = 30) {
     existing.uv += stat.uv
     statsByDate.set(dateKey, existing)
   }
+
   return Array.from(statsByDate.entries()).map(([date, stats]) => ({ date, pv: stats.pv, uv: stats.uv }))
 }
+
 export async function getTopPages(limit: number = 10) {
-  const since = new Date()
-  since.setDate(since.getDate() - 30)
+  const now = new Date()
+  const since = toUTCDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 30))
+
   const summaries = await prisma.pageVisitSummary.findMany({
     where: { date: { gte: since } },
     orderBy: { pv: 'desc' },
     take: limit,
   })
+
   const pageMap = new Map<string, { pv: number; uv: number }>()
   for (const s of summaries) {
     const existing = pageMap.get(s.path) || { pv: 0, uv: 0 }
@@ -74,5 +89,6 @@ export async function getTopPages(limit: number = 10) {
     existing.uv += s.uv
     pageMap.set(s.path, existing)
   }
+
   return Array.from(pageMap.entries()).map(([path, stats]) => ({ path, ...stats })).sort((a, b) => b.pv - a.pv).slice(0, limit)
 }
