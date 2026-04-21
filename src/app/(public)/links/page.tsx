@@ -27,17 +27,17 @@ export default async function LinksPage() {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block bg-card rounded-[20px] border border-white/10 p-6 hover:border-mint/40 transition-colors duration-150"
+              className="group block bg-card rounded-[20px] border border-border p-6 hover:border-primary/40 transition-colors duration-150"
             >
               <div className="flex items-center gap-4 mb-3">
                 {link.avatar ? (
                   <img
                     src={link.avatar}
                     alt={link.name}
-                    className="w-12 h-12 rounded-full object-cover border border-white/10"
+                    className="w-12 h-12 rounded-full object-cover border border-border"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-card border border-white/10 flex items-center justify-center text-mint font-bold font-display text-lg">
+                  <div className="w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center text-primary font-bold font-display text-lg">
                     {link.name.charAt(0)}
                   </div>
                 )}

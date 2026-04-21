@@ -62,13 +62,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <article>
         {/* Hero: Cover Image with Overlay Title */}
         {article.coverImage ? (
-          <div className="relative w-full h-[320px] md:h-[520px] overflow-hidden rounded-[24px] mx-5 md:mx-[80px] border border-white/10">
+          <div className="relative w-full h-[320px] md:h-[520px] overflow-hidden rounded-[24px] mx-5 md:mx-[80px] border border-border">
             <img
               src={article.coverImage}
               alt={article.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent" />
             <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 md:pb-16 px-6">
               <div className="max-w-[680px] w-full text-center">
                 {article.categories.length > 0 && (
@@ -77,7 +77,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <Link
                         key={c.category.slug}
                         href={`/categories/${c.category.slug}`}
-                        className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] text-black bg-mint px-3 py-1 rounded-[20px] hover:opacity-80 transition-opacity"
+                        className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] text-primary-foreground bg-primary px-3 py-1 rounded-[20px] hover:opacity-80 transition-opacity"
                       >
                         {c.category.name}
                       </Link>
@@ -203,10 +203,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
 
           {/* Back Link */}
-          <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="mt-12 pt-8 border-t border-border">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground hover:text-mint transition-colors"
+              className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground hover:text-primary transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

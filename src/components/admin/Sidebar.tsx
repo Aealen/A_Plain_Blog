@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ThemeToggle from '@/components/public/ThemeToggle'
 
 const menuItems = [
   { label: '仪表盘', href: '/admin', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -20,8 +21,8 @@ export default function Sidebar({ siteName }: { siteName: string }) {
   const isActive = (href: string) => href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
 
   return (
-    <aside className="w-64 bg-[#131313] border-r border-white/10 min-h-screen flex flex-col">
-      <div className="p-5 border-b border-white/10">
+    <aside className="w-64 bg-background border-r border-border min-h-screen flex flex-col">
+      <div className="p-5 border-b border-border">
         <Link href="/admin" className="flex items-center gap-1">
           <span className="text-xl font-bold font-display tracking-tight uppercase text-foreground">{siteName}</span>
           <span className="font-mono text-[10px] text-muted-foreground ml-1 uppercase tracking-[1.5px]">admin</span>
@@ -34,8 +35,8 @@ export default function Sidebar({ siteName }: { siteName: string }) {
             href={item.href}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-[4px] transition-all duration-200 text-sm font-medium ${
               isActive(item.href)
-                ? 'bg-mint/10 text-mint'
-                : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
+                ? 'bg-primary/10 text-primary'
+                : 'text-muted-foreground hover:bg-hover hover:text-foreground'
             }`}
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -45,11 +46,15 @@ export default function Sidebar({ siteName }: { siteName: string }) {
           </Link>
         ))}
       </nav>
-      <div className="p-3 border-t border-white/10">
+      <div className="p-3 border-t border-border space-y-0.5">
+        <div className="flex items-center gap-3 px-3 py-2.5">
+          <ThemeToggle />
+          <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-[1.1px]">主题切换</span>
+        </div>
         <form action="/api/auth/signout" method="POST">
           <button
             type="submit"
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-[4px] text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all duration-200"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-[4px] text-sm font-medium text-muted-foreground hover:bg-hover hover:text-foreground transition-all duration-200"
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

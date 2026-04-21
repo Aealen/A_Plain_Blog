@@ -27,7 +27,7 @@ export default async function CategoriesPage() {
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
-              className="group block bg-card rounded-[20px] border border-white/10 p-6 hover:text-link-hover transition-colors duration-150"
+              className="group block bg-card rounded-[20px] border border-border p-6 hover:text-link-hover transition-colors duration-150"
               style={{ borderLeftColor: getItemColor(category.name).backgroundColor, borderLeftWidth: '3px' }}
             >
               <h2 className="text-lg font-bold font-display uppercase mb-2 group-hover:text-link-hover transition-colors">
@@ -36,7 +36,7 @@ export default async function CategoriesPage() {
               {category.description && (
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{category.description}</p>
               )}
-              <span className="font-mono text-[11px] text-mint uppercase tracking-[1.1px]">
+              <span className="font-mono text-[11px] text-primary uppercase tracking-[1.1px]">
                 {category._count.articles} 篇文章
               </span>
             </Link>

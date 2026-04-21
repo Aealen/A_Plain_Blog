@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer({ siteName }: { siteName: string }) {
   return (
-    <footer className="h-[80px] flex items-center justify-between px-5 md:px-[80px] border-t border-white/10 mt-auto">
+    <footer className="h-[80px] flex items-center justify-between px-5 md:px-[80px] border-t border-border mt-auto">
       <span className="font-mono text-[11px] text-tertiary uppercase tracking-[1.5px]">
         &copy; {new Date().getFullYear()} {siteName}
       </span>

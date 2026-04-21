@@ -31,7 +31,7 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
   const hasCover = !!article.coverImage
 
   return (
-    <article className="group flex flex-col h-full bg-card rounded-[20px] border border-white/10 overflow-hidden">
+    <article className="group flex flex-col h-full bg-card rounded-[20px] border border-border overflow-hidden">
       {hasCover && (
         <Link href={`/articles/${article.slug}`} className="block shrink-0">
           <div className="w-full h-[200px] overflow-hidden relative">

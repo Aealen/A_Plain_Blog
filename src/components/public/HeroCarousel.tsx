@@ -76,7 +76,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
       {/* Left: Text Content */}
       <div className={`w-full flex flex-col justify-center transition-all duration-[600ms] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'} ${article.coverImage ? 'md:w-[740px]' : 'md:w-full'}`} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
         {article.categories.length > 0 && (
-          <span className="inline-block font-mono text-[12px] text-mint uppercase tracking-[1.8px] mb-6">
+          <span className="inline-block font-mono text-[12px] text-primary uppercase tracking-[1.8px] mb-6">
             {article.categories.map(c => c.category.name).join(' / ')}
           </span>
         )}
@@ -96,7 +96,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
         <div className="flex items-center gap-4">
           <Link
             href={`/articles/${article.slug}`}
-            className="inline-flex items-center font-mono text-[12px] font-semibold uppercase tracking-[1.5px] bg-mint text-black px-6 py-2.5 rounded-[24px] hover:bg-white/20 hover:text-white transition-colors duration-180"
+            className="inline-flex items-center font-mono text-[12px] font-semibold uppercase tracking-[1.5px] bg-primary text-primary-foreground px-6 py-2.5 rounded-[24px] hover:bg-hover hover:text-foreground transition-colors duration-180"
           >
             阅读全文
           </Link>
@@ -105,7 +105,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
 
       {/* Right: Image */}
       {article.coverImage && (
-        <div className={`w-full md:w-[480px] h-[300px] md:h-[400px] rounded-[20px] overflow-hidden shrink-0 relative border border-white/10 transition-all duration-[600ms] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'}`} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
+        <div className={`w-full md:w-[480px] h-[300px] md:h-[400px] rounded-[20px] overflow-hidden shrink-0 relative border border-border transition-all duration-[600ms] ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'}`} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
           <Image
             src={article.coverImage}
             alt={article.title}
@@ -123,14 +123,14 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
           {/* Arrows */}
           <button
             onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 border border-white/10 flex items-center justify-center text-muted-foreground/60 hover:text-mint hover:border-mint/50 transition-all duration-200 opacity-0 group-hover/carousel:opacity-100"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 border border-border flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:border-primary/50 transition-all duration-200 opacity-0 group-hover/carousel:opacity-100"
             aria-label="上一篇"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <button
             onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 border border-white/10 flex items-center justify-center text-muted-foreground/60 hover:text-mint hover:border-mint/50 transition-all duration-200 opacity-0 group-hover/carousel:opacity-100"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface/80 border border-border flex items-center justify-center text-muted-foreground/60 hover:text-primary hover:border-primary/50 transition-all duration-200 opacity-0 group-hover/carousel:opacity-100"
             aria-label="下一篇"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -144,8 +144,8 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
                 onClick={() => goTo(i)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   i === current
-                    ? 'bg-mint w-6'
-                    : 'bg-white/20 hover:bg-white/40 w-2'
+                    ? 'bg-primary w-6'
+                    : 'bg-muted-foreground/20 hover:bg-muted-foreground/40 w-2'
                 }`}
                 aria-label={`跳转到第 ${i + 1} 篇`}
               />

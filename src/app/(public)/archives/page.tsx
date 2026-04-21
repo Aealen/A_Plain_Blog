@@ -25,14 +25,14 @@ export default async function ArchivesPage() {
         <div className="space-y-10">
           {years.map((year) => (
             <section key={year}>
-              <h2 className="font-display text-[32px] font-bold uppercase tracking-[0.5px] mb-4 border-b border-mint pb-2">{year}</h2>
+              <h2 className="font-display text-[32px] font-bold uppercase tracking-[0.5px] mb-4 border-b border-primary pb-2">{year}</h2>
               <div className="space-y-6">
                 {Object.entries(archives[year])
                   .sort(([a], [b]) => Number(b) - Number(a))
                   .map(([month, articles]) => (
                     <div key={month}>
                       <h3 className="font-mono text-[12px] font-medium text-muted-foreground uppercase tracking-[1.5px] mb-3">{month} 月</h3>
-                      <ul className="space-y-2 ml-2 border-l border-ultraviolet/40 pl-4">
+                      <ul className="space-y-2 ml-2 border-l border-accent/40 pl-4">
                         {articles.map((article) => (
                           <li key={article.id} className="flex items-center gap-4 group">
                             {article.createdAt && (

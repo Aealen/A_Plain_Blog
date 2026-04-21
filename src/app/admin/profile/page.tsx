@@ -13,7 +13,7 @@ interface UserProfile {
   role: string
 }
 
-const inputClass = "w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:border-[#3cffd0] transition-colors"
+const inputClass = "w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary transition-colors"
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
@@ -81,11 +81,11 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-display uppercase tracking-[1px] text-foreground mb-6">个人设置</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#2d2d2d] border border-white/10 rounded-[20px] p-6">
+        <div className="bg-card border border-border rounded-[20px] p-6">
           <h2 className="text-base font-bold font-display text-foreground mb-4">基本信息</h2>
           <form onSubmit={handleProfileSubmit} className="space-y-4">
             {profileMsg.text && (
-              <div className={`p-3 rounded-[4px] text-sm ${profileMsg.type === 'success' ? 'bg-[#3cffd0]/10 text-[#3cffd0]' : 'bg-red-500/10 text-red-400'}`}>
+              <div className={`p-3 rounded-[4px] text-sm ${profileMsg.type === 'success' ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
                 {profileMsg.text}
               </div>
             )}
@@ -105,7 +105,7 @@ export default function ProfilePage() {
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">头像</label>
               {profileForm.avatarUrl && (
                 <div className="mb-2">
-                  <img src={profileForm.avatarUrl} alt="头像预览" className="w-16 h-16 rounded-full object-cover border border-white/10" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <img src={profileForm.avatarUrl} alt="头像预览" className="w-16 h-16 rounded-full object-cover border border-border" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                 </div>
               )}
               <div className="mb-2">
@@ -117,17 +117,17 @@ export default function ProfilePage() {
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">个人简介</label>
               <textarea value={profileForm.bio} onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })} rows={3} className={inputClass} />
             </div>
-            <button type="submit" className="w-full bg-[#3cffd0] text-black py-2 rounded-[24px] font-mono uppercase hover:bg-[#3cffd0]/90 transition-colors">
+            <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase hover:bg-primary/90 transition-colors">
               保存修改
             </button>
           </form>
         </div>
 
-        <div className="bg-[#2d2d2d] border border-white/10 rounded-[20px] p-6">
+        <div className="bg-card border border-border rounded-[20px] p-6">
           <h2 className="text-base font-bold font-display text-foreground mb-4">修改密码</h2>
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             {passwordMsg.text && (
-              <div className={`p-3 rounded-[4px] text-sm ${passwordMsg.type === 'success' ? 'bg-[#3cffd0]/10 text-[#3cffd0]' : 'bg-red-500/10 text-red-400'}`}>
+              <div className={`p-3 rounded-[4px] text-sm ${passwordMsg.type === 'success' ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
                 {passwordMsg.text}
               </div>
             )}
@@ -143,7 +143,7 @@ export default function ProfilePage() {
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">确认新密码</label>
               <input type="password" value={passwordForm.confirmPassword} onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })} required minLength={8} className={inputClass} />
             </div>
-            <button type="submit" className="w-full bg-[#3cffd0] text-black py-2 rounded-[24px] font-mono uppercase hover:bg-[#3cffd0]/90 transition-colors">
+            <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase hover:bg-primary/90 transition-colors">
               更新密码
             </button>
           </form>

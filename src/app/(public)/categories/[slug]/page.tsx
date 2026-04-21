@@ -33,7 +33,7 @@ export default async function CategoryArticlesPage({ params }: CategoryArticlesP
       <header className="mb-8">
         <div className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px] mb-3">
           <Link href="/categories" className="hover:text-link-hover transition-colors">分类</Link>
-          <span className="text-white/20">/</span>
+          <span className="text-muted-foreground/20">/</span>
           <span className="text-foreground">{category.name}</span>
         </div>
         <h1 className="font-display text-[44px] font-bold uppercase tracking-[1px]">{category.name}</h1>

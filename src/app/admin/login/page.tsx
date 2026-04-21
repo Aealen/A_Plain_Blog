@@ -30,7 +30,7 @@ export default function LoginPage() {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="bg-[#2d2d2d] p-8 rounded-[24px] border border-white/10 w-full max-w-md">
+      <div className="bg-card p-8 rounded-[24px] border border-border w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-1 mb-2">
             <span className="text-3xl font-bold font-display tracking-tight uppercase text-foreground">{siteName}</span>
@@ -39,7 +39,7 @@ export default function LoginPage() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="bg-red-500/10 text-red-400 p-3 rounded-[4px] text-sm font-mono">{error}</div>
+            <div className="bg-destructive/10 text-destructive p-3 rounded-[4px] text-sm font-mono">{error}</div>
           )}
           <div>
             <label htmlFor="username" className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1.5">用户名或邮箱</label>
@@ -50,7 +50,7 @@ export default function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="请输入用户名或邮箱"
               required
-              className="w-full px-3 py-2.5 border border-white/10 rounded-[4px] bg-[#131313] text-white focus:outline-none focus:ring-2 focus:ring-mint/50 focus:border-mint transition-colors placeholder:text-muted-foreground/50"
+              className="w-full px-3 py-2.5 border border-border rounded-[4px] bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors placeholder:text-muted-foreground/50"
             />
           </div>
           <div>
@@ -61,12 +61,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2.5 border border-white/10 rounded-[4px] bg-[#131313] text-white focus:outline-none focus:ring-2 focus:ring-mint/50 focus:border-mint transition-colors placeholder:text-muted-foreground/50"
+              className="w-full px-3 py-2.5 border border-border rounded-[4px] bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors placeholder:text-muted-foreground/50"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-mint text-black py-2.5 rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] hover:bg-white/20 hover:text-white transition-colors"
+            className="w-full bg-primary text-primary-foreground py-2.5 rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] hover:bg-primary/90 hover:text-primary-foreground transition-colors"
           >
             登录
           </button>

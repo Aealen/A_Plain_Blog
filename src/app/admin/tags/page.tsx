@@ -95,10 +95,10 @@ export default function TagsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Form */}
-        <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6">
+        <div className="bg-card rounded-[24px] border border-border p-6">
           <h2 className="text-base font-bold font-display text-foreground mb-4">{editingId ? '编辑标签' : '新建标签'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-[4px] text-sm">{error}</div>}
+            {error && <div className="bg-destructive/10 text-destructive p-3 rounded-[4px] text-sm">{error}</div>}
             <div>
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">名称</label>
               <input
@@ -106,7 +106,7 @@ export default function TagsPage() {
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:border-mint"
+                className="w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary"
               />
             </div>
             <div>
@@ -116,15 +116,15 @@ export default function TagsPage() {
                 value={formData.slug}
                 onChange={e => setFormData({ ...formData, slug: e.target.value })}
                 placeholder="留空自动生成"
-                className="w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:border-mint"
+                className="w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary"
               />
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="flex-1 bg-mint text-black py-2 rounded-[24px] font-mono uppercase transition-colors">
+              <button type="submit" className="flex-1 bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase transition-colors">
                 {editingId ? '更新' : '创建'}
               </button>
               {editingId && (
-                <button type="button" onClick={handleCancel} className="px-4 py-2 border border-white/10 rounded-[4px] hover:bg-white/5 transition-colors">
+                <button type="button" onClick={handleCancel} className="px-4 py-2 border border-border rounded-[4px] hover:bg-hover transition-colors">
                   取消
                 </button>
               )}
@@ -133,11 +133,11 @@ export default function TagsPage() {
         </div>
 
         {/* Tag List */}
-        <div className="lg:col-span-2 bg-[#2d2d2d] rounded-[24px] border border-white/10">
-          <div className="p-4 border-b border-white/10 bg-[#2d2d2d]">
+        <div className="lg:col-span-2 bg-card rounded-[24px] border border-border">
+          <div className="p-4 border-b border-border bg-card">
             <h2 className="text-base font-bold font-display text-foreground">标签列表 ({tags.length})</h2>
           </div>
-          <div className="divide-y divide-white/10">
+          <div className="divide-y divide-border">
             {tags.map(tag => (
               <div key={tag.id} className="p-4">
                 {mergeSourceId === tag.id ? (
@@ -148,7 +148,7 @@ export default function TagsPage() {
                     <select
                       value={mergeTargetId}
                       onChange={e => setMergeTargetId(e.target.value)}
-                      className="w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:border-mint"
+                      className="w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary"
                     >
                       <option value="">选择目标标签</option>
                       {tags.filter(t => t.id !== tag.id).map(t => (
@@ -159,30 +159,30 @@ export default function TagsPage() {
                       <button
                         onClick={handleMerge}
                         disabled={!mergeTargetId}
-                        className="px-3 py-1.5 bg-mint text-black text-sm rounded-[24px] font-mono uppercase disabled:opacity-50 transition-colors"
+                        className="px-3 py-1.5 bg-primary text-primary-foreground text-sm rounded-[24px] font-mono uppercase disabled:opacity-50 transition-colors"
                       >
                         确认合并
                       </button>
                       <button
                         onClick={cancelMerge}
-                        className="px-3 py-1.5 border border-white/10 text-sm rounded-[4px] hover:bg-white/5 transition-colors"
+                        className="px-3 py-1.5 border border-border text-sm rounded-[4px] hover:bg-hover transition-colors"
                       >
                         取消
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between hover:bg-white/5 -mx-4 -my-0 px-4 py-4">
+                  <div className="flex items-center justify-between hover:bg-hover -mx-4 -my-0 px-4 py-4">
                     <div>
                       <span className="font-medium text-foreground">{tag.name}</span>
                       <span className="text-muted-foreground text-sm ml-2 font-mono">/{tag.slug}</span>
                       <span className="text-muted-foreground text-sm ml-2 font-mono">({tag._count.articles} 篇)</span>
                     </div>
                     <div className="flex gap-3">
-                      <button onClick={() => handleEdit(tag)} className="text-sm text-mint hover:text-link-hover font-medium transition-colors">
+                      <button onClick={() => handleEdit(tag)} className="text-sm text-primary hover:text-link-hover font-medium transition-colors">
                         编辑
                       </button>
-                      <button onClick={() => startMerge(tag.id)} className="text-sm text-mint hover:text-link-hover font-medium transition-colors">
+                      <button onClick={() => startMerge(tag.id)} className="text-sm text-primary hover:text-link-hover font-medium transition-colors">
                         合并
                       </button>
                       <button onClick={() => handleDelete(tag.id)} className="text-sm text-destructive font-medium transition-colors">

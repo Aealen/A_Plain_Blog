@@ -105,17 +105,17 @@ export default function FriendLinksPage() {
     setShowAvatarUploader(false)
   }
 
-  const inputClass = "w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:border-mint"
+  const inputClass = "w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary"
 
   return (
     <div>
       <h1 className="text-2xl font-display uppercase tracking-[1px] text-foreground mb-6">友链管理</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6">
+        <div className="bg-card rounded-[24px] border border-border p-6">
           <h2 className="text-base font-bold font-display text-foreground mb-4">{editingId ? '编辑友链' : '新建友链'}</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-[4px] text-sm">{error}</div>}
+            {error && <div className="bg-destructive/10 text-destructive p-3 rounded-[4px] text-sm">{error}</div>}
             <div>
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">名称</label>
               <input type="text" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} required className={inputClass} />
@@ -128,7 +128,7 @@ export default function FriendLinksPage() {
               <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">头像</label>
               {formData.avatar && (
                 <div className="mb-2">
-                  <img src={formData.avatar} alt="头像预览" className="w-10 h-10 rounded-full object-cover border border-white/10" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <img src={formData.avatar} alt="头像预览" className="w-10 h-10 rounded-full object-cover border border-border" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                 </div>
               )}
               <div className="mb-2 flex gap-2">
@@ -136,13 +136,13 @@ export default function FriendLinksPage() {
                 <button
                   type="button"
                   onClick={() => setShowAvatarUploader(!showAvatarUploader)}
-                  className="shrink-0 px-3 py-2 border border-white/10 rounded-[4px] bg-white/5 text-foreground hover:bg-white/10 transition-colors text-sm"
+                  className="shrink-0 px-3 py-2 border border-border rounded-[4px] bg-card/50 text-foreground hover:bg-hover transition-colors text-sm"
                 >
                   上传
                 </button>
               </div>
               {showAvatarUploader && (
-                <div className="mb-2 border border-white/10 rounded-[4px] p-3 bg-[#2d2d2d]">
+                <div className="mb-2 border border-border rounded-[4px] p-3 bg-card">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-xs font-medium text-foreground">上传头像</span>
                     <button type="button" onClick={() => setShowAvatarUploader(false)} className="text-xs text-muted-foreground hover:text-foreground transition-colors">关闭</button>
@@ -164,26 +164,26 @@ export default function FriendLinksPage() {
               <label htmlFor="isActive" className="text-sm text-muted-foreground">启用</label>
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="flex-1 bg-mint text-black py-2 rounded-[24px] font-mono uppercase transition-colors">
+              <button type="submit" className="flex-1 bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase transition-colors">
                 {editingId ? '更新' : '创建'}
               </button>
               {editingId && (
-                <button type="button" onClick={handleCancel} className="px-4 py-2 border border-white/10 rounded-[4px] hover:bg-white/5 transition-colors">取消</button>
+                <button type="button" onClick={handleCancel} className="px-4 py-2 border border-border rounded-[4px] hover:bg-hover transition-colors">取消</button>
               )}
             </div>
           </form>
         </div>
 
-        <div className="lg:col-span-2 bg-[#2d2d2d] rounded-[24px] border border-white/10">
-          <div className="p-4 border-b border-white/10 bg-[#2d2d2d]">
+        <div className="lg:col-span-2 bg-card rounded-[24px] border border-border">
+          <div className="p-4 border-b border-border bg-card">
             <h2 className="text-base font-bold font-display text-foreground">友链列表 ({links.length})</h2>
           </div>
-          <div className="divide-y divide-white/10">
+          <div className="divide-y divide-border">
             {links.map(link => (
-              <div key={link.id} className="p-4 flex items-center justify-between hover:bg-white/5">
+              <div key={link.id} className="p-4 flex items-center justify-between hover:bg-hover">
                 <div className="flex items-center gap-3">
                   {link.avatar ? (
-                    <img src={link.avatar} alt={link.name} className="w-10 h-10 rounded-full object-cover border border-white/10" />
+                    <img src={link.avatar} alt={link.name} className="w-10 h-10 rounded-full object-cover border border-border" />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-primary text-sm font-bold font-mono">
                       {link.name.charAt(0)}
@@ -193,20 +193,20 @@ export default function FriendLinksPage() {
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-foreground">{link.name}</span>
                       <span className={`text-xs px-2 py-0.5 rounded-full font-mono uppercase ${
-                        link.isActive ? 'bg-mint/20 text-mint' : 'bg-white/5 text-muted-foreground'
+                        link.isActive ? 'bg-primary/20 text-primary' : 'bg-card/50 text-muted-foreground'
                       }`}>
                         {link.isActive ? '启用' : '禁用'}
                       </span>
                     </div>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-mint hover:text-link-hover transition-colors">{link.url}</a>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:text-link-hover transition-colors">{link.url}</a>
                     {link.description && <p className="text-sm text-muted-foreground mt-0.5">{link.description}</p>}
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={() => handleToggle(link.id)} className={`text-sm font-medium transition-colors ${link.isActive ? 'text-yellow-400 hover:text-yellow-300' : 'text-mint hover:text-link-hover'}`}>
+                  <button onClick={() => handleToggle(link.id)} className={`text-sm font-medium transition-colors ${link.isActive ? 'text-yellow-400 hover:text-yellow-300' : 'text-primary hover:text-link-hover'}`}>
                     {link.isActive ? '禁用' : '启用'}
                   </button>
-                  <button onClick={() => handleEdit(link)} className="text-sm text-mint hover:text-link-hover font-medium transition-colors">编辑</button>
+                  <button onClick={() => handleEdit(link)} className="text-sm text-primary hover:text-link-hover font-medium transition-colors">编辑</button>
                   <button onClick={() => handleDelete(link.id)} className="text-sm text-destructive font-medium transition-colors">删除</button>
                 </div>
               </div>

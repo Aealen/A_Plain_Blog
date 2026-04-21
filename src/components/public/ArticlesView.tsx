@@ -125,12 +125,12 @@ export default function ArticlesView({
     <>
       {/* View Toggle */}
       <div className="flex justify-end mb-6">
-        <div className="inline-flex bg-muted rounded-[4px] p-1 gap-0.5 border border-white/10">
+        <div className="inline-flex bg-muted rounded-[4px] p-1 gap-0.5 border border-border">
           <button
             onClick={() => switchView('grid')}
             className={`p-2 rounded-[4px] transition-colors ${
               view === 'grid'
-                ? 'bg-white/10 text-mint'
+                ? 'bg-card/50 text-primary'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="分页视图"
@@ -146,7 +146,7 @@ export default function ArticlesView({
             onClick={() => switchView('masonry')}
             className={`p-2 rounded-[4px] transition-colors ${
               view === 'masonry'
-                ? 'bg-white/10 text-mint'
+                ? 'bg-card/50 text-primary'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="瀑布流视图"
@@ -174,7 +174,7 @@ export default function ArticlesView({
               {currentPage > 1 && (
                 <Link
                   href={`/articles?page=${currentPage - 1}`}
-                  className="px-4 py-2 border border-white/10 rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-mint hover:border-mint/50 transition-colors"
+                  className="px-4 py-2 border border-border rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-primary hover:border-primary/50 transition-colors"
                 >
                   上一页
                 </Link>
@@ -185,7 +185,7 @@ export default function ArticlesView({
               {currentPage < totalPages && (
                 <Link
                   href={`/articles?page=${currentPage + 1}`}
-                  className="px-4 py-2 border border-white/10 rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-mint hover:border-mint/50 transition-colors"
+                  className="px-4 py-2 border border-border rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-primary hover:border-primary/50 transition-colors"
                 >
                   下一页
                 </Link>
@@ -210,7 +210,7 @@ export default function ArticlesView({
               <button
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="px-6 py-2.5 border border-mint rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] text-mint hover:bg-mint hover:text-black transition-colors disabled:opacity-50"
+                className="px-6 py-2.5 border border-primary rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] text-primary hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
               >
                 {loadingMore ? '加载中...' : '加载更多'}
               </button>
