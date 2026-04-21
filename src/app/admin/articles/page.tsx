@@ -15,10 +15,10 @@ const statusTabs: { label: string; value: ArticleStatus | 'ALL' }[] = [
 ]
 
 const statusConfig: Record<string, { label: string; color: string }> = {
-  PUBLISHED: { label: '已发布', color: 'bg-green-100 text-green-700' },
-  DRAFT: { label: '草稿', color: 'bg-yellow-100 text-yellow-700' },
-  PRIVATE: { label: '私密', color: 'bg-purple-100 text-purple-700' },
-  TRASH: { label: '回收站', color: 'bg-red-100 text-red-700' },
+  PUBLISHED: { label: '已发布', color: 'bg-[#3cffd0]/15 text-[#3cffd0]' },
+  DRAFT: { label: '草稿', color: 'bg-yellow-500/15 text-yellow-400' },
+  PRIVATE: { label: '私密', color: 'bg-[#5200ff]/15 text-[#5200ff]' },
+  TRASH: { label: '回收站', color: 'bg-red-500/15 text-red-400' },
 }
 
 interface ArticleRow {
@@ -185,20 +185,20 @@ export default function ArticlesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold font-mono text-foreground">文章管理</h1>
+        <h1 className="text-2xl font-bold font-display uppercase tracking-[1px] text-white">文章管理</h1>
         <div className="flex gap-2">
-          <label className={`bg-muted text-foreground px-4 py-2 rounded-[var(--radius-sm)] font-medium transition-colors cursor-pointer ${importing ? 'opacity-50 pointer-events-none' : 'hover:bg-border'}`}>
+          <label className={`bg-[#2d2d2d] text-white px-4 py-2 rounded-[4px] font-mono text-sm uppercase tracking-[1px] transition-colors cursor-pointer border border-white/10 ${importing ? 'opacity-50 pointer-events-none' : 'hover:bg-white/10'}`}>
             {importing ? '导入中...' : '导入 Markdown'}
             <input type="file" accept=".md,.markdown" multiple onChange={handleImport} className="hidden" />
           </label>
-          <Link href="/admin/articles/new" className="bg-primary text-primary-foreground px-4 py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors">
+          <Link href="/admin/articles/new" className="bg-[#3cffd0] text-black px-4 py-2 rounded-[24px] font-mono uppercase text-sm tracking-[1px] hover:bg-[#3cffd0]/90 font-medium transition-colors">
             新建文章
           </Link>
         </div>
       </div>
 
       {importResult && (
-        <div className={`p-3 rounded-[var(--radius-sm)] mb-4 text-sm ${importResult.errors.length > 0 ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'}`}>
+        <div className={`p-3 rounded-[4px] mb-4 text-sm ${importResult.errors.length > 0 ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20' : 'bg-[#3cffd0]/15 text-[#3cffd0] border border-[#3cffd0]/20'}`}>
           导入完成：成功 {importResult.imported} 篇，跳过 {importResult.skipped} 篇
           {importResult.errors.length > 0 && (
             <ul className="mt-1 list-disc list-inside">{importResult.errors.map((err, i) => <li key={i}>{err}</li>)}</ul>
@@ -207,15 +207,15 @@ export default function ArticlesPage() {
       )}
 
       {/* Status Tabs */}
-      <div className="flex gap-1 mb-4 bg-card rounded-[var(--radius-lg)] border border-border p-1">
+      <div className="flex gap-1 mb-4 bg-[#2d2d2d] rounded-[24px] border border-white/10 p-1">
         {statusTabs.map(tab => (
           <button
             key={tab.value}
             onClick={() => handleStatusTab(tab.value)}
-            className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-all duration-200 ${
+            className={`px-4 py-2 rounded-[20px] text-sm font-mono uppercase tracking-[1px] transition-all duration-200 ${
               status === tab.value
-                ? 'bg-primary text-primary-foreground shadow-sm'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-[#3cffd0] text-black shadow-sm'
+                : 'text-white/50 hover:bg-white/5 hover:text-white'
             }`}
           >
             {tab.label}
@@ -231,16 +231,16 @@ export default function ArticlesPage() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="搜索文章标题或内容..."
-            className="flex-1 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-card focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+            className="flex-1 px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:ring-2 focus:ring-[#3cffd0] focus:border-[#3cffd0]"
           />
-          <button type="submit" className="px-4 py-2 bg-muted rounded-[var(--radius-sm)] hover:bg-border transition-colors font-medium">
+          <button type="submit" className="px-4 py-2 bg-[#5200ff] text-white rounded-[4px] hover:bg-[#5200ff]/80 transition-colors font-mono uppercase text-sm tracking-[1px]">
             搜索
           </button>
         </form>
         {selectedIds.size > 0 && (
           <button
             onClick={handleBatchDelete}
-            className="px-4 py-2 bg-red-500 text-white rounded-[var(--radius-sm)] hover:bg-red-600 transition-colors font-medium"
+            className="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-[4px] hover:bg-red-500/30 transition-colors font-mono uppercase text-sm tracking-[1px]"
           >
             批量删除 ({selectedIds.size})
           </button>
@@ -248,10 +248,10 @@ export default function ArticlesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-card rounded-[var(--radius-lg)] border border-border overflow-hidden">
+      <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="bg-muted/50 border-b border-border">
+            <tr className="bg-[#2d2d2d] border-b border-white/10">
               <th className="p-3 text-left w-10">
                 <input type="checkbox" checked={articles.length > 0 && selectedIds.size === articles.length} onChange={toggleSelectAll} className="rounded accent-primary" />
               </th>
@@ -267,14 +267,14 @@ export default function ArticlesPage() {
               <th className="p-3 text-left text-sm font-medium font-mono text-muted-foreground w-40">操作</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border">
+          <tbody className="divide-y divide-white/10">
             {loading ? (
               <tr><td colSpan={10} className="p-8 text-center text-muted-foreground">加载中...</td></tr>
             ) : articles.length === 0 ? (
               <tr><td colSpan={10} className="p-8 text-center text-muted-foreground">暂无文章</td></tr>
             ) : (
               articles.map(article => (
-                <tr key={article.id} className="hover:bg-muted/30 transition-colors">
+                <tr key={article.id} className="hover:bg-white/5 transition-colors">
                   <td className="p-3">
                     <input type="checkbox" checked={selectedIds.has(article.id)} onChange={() => toggleSelect(article.id)} className="rounded accent-primary" />
                   </td>
@@ -289,25 +289,25 @@ export default function ArticlesPage() {
                         onClick={() => setPreviewImage(article.coverImage)}
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-muted-foreground text-xs">-</div>
+                      <div className="w-12 h-12 rounded bg-[#2d2d2d] flex items-center justify-center text-white/30 text-xs">-</div>
                     )}
                   </td>
                   <td className="p-3">
-                    <Link href={`/admin/articles/${article.id}`} className="font-medium text-foreground hover:text-primary transition-colors">
+                    <Link href={`/admin/articles/${article.id}`} className="font-medium text-white hover:text-[#3cffd0] transition-colors">
                       {article.title}
                     </Link>
                     {Boolean(article.draft) && (
-                      <span className="ml-2 text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">有改动</span>
+                      <span className="ml-2 text-xs bg-amber-500/15 text-amber-400 px-1.5 py-0.5 rounded">有改动</span>
                     )}
                     {article.tags.length > 0 && (
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {article.tags.map(t => (
-                          <span key={t.tag.id} className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full">{t.tag.name}</span>
+                          <span key={t.tag.id} className="text-xs bg-[#5200ff]/20 text-[#5200ff] px-2 py-0.5 rounded-full">{t.tag.name}</span>
                         ))}
                       </div>
                     )}
                   </td>
-                  <td className="p-3 text-sm text-muted-foreground">{article.categories.length > 0 ? article.categories.map(c => c.category.name).join(', ') : '-'}</td>
+                  <td className="p-3 text-sm text-white/50">{article.categories.length > 0 ? article.categories.map(c => c.category.name).join(', ') : '-'}</td>
                   <td className="p-3">
                     <span className={`inline-block text-xs px-2 py-1 rounded-full font-medium ${statusConfig[article.status]?.color || 'bg-muted text-muted-foreground'}`}>
                       {statusConfig[article.status]?.label || article.status}
@@ -328,17 +328,17 @@ export default function ArticlesPage() {
                   <td className="p-3 text-sm text-muted-foreground font-mono">{article.viewCount}</td>
                   <td className="p-3">
                     <div className="flex gap-3">
-                      <Link href={`/admin/articles/${article.id}`} className="text-sm text-primary hover:text-primary/80 font-medium transition-colors">编辑</Link>
+                      <Link href={`/admin/articles/${article.id}`} className="text-sm text-[#3cffd0] hover:text-[#3cffd0]/80 font-mono uppercase tracking-[1px] transition-colors">编辑</Link>
                       {article.status === 'TRASH' ? (
                         <>
-                          <button onClick={() => handleRestore(article.id)} className="text-sm text-green-600 hover:text-green-800 font-medium transition-colors">恢复</button>
-                          <button onClick={() => handlePermanentDelete(article.id)} className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors">永久删除</button>
+                          <button onClick={() => handleRestore(article.id)} className="text-sm text-[#3cffd0] hover:text-[#3cffd0]/80 font-mono uppercase tracking-[1px] transition-colors">恢复</button>
+                          <button onClick={() => handlePermanentDelete(article.id)} className="text-sm text-red-400 hover:text-red-300 font-mono uppercase tracking-[1px] transition-colors">永久删除</button>
                         </>
                       ) : (
-                        <button onClick={() => handleDelete(article.id)} className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors">删除</button>
+                        <button onClick={() => handleDelete(article.id)} className="text-sm text-red-400 hover:text-red-300 font-mono uppercase tracking-[1px] transition-colors">删除</button>
                       )}
                       {article.status === 'PUBLISHED' && article.draft != null && (
-                        <button onClick={() => handleDiscardDraft(article.id)} className="text-sm text-amber-600 hover:text-amber-800 font-medium transition-colors">撤销改动</button>
+                        <button onClick={() => handleDiscardDraft(article.id)} className="text-sm text-amber-400 hover:text-amber-300 font-mono uppercase tracking-[1px] transition-colors">撤销改动</button>
                       )}
                     </div>
                   </td>
@@ -352,12 +352,12 @@ export default function ArticlesPage() {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-4">
-          <span className="text-sm text-muted-foreground font-mono">共 {total} 篇文章</span>
+          <span className="text-sm text-white/50 font-mono">共 {total} 篇文章</span>
           <div className="flex gap-1">
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-3 py-1 border border-border rounded-[var(--radius-sm)] text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+              className="px-3 py-1 border border-white/10 rounded-[4px] text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
             >
               上一页
             </button>
@@ -365,11 +365,11 @@ export default function ArticlesPage() {
               .filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
               .map((p, i, arr) => (
                 <span key={p}>
-                  {i > 0 && arr[i - 1] !== p - 1 && <span className="px-1 text-muted-foreground">...</span>}
+                  {i > 0 && arr[i - 1] !== p - 1 && <span className="px-1 text-white/30">...</span>}
                   <button
                     onClick={() => setPage(p)}
-                    className={`px-3 py-1 border rounded-[var(--radius-sm)] text-sm font-mono transition-colors ${
-                      page === p ? 'bg-primary text-primary-foreground border-primary' : 'border-border hover:bg-muted'
+                    className={`px-3 py-1 border rounded-[4px] text-sm font-mono transition-colors ${
+                      page === p ? 'bg-[#3cffd0] text-black border-[#3cffd0]' : 'border-white/10 text-white hover:bg-white/5'
                     }`}
                   >
                     {p}
@@ -380,7 +380,7 @@ export default function ArticlesPage() {
             <button
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-3 py-1 border border-border rounded-[var(--radius-sm)] text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted transition-colors"
+              className="px-3 py-1 border border-white/10 rounded-[4px] text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
             >
               下一页
             </button>
@@ -405,7 +405,7 @@ export default function ArticlesPage() {
             />
             <button
               onClick={() => setPreviewImage(null)}
-              className="absolute -top-3 -right-3 w-8 h-8 bg-card border border-border rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground shadow-sm transition-colors"
+              className="absolute -top-3 -right-3 w-8 h-8 bg-[#2d2d2d] border border-white/10 rounded-full flex items-center justify-center text-white/50 hover:text-white shadow-sm transition-colors"
             >
               ✕
             </button>

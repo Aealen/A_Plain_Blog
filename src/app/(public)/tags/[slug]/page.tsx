@@ -31,13 +31,13 @@ export default async function TagArticlesPage({ params }: TagArticlesPageProps) 
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
 
       <header className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-display">
-          <Link href="/tags" className="hover:text-primary transition-colors">标签</Link>
-          <span className="text-border">/</span>
+        <div className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px] mb-3">
+          <Link href="/tags" className="hover:text-link-hover transition-colors">标签</Link>
+          <span className="text-white/20">/</span>
           <span className="text-foreground">{tag.name}</span>
         </div>
-        <h1 className="text-3xl font-bold font-display text-foreground">{tag.name}</h1>
-        <p className="text-sm text-muted-foreground mt-1 font-display">共 {tag._count.articles} 篇文章</p>
+        <h1 className="font-display text-[44px] font-bold uppercase tracking-[1px]">{tag.name}</h1>
+        <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[1.1px] mt-1">共 {tag._count.articles} 篇文章</p>
       </header>
 
       {articles.length === 0 ? (

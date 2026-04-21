@@ -62,13 +62,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <article>
         {/* Hero: Cover Image with Overlay Title */}
         {article.coverImage ? (
-          <div className="relative w-full h-[320px] md:h-[520px] overflow-hidden rounded-[var(--radius-lg)] mx-5 md:mx-[80px]">
+          <div className="relative w-full h-[320px] md:h-[520px] overflow-hidden rounded-[24px] mx-5 md:mx-[80px] border border-white/10">
             <img
               src={article.coverImage}
               alt={article.title}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/40 to-transparent" />
             <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 md:pb-16 px-6">
               <div className="max-w-[680px] w-full text-center">
                 {article.categories.length > 0 && (
@@ -77,17 +77,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <Link
                         key={c.category.slug}
                         href={`/categories/${c.category.slug}`}
-                        className="inline-block text-xs font-display font-medium text-white/90 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full hover:bg-white/25 transition-colors"
+                        className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] text-black bg-mint px-3 py-1 rounded-[20px] hover:opacity-80 transition-opacity"
                       >
                         {c.category.name}
                       </Link>
                     ))}
                   </div>
                 )}
-                <h1 className="text-2xl md:text-4xl font-bold font-display text-white leading-tight mb-4 drop-shadow-lg">
+                <h1 className="text-3xl md:text-5xl font-bold font-display text-white leading-[0.95] uppercase tracking-[1px] mb-4">
                   {article.title}
                 </h1>
-                <div className="flex items-center justify-center gap-4 text-sm text-white/75">
+                <div className="flex items-center justify-center gap-4 font-mono text-[11px] text-white/60 uppercase tracking-[1.1px]">
                   {article.createdAt && (
                     <time dateTime={article.createdAt.toISOString()}>
                       创建于 {new Date(article.createdAt).toLocaleDateString('zh-CN', {
@@ -120,7 +120,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <Link
                         key={tag.slug}
                         href={`/tags/${tag.slug}`}
-                        className="text-xs px-2.5 py-1 bg-white/15 text-white/80 rounded-full backdrop-blur-sm hover:bg-white/25 transition-colors"
+                        className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2.5 py-1 rounded-[20px] transition-opacity hover:opacity-80"
+                        style={getItemColor(tag.name)}
                       >
                         #{tag.name}
                       </Link>
@@ -139,7 +140,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={c.category.slug}
                       href={`/categories/${c.category.slug}`}
-                      className="inline-block text-xs font-display font-medium px-3 py-1 rounded-full transition-opacity hover:opacity-80"
+                      className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-3 py-1 rounded-[20px] transition-opacity hover:opacity-80"
                       style={getItemColor(c.category.name)}
                     >
                       {c.category.name}
@@ -147,10 +148,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   ))}
                 </div>
               )}
-              <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight mb-5">
+              <h1 className="text-3xl md:text-5xl font-bold font-display text-foreground leading-[0.95] uppercase tracking-[1px] mb-5">
                 {article.title}
               </h1>
-              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center justify-center gap-4 font-mono text-[11px] text-muted-foreground uppercase tracking-[1.1px]">
                 {article.createdAt && (
                   <time dateTime={article.createdAt.toISOString()}>
                     创建于 {new Date(article.createdAt).toLocaleDateString('zh-CN', {
@@ -183,7 +184,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
-                      className="text-xs px-2.5 py-1 rounded-full transition-opacity hover:opacity-80"
+                      className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2.5 py-1 rounded-[20px] transition-opacity hover:opacity-80"
                       style={getItemColor(tag.name)}
                     >
                       #{tag.name}
@@ -202,10 +203,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
 
           {/* Back Link */}
-          <div className="mt-12 pt-8 border-t border-border">
+          <div className="mt-12 pt-8 border-t border-white/10">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-display"
+              className="inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground hover:text-mint transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

@@ -20,11 +20,11 @@ export default function Sidebar({ siteName }: { siteName: string }) {
   const isActive = (href: string) => href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
 
   return (
-    <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
-      <div className="p-5 border-b border-border">
+    <aside className="w-64 bg-[#131313] border-r border-white/10 min-h-screen flex flex-col">
+      <div className="p-5 border-b border-white/10">
         <Link href="/admin" className="flex items-center gap-1">
-          <span className="text-xl font-bold font-mono tracking-tight text-foreground">{siteName}</span>
-          <span className="text-xs text-muted-foreground ml-1 font-mono">admin</span>
+          <span className="text-xl font-bold font-display tracking-tight uppercase text-foreground">{siteName}</span>
+          <span className="font-mono text-[10px] text-muted-foreground ml-1 uppercase tracking-[1.5px]">admin</span>
         </Link>
       </div>
       <nav className="flex-1 p-3 space-y-0.5">
@@ -32,10 +32,10 @@ export default function Sidebar({ siteName }: { siteName: string }) {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-sm)] transition-all duration-200 text-sm font-medium ${
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-[4px] transition-all duration-200 text-sm font-medium ${
               isActive(item.href)
-                ? 'bg-primary/10 text-primary'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-mint/10 text-mint'
+                : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
             }`}
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -45,11 +45,11 @@ export default function Sidebar({ siteName }: { siteName: string }) {
           </Link>
         ))}
       </nav>
-      <div className="p-3 border-t border-border">
+      <div className="p-3 border-t border-white/10">
         <form action="/api/auth/signout" method="POST">
           <button
             type="submit"
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-[var(--radius-sm)] text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-200"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-[4px] text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-all duration-200"
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

@@ -21,13 +21,13 @@ export default async function AdminLayout({
     <div className="flex min-h-screen bg-background">
       <Sidebar siteName={siteName} />
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="bg-card border-b border-border px-6 h-14 flex items-center justify-between shrink-0">
-          <h2 className="text-sm font-mono font-medium text-muted-foreground">管理后台</h2>
+        <header className="bg-[#2d2d2d] border-b border-white/10 px-6 h-14 flex items-center justify-between shrink-0">
+          <h2 className="font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground">管理后台</h2>
           <div className="flex items-center gap-3">
             {avatarUrl ? (
-              <Image src={avatarUrl} alt={displayName} width={28} height={28} className="w-7 h-7 rounded-full object-cover" />
+              <Image src={avatarUrl} alt={displayName} width={28} height={28} className="w-7 h-7 rounded-full object-cover border border-white/10" />
             ) : (
-              <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary font-mono">
+              <div className="w-7 h-7 rounded-full bg-mint/10 border border-white/10 flex items-center justify-center text-xs font-bold text-mint font-mono">
                 {displayName.charAt(0).toUpperCase()}
               </div>
             )}

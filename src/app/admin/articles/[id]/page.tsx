@@ -32,7 +32,7 @@ interface ArticleDetail {
   tags: { tag: { id: string; name: string } }[]
 }
 
-const inputClass = "w-full px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+const inputClass = "w-full px-3 py-2 border border-white/10 rounded-[4px] bg-[#2d2d2d] text-white focus:outline-none focus:ring-2 focus:ring-[#3cffd0] focus:border-[#3cffd0] transition-colors"
 
 const SLUG_REGEX = /^[a-z0-9-]+$/
 
@@ -227,26 +227,26 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
     } catch (err) { setError(err instanceof Error ? err.message : '撤销失败'); setSaving(false) }
   }
 
-  if (loading) return <div className="flex items-center justify-center min-h-[400px]"><div className="text-muted-foreground font-mono">加载中...</div></div>
+  if (loading) return <div className="flex items-center justify-center min-h-[400px]"><div className="text-white/50 font-mono">加载中...</div></div>
 
   if (error && !article) return (
     <div className="text-center py-12">
       <p className="text-red-500 mb-4">{error}</p>
-      <Link href="/admin/articles" className="text-primary hover:text-primary/80 transition-colors">返回列表</Link>
+      <Link href="/admin/articles" className="text-[#3cffd0] hover:text-[#3cffd0]/80 transition-colors">返回列表</Link>
     </div>
   )
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold font-mono text-foreground">编辑文章</h1>
-        <Link href="/admin/articles" className="text-sm text-muted-foreground hover:text-primary font-mono transition-colors">← 返回列表</Link>
+        <h1 className="text-2xl font-bold font-display uppercase tracking-[1px] text-white">编辑文章</h1>
+        <Link href="/admin/articles" className="text-sm font-mono text-white/50 hover:text-white transition-colors">← 返回列表</Link>
       </div>
 
-      {error && <div className="bg-red-50 text-red-600 p-3 rounded-[var(--radius-sm)] mb-4 text-sm">{error}</div>}
+      {error && <div className="bg-red-500/15 text-red-400 border border-red-500/20 p-3 rounded-[4px] mb-4 text-sm">{error}</div>}
 
       {hasDraft && (
-        <div className="bg-amber-50 text-amber-700 p-3 rounded-[var(--radius-sm)] mb-4 text-sm flex items-center gap-2">
+        <div className="bg-amber-500/15 text-amber-400 border border-amber-500/20 p-3 rounded-[4px] mb-4 text-sm flex items-center gap-2">
           <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           此文章有未发布的草稿修改，前台仍展示旧版本
         </div>
@@ -254,38 +254,38 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6 space-y-4">
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">标题</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">标题</label>
               <input type="text" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} placeholder="文章标题" required className={`${inputClass} text-lg`} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">内容</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">内容</label>
               <MarkdownEditor value={formData.content} onChange={value => setFormData({ ...formData, content: value })} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">摘要</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">摘要</label>
               <textarea value={formData.excerpt} onChange={e => setFormData({ ...formData, excerpt: e.target.value })} rows={3} placeholder="留空将自动从内容中提取" className={inputClass} />
             </div>
           </div>
 
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border">
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10">
             <button type="button" onClick={() => setShowSEO(!showSEO)} className="w-full p-4 flex justify-between items-center text-left">
-              <span className="font-medium font-mono text-foreground">SEO 设置</span>
-              <svg className={`w-5 h-5 text-muted-foreground transition-transform ${showSEO ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              <span className="font-medium font-mono text-white">SEO 设置</span>
+              <svg className={`w-5 h-5 text-white/50 transition-transform ${showSEO ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
             </button>
             {showSEO && (
-              <div className="px-6 pb-6 space-y-4 border-t border-border">
+              <div className="px-6 pb-6 space-y-4 border-t border-white/10">
                 <div className="pt-4">
-                  <label className="block text-sm font-medium text-muted-foreground mb-1">SEO 标题</label>
+                  <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">SEO 标题</label>
                   <input type="text" value={formData.seoTitle} onChange={e => setFormData({ ...formData, seoTitle: e.target.value })} placeholder="留空使用文章标题" className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-1">SEO 描述</label>
+                  <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">SEO 描述</label>
                   <textarea value={formData.seoDescription} onChange={e => setFormData({ ...formData, seoDescription: e.target.value })} rows={2} placeholder="搜索引擎结果中显示的描述" className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-1">SEO 关键词</label>
+                  <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">SEO 关键词</label>
                   <input type="text" value={formData.seoKeywords} onChange={e => setFormData({ ...formData, seoKeywords: e.target.value })} placeholder="多个关键词用逗号分隔" className={inputClass} />
                 </div>
               </div>
@@ -294,17 +294,17 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         </div>
 
         <div className="space-y-6">
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6 space-y-4">
-            <button onClick={() => handleUpdate('PUBLISHED')} disabled={saving || !formData.title} className="w-full bg-primary text-primary-foreground py-2 rounded-[var(--radius-sm)] hover:bg-primary/90 font-medium transition-colors disabled:opacity-50">更新并发布</button>
-            <button onClick={handleSaveDraft} disabled={saving || !formData.title} className="w-full bg-muted text-foreground py-2 rounded-[var(--radius-sm)] hover:bg-border transition-colors disabled:opacity-50">保存修改</button>
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6 space-y-4">
+            <button onClick={() => handleUpdate('PUBLISHED')} disabled={saving || !formData.title} className="w-full bg-[#3cffd0] text-black py-2 rounded-[24px] hover:bg-[#3cffd0]/90 font-mono uppercase text-sm tracking-[1px] transition-colors disabled:opacity-50">更新并发布</button>
+            <button onClick={handleSaveDraft} disabled={saving || !formData.title} className="w-full bg-white/5 text-white py-2 rounded-[24px] hover:bg-white/10 font-mono uppercase text-sm tracking-[1px] transition-colors disabled:opacity-50">保存修改</button>
             {hasDraft && (
-              <button onClick={handleDiscardDraft} disabled={saving} className="w-full text-red-500 border border-red-200 py-2 rounded-[var(--radius-sm)] hover:bg-red-50 transition-colors disabled:opacity-50 text-sm">撤销改动</button>
+              <button onClick={handleDiscardDraft} disabled={saving} className="w-full text-red-400 border border-red-500/30 py-2 rounded-[24px] hover:bg-red-500/15 transition-colors disabled:opacity-50 text-sm font-mono uppercase tracking-[1px]">撤销改动</button>
             )}
-            <Link href="/admin/articles" className="block w-full text-center py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">取消</Link>
+            <Link href="/admin/articles" className="block w-full text-center py-2 text-sm font-mono text-white/50 hover:text-white transition-colors">取消</Link>
           </div>
 
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
-            <label className="block text-sm font-medium text-muted-foreground mb-2">状态</label>
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6">
+            <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-2">状态</label>
             <select value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value as ArticleStatus })} className={inputClass}>
               <option value="DRAFT">草稿</option>
               <option value="PUBLISHED">已发布</option>
@@ -312,15 +312,15 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
             </select>
           </div>
 
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
-            <label className="block text-sm font-medium text-muted-foreground mb-2">分类</label>
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6">
+            <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-2">分类</label>
             <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
                 <button key={cat.id} type="button" onClick={() => toggleCategory(cat.id)} className={`text-sm px-3 py-1 rounded-full border transition-colors ${
-                  formData.categoryIds.includes(cat.id) ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-foreground border-border hover:border-primary'
+                  formData.categoryIds.includes(cat.id) ? 'bg-[#3cffd0] text-black border-[#3cffd0]' : 'bg-[#2d2d2d] text-white border-white/10 hover:border-[#3cffd0]'
                 }`}>{cat.name}</button>
               ))}
-              {categories.length === 0 && <span className="text-sm text-muted-foreground">暂无分类</span>}
+              {categories.length === 0 && <span className="text-sm text-white/30">暂无分类</span>}
             </div>
             <div className="mt-3 flex gap-2">
               <input
@@ -335,23 +335,23 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
                 type="button"
                 onClick={handleCreateCategory}
                 disabled={creatingCategory || !newCategoryName.trim()}
-                className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm disabled:opacity-50"
+                className="shrink-0 px-3 py-2 border border-white/10 rounded-[4px] bg-[#5200ff] text-white hover:bg-[#5200ff]/80 transition-colors text-sm font-mono uppercase tracking-[1px] disabled:opacity-50"
               >
                 {creatingCategory ? '...' : '新建'}
               </button>
             </div>
-            {newCategoryError && <p className="mt-1 text-xs text-red-500">{newCategoryError}</p>}
+            {newCategoryError && <p className="mt-1 text-xs text-red-400">{newCategoryError}</p>}
           </div>
 
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6">
-            <label className="block text-sm font-medium text-muted-foreground mb-2">标签</label>
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6">
+            <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-2">标签</label>
             <div className="flex flex-wrap gap-2">
               {tags.map(tag => (
                 <button key={tag.id} type="button" onClick={() => toggleTag(tag.id)} className={`text-sm px-3 py-1 rounded-full border transition-colors ${
-                  formData.tagIds.includes(tag.id) ? 'bg-primary text-primary-foreground border-primary' : 'bg-background text-foreground border-border hover:border-primary'
+                  formData.tagIds.includes(tag.id) ? 'bg-[#3cffd0] text-black border-[#3cffd0]' : 'bg-[#2d2d2d] text-white border-white/10 hover:border-[#3cffd0]'
                 }`}>{tag.name}</button>
               ))}
-              {tags.length === 0 && <span className="text-sm text-muted-foreground">暂无标签</span>}
+              {tags.length === 0 && <span className="text-sm text-white/30">暂无标签</span>}
             </div>
             <div className="mt-3 flex gap-2">
               <input
@@ -366,49 +366,49 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
                 type="button"
                 onClick={handleCreateTag}
                 disabled={creatingTag || !newTagName.trim()}
-                className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm disabled:opacity-50"
+                className="shrink-0 px-3 py-2 border border-white/10 rounded-[4px] bg-[#5200ff] text-white hover:bg-[#5200ff]/80 transition-colors text-sm font-mono uppercase tracking-[1px] disabled:opacity-50"
               >
                 {creatingTag ? '...' : '新建'}
               </button>
             </div>
-            {newTagError && <p className="mt-1 text-xs text-red-500">{newTagError}</p>}
+            {newTagError && <p className="mt-1 text-xs text-red-400">{newTagError}</p>}
           </div>
 
-          <div className="bg-card rounded-[var(--radius-lg)] border border-border p-6 space-y-4">
+          <div className="bg-[#2d2d2d] rounded-[24px] border border-white/10 p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">封面图片</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">封面图片</label>
               <div className="flex gap-2">
                 <input type="text" value={formData.coverImage} onChange={e => setFormData({ ...formData, coverImage: e.target.value })} placeholder="图片 URL" className={inputClass} />
                 <button
                   type="button"
                   onClick={() => setShowCoverUploader(true)}
-                  className="shrink-0 px-3 py-2 border border-border rounded-[var(--radius-sm)] bg-muted text-foreground hover:bg-border transition-colors text-sm"
+                  className="shrink-0 px-3 py-2 border border-white/10 rounded-[4px] bg-[#5200ff] text-white hover:bg-[#5200ff]/80 transition-colors text-sm font-mono uppercase tracking-[1px]"
                 >
                   上传图片
                 </button>
               </div>
               {formData.coverImage && (
                 <div className="mt-2">
-                  <img src={formData.coverImage} alt="封面预览" className="w-full h-32 object-cover rounded-[var(--radius-sm)] border border-border" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+                  <img src={formData.coverImage} alt="封面预览" className="w-full h-32 object-cover rounded-[4px] border border-white/10" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
                 </div>
               )}
             </div>
 
             {showCoverUploader && (
-              <div className="border border-border rounded-[var(--radius-sm)] p-4 bg-muted/30">
+              <div className="border border-white/10 rounded-[4px] p-4 bg-white/5">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-sm font-medium text-foreground">上传封面图片</span>
-                  <button type="button" onClick={() => setShowCoverUploader(false)} className="text-sm text-muted-foreground hover:text-foreground transition-colors">关闭</button>
+                  <span className="text-sm font-medium text-white">上传封面图片</span>
+                  <button type="button" onClick={() => setShowCoverUploader(false)} className="text-sm text-white/50 hover:text-white transition-colors">关闭</button>
                 </div>
                 <FileUploader onUpload={handleCoverUpload} accept="image/*" purpose="covers" />
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">
                 URL Slug
                 {resolvedSlug && resolvedSlug !== formData.slug && (
-                  <span className="ml-2 text-xs text-muted-foreground/70">（将自动生成为: {resolvedSlug}）</span>
+                  <span className="ml-2 text-xs text-white/40/70">（将自动生成为: {resolvedSlug}）</span>
                 )}
               </label>
               <input
@@ -416,28 +416,28 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
                 value={formData.slug}
                 onChange={e => handleSlugChange(e.target.value)}
                 placeholder="留空自动从标题生成"
-                className={`${inputClass} ${slugError ? 'border-red-400 focus:ring-red-400' : ''}`}
+                className={`${inputClass} ${slugError ? 'border-red-400 focus:ring-red-400/50' : ''}`}
               />
-              {slugError && <p className="mt-1 text-xs text-red-500">{slugError}</p>}
-              <p className="mt-1 text-xs text-muted-foreground">仅允许小写字母、数字和连字符（-）</p>
+              {slugError && <p className="mt-1 text-xs text-red-400">{slugError}</p>}
+              <p className="mt-1 text-xs text-white/40">仅允许小写字母、数字和连字符（-）</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">创建时间</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">创建时间</label>
               <input
                 type="datetime-local"
                 value={formData.createdAt}
                 onChange={e => setFormData({ ...formData, createdAt: e.target.value })}
                 className={inputClass}
               />
-              <p className="mt-1 text-xs text-muted-foreground">留空则自动使用当前时间</p>
+              <p className="mt-1 text-xs text-white/40">留空则自动使用当前时间</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-muted-foreground mb-1">排序</label>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-white/50 mb-1">排序</label>
               <input type="number" value={formData.sortOrder} onChange={e => setFormData({ ...formData, sortOrder: parseInt(e.target.value) || 0 })} className={inputClass} />
             </div>
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="isRecommended" checked={formData.isRecommended} onChange={e => setFormData({ ...formData, isRecommended: e.target.checked })} className="rounded accent-primary" />
-              <label htmlFor="isRecommended" className="text-sm text-muted-foreground">推荐文章</label>
+              <input type="checkbox" id="isRecommended" checked={formData.isRecommended} onChange={e => setFormData({ ...formData, isRecommended: e.target.checked })} className="rounded accent-[#3cffd0]" />
+              <label htmlFor="isRecommended" className="text-sm text-white/50">推荐文章</label>
             </div>
           </div>
         </div>

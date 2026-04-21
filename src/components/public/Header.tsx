@@ -18,7 +18,7 @@ export default function Header({ siteName }: { siteName: string }) {
   return (
     <>
       <header className="h-[72px] flex items-center justify-between px-5 md:px-[80px]">
-        <Link href="/" className="font-display text-[24px] font-bold tracking-tight">
+        <Link href="/" className="font-display text-[24px] font-bold tracking-tight uppercase">
           {siteName}
         </Link>
 
@@ -30,10 +30,10 @@ export default function Header({ siteName }: { siteName: string }) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] transition-colors duration-200 ${
+                className={`font-mono text-[12px] uppercase tracking-[1.5px] transition-colors duration-200 ${
                   isActive
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-mint'
+                    : 'text-muted-foreground hover:text-link-hover'
                 }`}
               >
                 {link.label}
@@ -62,7 +62,7 @@ export default function Header({ siteName }: { siteName: string }) {
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-          mobileOpen ? 'max-h-[300px] border-b border-border' : 'max-h-0'
+          mobileOpen ? 'max-h-[300px] border-b border-white/10' : 'max-h-0'
         }`}
       >
         <nav className="px-5 py-4 space-y-1">
@@ -73,9 +73,9 @@ export default function Header({ siteName }: { siteName: string }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className={`block px-3 py-2.5 rounded-lg text-[13px] transition-colors ${
+                className={`block px-3 py-2.5 rounded-md font-mono text-[12px] uppercase tracking-[1.5px] transition-colors ${
                   isActive
-                    ? 'text-foreground'
+                    ? 'text-mint'
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >

@@ -25,7 +25,7 @@ export default async function ArticlesPage({ searchParams }: Props) {
 
   return (
     <div className="px-5 md:px-[80px] pt-[60px] pb-[40px]">
-      <h1 className="font-display text-[32px] md:text-[44px] font-bold tracking-tight mb-10">
+      <h1 className="font-display text-[44px] md:text-[60px] font-bold uppercase tracking-[1px] mb-10">
         全部文章
       </h1>
 

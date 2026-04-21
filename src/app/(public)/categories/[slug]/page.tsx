@@ -31,16 +31,16 @@ export default async function CategoryArticlesPage({ params }: CategoryArticlesP
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
 
       <header className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 font-display">
-          <Link href="/categories" className="hover:text-primary transition-colors">分类</Link>
-          <span className="text-border">/</span>
+        <div className="flex items-center gap-2 font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px] mb-3">
+          <Link href="/categories" className="hover:text-link-hover transition-colors">分类</Link>
+          <span className="text-white/20">/</span>
           <span className="text-foreground">{category.name}</span>
         </div>
-        <h1 className="text-3xl font-bold font-display text-foreground">{category.name}</h1>
+        <h1 className="font-display text-[44px] font-bold uppercase tracking-[1px]">{category.name}</h1>
         {category.description && (
           <p className="text-muted-foreground mt-2">{category.description}</p>
         )}
-        <p className="text-sm text-muted-foreground mt-1 font-display">共 {category._count.articles} 篇文章</p>
+        <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-[1.1px] mt-1">共 {category._count.articles} 篇文章</p>
       </header>
 
       {articles.length === 0 ? (

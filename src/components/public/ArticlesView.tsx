@@ -125,12 +125,12 @@ export default function ArticlesView({
     <>
       {/* View Toggle */}
       <div className="flex justify-end mb-6">
-        <div className="inline-flex bg-muted rounded-[var(--radius-sm)] p-1 gap-0.5">
+        <div className="inline-flex bg-muted rounded-[4px] p-1 gap-0.5 border border-white/10">
           <button
             onClick={() => switchView('grid')}
-            className={`p-2 rounded-[var(--radius-sm)] transition-colors ${
+            className={`p-2 rounded-[4px] transition-colors ${
               view === 'grid'
-                ? 'bg-card shadow-sm text-foreground'
+                ? 'bg-white/10 text-mint'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="分页视图"
@@ -144,9 +144,9 @@ export default function ArticlesView({
           </button>
           <button
             onClick={() => switchView('masonry')}
-            className={`p-2 rounded-[var(--radius-sm)] transition-colors ${
+            className={`p-2 rounded-[4px] transition-colors ${
               view === 'masonry'
-                ? 'bg-card shadow-sm text-foreground'
+                ? 'bg-white/10 text-mint'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             title="瀑布流视图"
@@ -163,7 +163,7 @@ export default function ArticlesView({
 
       {view === 'grid' ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] items-stretch">
             {initialArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
@@ -174,18 +174,18 @@ export default function ArticlesView({
               {currentPage > 1 && (
                 <Link
                   href={`/articles?page=${currentPage - 1}`}
-                  className="px-4 py-2 border border-border rounded-[var(--radius-sm)] text-sm hover:bg-muted transition-colors"
+                  className="px-4 py-2 border border-white/10 rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-mint hover:border-mint/50 transition-colors"
                 >
                   上一页
                 </Link>
               )}
-              <span className="text-sm text-muted-foreground font-mono">
+              <span className="font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px]">
                 {currentPage} / {totalPages}
               </span>
               {currentPage < totalPages && (
                 <Link
                   href={`/articles?page=${currentPage + 1}`}
-                  className="px-4 py-2 border border-border rounded-[var(--radius-sm)] text-sm hover:bg-muted transition-colors"
+                  className="px-4 py-2 border border-white/10 rounded-[4px] font-mono text-[12px] uppercase tracking-[1.5px] hover:text-mint hover:border-mint/50 transition-colors"
                 >
                   下一页
                 </Link>
@@ -195,9 +195,9 @@ export default function ArticlesView({
         </>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] items-start">
             {columns.map((column, i) => (
-              <div key={i} className="flex flex-col gap-[32px]">
+              <div key={i} className="flex flex-col gap-[24px]">
                 {column.map(article => (
                   <ArticleCard key={article.id} article={article} />
                 ))}
@@ -210,7 +210,7 @@ export default function ArticlesView({
               <button
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="px-6 py-2 border border-border rounded-[var(--radius-sm)] text-sm hover:bg-muted transition-colors disabled:opacity-50"
+                className="px-6 py-2.5 border border-mint rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] text-mint hover:bg-mint hover:text-black transition-colors disabled:opacity-50"
               >
                 {loadingMore ? '加载中...' : '加载更多'}
               </button>

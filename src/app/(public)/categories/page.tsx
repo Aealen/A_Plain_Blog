@@ -14,7 +14,7 @@ export default async function CategoriesPage() {
 
   return (
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
-      <h1 className="text-3xl font-bold font-display text-foreground mb-8">分类</h1>
+      <h1 className="font-display text-[44px] md:text-[60px] font-bold uppercase tracking-[1px] mb-8">分类</h1>
 
       {categories.length === 0 ? (
         <div className="text-center py-20">
@@ -27,16 +27,16 @@ export default async function CategoriesPage() {
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
-              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:shadow-lg transition-all duration-300"
-              style={{ borderLeftColor: getItemColor(category.name).color, borderLeftWidth: '3px' }}
+              className="group block bg-card rounded-[20px] border border-white/10 p-6 hover:text-link-hover transition-colors duration-150"
+              style={{ borderLeftColor: getItemColor(category.name).backgroundColor, borderLeftWidth: '3px' }}
             >
-              <h2 className="text-lg font-bold font-display text-foreground mb-2 group-hover:text-primary transition-colors">
+              <h2 className="text-lg font-bold font-display uppercase mb-2 group-hover:text-link-hover transition-colors">
                 {category.name}
               </h2>
               {category.description && (
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{category.description}</p>
               )}
-              <span className="text-sm text-primary font-display">
+              <span className="font-mono text-[11px] text-mint uppercase tracking-[1.1px]">
                 {category._count.articles} 篇文章
               </span>
             </Link>

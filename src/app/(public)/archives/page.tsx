@@ -15,7 +15,7 @@ export default async function ArchivesPage() {
   return (
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
 
-      <h1 className="text-3xl font-bold font-display text-foreground mb-8">归档</h1>
+      <h1 className="font-display text-[44px] md:text-[60px] font-bold uppercase tracking-[1px] mb-8">归档</h1>
 
       {years.length === 0 ? (
         <div className="text-center py-20">
@@ -25,27 +25,27 @@ export default async function ArchivesPage() {
         <div className="space-y-10">
           {years.map((year) => (
             <section key={year}>
-              <h2 className="text-2xl font-bold font-display text-foreground mb-4 border-b border-border pb-2">{year}</h2>
+              <h2 className="font-display text-[32px] font-bold uppercase tracking-[0.5px] mb-4 border-b border-mint pb-2">{year}</h2>
               <div className="space-y-6">
                 {Object.entries(archives[year])
                   .sort(([a], [b]) => Number(b) - Number(a))
                   .map(([month, articles]) => (
                     <div key={month}>
-                      <h3 className="text-sm font-display font-medium text-muted-foreground mb-3">{month} 月</h3>
-                      <ul className="space-y-2 ml-2">
+                      <h3 className="font-mono text-[12px] font-medium text-muted-foreground uppercase tracking-[1.5px] mb-3">{month} 月</h3>
+                      <ul className="space-y-2 ml-2 border-l border-ultraviolet/40 pl-4">
                         {articles.map((article) => (
                           <li key={article.id} className="flex items-center gap-4 group">
                             {article.createdAt && (
                               <time
                                 dateTime={article.createdAt.toISOString()}
-                                className="text-xs text-tertiary shrink-0 w-20"
+                                className="font-mono text-[10px] text-tertiary uppercase tracking-[1.5px] shrink-0 w-20"
                               >
                                 {new Date(article.createdAt).toLocaleDateString('zh-CN')}
                               </time>
                             )}
                             <Link
                               href={`/articles/${article.slug}`}
-                              className="text-foreground hover:text-primary transition-colors font-medium"
+                              className="text-foreground hover:text-link-hover transition-colors font-medium"
                             >
                               {article.title}
                             </Link>

@@ -33,20 +33,20 @@ export default async function AboutPage() {
       {/* Centered profile section */}
       <div className="flex flex-col items-center">
         {avatar ? (
-          <Image src={avatar} alt={displayName} width={120} height={120} className="w-[120px] h-[120px] rounded-full object-cover mb-10" />
+          <Image src={avatar} alt={displayName} width={120} height={120} className="w-[120px] h-[120px] rounded-full object-cover mb-10 border-2 border-mint" />
         ) : (
-          <div className="w-[120px] h-[120px] rounded-full bg-accent flex items-center justify-center text-primary text-4xl font-bold font-display mb-10">
+          <div className="w-[120px] h-[120px] rounded-full bg-card border-2 border-mint flex items-center justify-center text-mint text-4xl font-bold font-display mb-10">
             {displayName.charAt(0).toUpperCase()}
           </div>
         )}
 
-        <h1 className="text-3xl font-bold font-display text-foreground">{displayName}</h1>
+        <h1 className="font-display text-[44px] font-bold uppercase tracking-[1px]">{displayName}</h1>
 
-        <p className="text-tertiary mt-4 text-sm">{displaySubtitle}</p>
+        <p className="font-mono text-[12px] text-tertiary mt-4 uppercase tracking-[1.5px]">{displaySubtitle}</p>
       </div>
 
       {/* Full-width divider */}
-      <div className="border-t border-border my-10" />
+      <div className="border-t border-white/10 my-10" />
 
       {/* Description sections, centered */}
       <div className="max-w-[600px] mx-auto space-y-6">
@@ -59,7 +59,7 @@ export default async function AboutPage() {
             {displayTechs.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 bg-muted rounded-full text-sm text-muted-foreground font-display"
+                className="font-mono text-[11px] uppercase tracking-[1.1px] px-3 py-1 bg-card border border-white/10 rounded-[20px] text-muted-foreground"
               >
                 {tech}
               </span>
@@ -72,7 +72,7 @@ export default async function AboutPage() {
             联系方式：
             <a
               href={`mailto:${contact}`}
-              className="text-primary font-display"
+              className="text-mint font-mono"
             >
               {contact}
             </a>

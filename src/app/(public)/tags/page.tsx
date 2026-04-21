@@ -15,7 +15,7 @@ export default async function TagsPage() {
   return (
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
 
-      <h1 className="text-3xl font-bold font-display text-foreground mb-8">标签</h1>
+      <h1 className="font-display text-[44px] md:text-[60px] font-bold uppercase tracking-[1px] mb-8">标签</h1>
 
       {tags.length === 0 ? (
         <div className="text-center py-20">
@@ -28,14 +28,11 @@ export default async function TagsPage() {
             <Link
               key={tag.id}
               href={`/tags/${tag.slug}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border text-foreground hover:shadow-sm transition-all duration-300"
-              style={{
-                ...getItemColor(tag.name),
-                borderColor: getItemColor(tag.name).backgroundColor,
-              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[20px] font-mono text-[12px] font-semibold uppercase tracking-[1.1px] transition-all duration-150 hover:opacity-80"
+              style={getItemColor(tag.name)}
             >
-              <span className="font-medium font-display"># {tag.name}</span>
-              <span className="text-xs text-muted-foreground">({tag._count.articles})</span>
+              <span># {tag.name}</span>
+              <span className="opacity-60">({tag._count.articles})</span>
             </Link>
           ))}
         </div>

@@ -1,17 +1,23 @@
 import type { Metadata } from 'next'
-import { Inter, Outfit } from 'next/font/google'
+import { Space_Grotesk, Oswald, JetBrains_Mono } from 'next/font/google'
 import '@/app/globals.css'
 import { getSiteFavicon, getSiteName } from '@/actions/public/site'
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 })
 
-const outfit = Outfit({
+const oswald = Oswald({
   subsets: ['latin'],
   variable: '--font-display',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -34,7 +40,7 @@ export default async function RootLayout({
   const faviconUrl = await getSiteFavicon()
 
   return (
-    <html lang="zh-CN" data-code-theme="github-dark-dimmed" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="zh-CN" data-code-theme="github-dark-dimmed" className={`${spaceGrotesk.variable} ${oswald.variable} ${jetbrainsMono.variable}`}>
       <head>
         {faviconUrl && <link rel="icon" href={faviconUrl} />}
       </head>

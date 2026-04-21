@@ -24,17 +24,17 @@ export default async function HomePage() {
       {/* Latest Articles Section */}
       <section id="articles" className="pt-[60px] pb-[40px]">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="font-display text-[24px] md:text-[28px] font-bold tracking-tight">最新文章</h2>
+          <h2 className="font-display text-[24px] md:text-[28px] font-bold tracking-[0.5px] uppercase">最新文章</h2>
           <Link
             href="/articles"
-            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200"
+            className="font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px] hover:text-link-hover transition-colors duration-200"
           >
             查看全部 →
           </Link>
         </div>
 
         {articles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px] items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] items-stretch">
             {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}

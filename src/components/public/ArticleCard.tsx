@@ -31,29 +31,29 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
   const hasCover = !!article.coverImage
 
   return (
-    <article className="group flex flex-col h-full">
+    <article className="group flex flex-col h-full bg-card rounded-[20px] border border-white/10 overflow-hidden">
       {hasCover && (
         <Link href={`/articles/${article.slug}`} className="block shrink-0">
-          <div className="w-full h-[200px] rounded-lg overflow-hidden mb-4 relative">
+          <div className="w-full h-[200px] overflow-hidden relative">
             <Image
               src={article.coverImage!}
               alt={article.title}
               fill
               sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover"
             />
           </div>
         </Link>
       )}
 
-      <div className={hasCover ? '' : 'flex-1 flex flex-col min-h-0'}>
+      <div className={`p-6 ${hasCover ? '' : 'flex-1 flex flex-col min-h-0'}`}>
         {article.categories.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-3">
             {article.categories.map(c => (
               <Link
                 key={c.category.slug}
                 href={`/categories/${c.category.slug}`}
-                className="inline-block text-[11px] font-medium px-2 py-0.5 rounded transition-opacity hover:opacity-80"
+                className="inline-block font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2 py-0.5 rounded-[20px] transition-opacity hover:opacity-80"
                 style={getItemColor(c.category.name)}
               >
                 {c.category.name}
@@ -62,10 +62,10 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
           </div>
         )}
 
-        <h3 className="font-display text-[18px] font-semibold leading-[1.3] mb-3">
+        <h3 className="font-display text-[20px] font-bold leading-[1.0] uppercase mb-3">
           <Link
             href={`/articles/${article.slug}`}
-            className="hover:text-indigo-600 transition-colors duration-200"
+            className="hover:text-link-hover transition-colors duration-150"
           >
             {article.title}
           </Link>
@@ -79,7 +79,7 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
       </div>
 
       {(formattedDate || article.viewCount > 0) && (
-        <span className="text-[12px] text-tertiary mt-auto shrink-0 flex items-center gap-2">
+        <span className="px-6 pb-4 font-mono text-[10px] text-tertiary uppercase tracking-[1.5px] mt-auto shrink-0 flex items-center gap-2">
           {formattedDate}
           {article.viewCount > 0 && (
             <span className="inline-flex items-center gap-0.5">

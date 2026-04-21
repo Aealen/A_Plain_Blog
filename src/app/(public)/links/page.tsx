@@ -13,7 +13,7 @@ export default async function LinksPage() {
   return (
     <div className="max-w-[880px] mx-auto pt-[60px] pb-10 px-5">
 
-      <h1 className="text-3xl font-bold font-display text-foreground mb-8">友情链接</h1>
+      <h1 className="font-display text-[44px] md:text-[60px] font-bold uppercase tracking-[1px] mb-8">友情链接</h1>
 
       {links.length === 0 ? (
         <div className="text-center py-20">
@@ -27,21 +27,21 @@ export default async function LinksPage() {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block bg-card rounded-[var(--radius-lg)] border border-border p-6 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
+              className="group block bg-card rounded-[20px] border border-white/10 p-6 hover:border-mint/40 transition-colors duration-150"
             >
               <div className="flex items-center gap-4 mb-3">
                 {link.avatar ? (
                   <img
                     src={link.avatar}
                     alt={link.name}
-                    className="w-12 h-12 rounded-full object-cover border border-border"
+                    className="w-12 h-12 rounded-full object-cover border border-white/10"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary font-bold font-display text-lg">
+                  <div className="w-12 h-12 rounded-full bg-card border border-white/10 flex items-center justify-center text-mint font-bold font-display text-lg">
                     {link.name.charAt(0)}
                   </div>
                 )}
-                <h2 className="text-lg font-bold font-display text-foreground group-hover:text-primary transition-colors">{link.name}</h2>
+                <h2 className="text-lg font-bold font-display uppercase group-hover:text-link-hover transition-colors">{link.name}</h2>
               </div>
               {link.description && (
                 <p className="text-sm text-muted-foreground line-clamp-2">{link.description}</p>
