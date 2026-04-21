@@ -302,7 +302,7 @@ export default function ArticlesPage() {
                     {article.tags.length > 0 && (
                       <div className="flex gap-1 mt-1 flex-wrap">
                         {article.tags.map(t => (
-                          <span key={t.tag.id} className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full">{t.tag.name}</span>
+                          <span key={t.tag.id} className="text-xs bg-primary/15 text-primary px-2 py-0.5 rounded-full">{t.tag.name}</span>
                         ))}
                       </div>
                     )}
