@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getArticles, deleteArticle, restoreArticle, permanentDeleteArticle, batchDelete, discardDraft, toggleRecommended } from '@/actions/admin/article'
@@ -48,6 +48,9 @@ export default function ArticlesPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [importing, setImporting] = useState(false)
   const [importResult, setImportResult] = useState<{ imported: number; skipped: number; errors: string[] } | null>(null)
+  const [importModalOpen, setImportModalOpen] = useState(false)
+  const [dragOver, setDragOver] = useState(false)
+  const importInputRef = useRef<HTMLInputElement>(null)
   const [sortBy, setSortBy] = useState('sortOrder')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
@@ -70,13 +73,16 @@ export default function ArticlesPage() {
 
   useEffect(() => { loadArticles() }, [loadArticles])
 
-  async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = e.target.files
-    if (!files || files.length === 0) return
+  async function processFiles(files: File[]) {
+    const mdFiles = files.filter(f => /\.(md|markdown)$/i.test(f.name))
+    if (mdFiles.length === 0) {
+      setImportResult({ imported: 0, skipped: 0, errors: ['未找到 .md 或 .markdown 文件'] })
+      return
+    }
     setImporting(true); setImportResult(null)
     try {
       const entries = await Promise.all(
-        Array.from(files).map(async f => ({ name: f.name, content: await f.text() }))
+        mdFiles.map(async f => ({ name: f.name, content: await f.text() }))
       )
       const result = await importMarkdownFiles(entries)
       setImportResult(result)
@@ -85,8 +91,21 @@ export default function ArticlesPage() {
       setImportResult({ imported: 0, skipped: 1, errors: [err instanceof Error ? err.message : '导入失败'] })
     } finally {
       setImporting(false)
-      e.target.value = ''
     }
+  }
+
+  function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    processFiles(Array.from(files))
+    e.target.value = ''
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDragOver(false)
+    const files = Array.from(e.dataTransfer.files)
+    processFiles(files)
   }
 
   function handleStatusTab(value: ArticleStatus | 'ALL') {
@@ -187,10 +206,13 @@ export default function ArticlesPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold font-display uppercase tracking-[1px] text-foreground">文章管理</h1>
         <div className="flex gap-2">
-          <label className={`bg-card text-foreground px-4 py-2 rounded-[4px] font-mono text-sm uppercase tracking-[1px] transition-colors cursor-pointer border border-border ${importing ? 'opacity-50 pointer-events-none' : 'hover:bg-hover'}`}>
+          <button
+            onClick={() => { setImportModalOpen(true); setImportResult(null) }}
+            disabled={importing}
+            className={`bg-card text-foreground px-4 py-2 rounded-[4px] font-mono text-sm uppercase tracking-[1px] transition-colors border border-border ${importing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-hover cursor-pointer'}`}
+          >
             {importing ? '导入中...' : '导入 Markdown'}
-            <input type="file" accept=".md,.markdown" multiple onChange={handleImport} className="hidden" />
-          </label>
+          </button>
           <Link href="/admin/articles/new" className="bg-primary text-primary-foreground px-4 py-2 rounded-[24px] font-mono uppercase text-sm tracking-[1px] hover:bg-primary/90 font-medium transition-colors">
             新建文章
           </Link>
@@ -203,6 +225,51 @@ export default function ArticlesPage() {
           {importResult.errors.length > 0 && (
             <ul className="mt-1 list-disc list-inside">{importResult.errors.map((err, i) => <li key={i}>{err}</li>)}</ul>
           )}
+        </div>
+      )}
+
+      {/* Import Modal */}
+      {importModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 backdrop-blur-sm" onClick={() => !importing && setImportModalOpen(false)}>
+          <div
+            className="bg-card border border-border rounded-[24px] p-8 w-full max-w-lg shadow-2xl"
+            onClick={e => e.stopPropagation()}
+            onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={handleDrop}
+          >
+            <div className={`flex flex-col items-center justify-center py-10 border-2 border-dashed rounded-[20px] transition-colors ${dragOver ? 'border-primary bg-primary/10' : 'border-border'}`}>
+              <svg className={`w-10 h-10 mb-4 transition-colors ${dragOver ? 'text-primary' : 'text-muted-foreground'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              <p className="font-display text-lg font-bold mb-1">{dragOver ? '松开即可导入' : '拖拽文件到此处'}</p>
+              <p className="text-sm text-muted-foreground mb-4">支持 .md / .markdown 文件，可多选</p>
+              <button
+                onClick={() => importInputRef.current?.click()}
+                disabled={importing}
+                className="bg-primary text-primary-foreground px-5 py-2 rounded-[24px] font-mono text-[12px] font-semibold uppercase tracking-[1.5px] hover:bg-primary/90 transition-colors disabled:opacity-50"
+              >
+                {importing ? '导入中...' : '选择文件'}
+              </button>
+              <input
+                ref={importInputRef}
+                type="file"
+                accept=".md,.markdown"
+                multiple
+                onChange={handleFileInput}
+                className="hidden"
+              />
+            </div>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => !importing && setImportModalOpen(false)}
+                disabled={importing}
+                className="font-mono text-[12px] text-muted-foreground uppercase tracking-[1.5px] hover:text-foreground transition-colors disabled:opacity-50"
+              >
+                关闭
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
