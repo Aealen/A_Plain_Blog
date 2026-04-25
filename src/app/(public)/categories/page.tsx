@@ -27,6 +27,7 @@ export default async function CategoriesPage() {
             <Link
               key={category.id}
               href={`/categories/${category.slug}`}
+              prefetch={false}
               className="group block bg-card rounded-[20px] border border-border p-6 hover:text-link-hover transition-colors duration-150"
               style={{ borderLeftColor: getItemColor(category.name).backgroundColor, borderLeftWidth: '3px' }}
             >

@@ -28,6 +28,7 @@ export default async function TagsPage() {
             <Link
               key={tag.id}
               href={`/tags/${tag.slug}`}
+              prefetch={false}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[20px] font-mono text-[12px] font-semibold uppercase tracking-[1.1px] transition-all duration-150 hover:opacity-80"
               style={getItemColor(tag.name)}
             >

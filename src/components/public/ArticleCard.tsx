@@ -33,7 +33,7 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
   return (
     <article className="group flex flex-col h-full bg-card rounded-[20px] border border-border overflow-hidden">
       {hasCover && (
-        <Link href={`/articles/${article.slug}`} className="block shrink-0">
+        <Link href={`/articles/${article.slug}`} className="block shrink-0" prefetch={false}>
           <div className="w-full h-[200px] overflow-hidden relative">
             <Image
               src={article.coverImage!}
@@ -53,6 +53,7 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
               <Link
                 key={c.category.slug}
                 href={`/categories/${c.category.slug}`}
+                prefetch={false}
                 className="inline-block font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2 py-0.5 rounded-[20px] transition-opacity hover:opacity-80"
                 style={getItemColor(c.category.name)}
               >
@@ -65,6 +66,7 @@ export default React.memo(function ArticleCard({ article }: ArticleCardProps) {
         <h3 className="font-display text-[20px] font-bold leading-[1.0] uppercase mb-3">
           <Link
             href={`/articles/${article.slug}`}
+            prefetch={false}
             className="hover:text-link-hover transition-colors duration-150"
           >
             {article.title}

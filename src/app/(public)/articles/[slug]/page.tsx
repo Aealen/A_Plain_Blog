@@ -124,6 +124,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <Link
                         key={tag.slug}
                         href={`/tags/${tag.slug}`}
+                        prefetch={false}
                         className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2.5 py-1 rounded-[20px] transition-opacity hover:opacity-80"
                         style={getItemColor(tag.name)}
                       >
@@ -144,6 +145,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={c.category.slug}
                       href={`/categories/${c.category.slug}`}
+                      prefetch={false}
                       className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-3 py-1 rounded-[20px] transition-opacity hover:opacity-80"
                       style={getItemColor(c.category.name)}
                     >
@@ -188,6 +190,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <Link
                       key={tag.slug}
                       href={`/tags/${tag.slug}`}
+                      prefetch={false}
                       className="font-mono text-[11px] font-semibold uppercase tracking-[1.1px] px-2.5 py-1 rounded-[20px] transition-opacity hover:opacity-80"
                       style={getItemColor(tag.name)}
                     >

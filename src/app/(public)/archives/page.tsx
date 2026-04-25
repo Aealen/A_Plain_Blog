@@ -45,6 +45,7 @@ export default async function ArchivesPage() {
                             )}
                             <Link
                               href={`/articles/${article.slug}`}
+                              prefetch={false}
                               className="text-foreground hover:text-link-hover transition-colors font-medium"
                             >
                               {article.title}
