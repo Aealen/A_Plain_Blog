@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["blog.aowu.tech", "*.aowu.tech"],
+    },
+  },
   images: {
     remotePatterns: [
       {
