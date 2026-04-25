@@ -87,9 +87,9 @@ export async function getArchives() {
     },
   })
 
-  const archives: Record<string, Record<string, { id: string; title: string; slug: string; createdAt: Date }[]>> = {}
+  const archives: Record<string, Record<string, { id: string; title: string; slug: string; createdAt: Date | null }[]>> = {}
   for (const article of articles) {
-    const date = new Date(article.createdAt)
+    const date = new Date(article.createdAt ?? Date.now())
     const year = String(date.getUTCFullYear())
     const month = String(date.getUTCMonth() + 1).padStart(2, '0')
 

@@ -1,22 +1,37 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, Oswald, JetBrains_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import '@/app/globals.css'
 import { getSiteFavicon, getSiteName } from '@/actions/public/site'
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
+const spaceGrotesk = localFont({
+  src: [
+    { path: '../../public/fonts/space-grotesk-latin-400-normal.woff2', weight: '400' },
+    { path: '../../public/fonts/space-grotesk-latin-500-normal.woff2', weight: '500' },
+    { path: '../../public/fonts/space-grotesk-latin-600-normal.woff2', weight: '600' },
+    { path: '../../public/fonts/space-grotesk-latin-700-normal.woff2', weight: '700' },
+  ],
   variable: '--font-sans',
   display: 'swap',
 })
 
-const oswald = Oswald({
-  subsets: ['latin'],
+const oswald = localFont({
+  src: [
+    { path: '../../public/fonts/oswald-latin-400-normal.woff2', weight: '400' },
+    { path: '../../public/fonts/oswald-latin-500-normal.woff2', weight: '500' },
+    { path: '../../public/fonts/oswald-latin-600-normal.woff2', weight: '600' },
+    { path: '../../public/fonts/oswald-latin-700-normal.woff2', weight: '700' },
+  ],
   variable: '--font-display',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
+const jetbrainsMono = localFont({
+  src: [
+    { path: '../../public/fonts/jetbrains-mono-latin-400-normal.woff2', weight: '400' },
+    { path: '../../public/fonts/jetbrains-mono-latin-500-normal.woff2', weight: '500' },
+    { path: '../../public/fonts/jetbrains-mono-latin-600-normal.woff2', weight: '600' },
+    { path: '../../public/fonts/jetbrains-mono-latin-700-normal.woff2', weight: '700' },
+  ],
   variable: '--font-mono',
   display: 'swap',
 })
