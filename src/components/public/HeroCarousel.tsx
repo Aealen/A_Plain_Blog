@@ -96,6 +96,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
         <div className="flex items-center gap-4">
           <Link
             href={`/articles/${article.slug}`}
+            prefetch={false}
             className="inline-flex items-center font-mono text-[12px] font-semibold uppercase tracking-[1.5px] bg-primary text-primary-foreground px-6 py-2.5 rounded-[24px] hover:bg-hover hover:text-foreground transition-colors duration-180"
           >
             阅读全文
