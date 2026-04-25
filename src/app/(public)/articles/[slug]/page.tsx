@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import ArticleContent from '@/components/public/ArticleContent'
 import { getArticleBySlug, incrementViewCount } from '@/actions/public/article'
 import { getItemColor } from '@/lib/colors'
@@ -63,10 +64,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* Hero: Cover Image with Overlay Title */}
         {article.coverImage ? (
           <div className="relative w-full h-[320px] md:h-[520px] overflow-hidden rounded-[24px] mx-5 md:mx-[80px] border border-border">
-            <img
+            <Image
               src={article.coverImage}
               alt={article.title}
+              fill
+              sizes="(min-width: 768px) calc(100vw - 160px * 2), calc(100vw - 40px)"
               className="absolute inset-0 w-full h-full object-cover"
+              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent" />
             <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 md:pb-16 px-6">

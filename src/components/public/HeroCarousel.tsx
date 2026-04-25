@@ -113,6 +113,7 @@ export default function HeroCarousel({ articles }: HeroCarouselProps) {
             fill
             sizes="480px"
             className="object-cover"
+            priority
           />
         </div>
       )}
