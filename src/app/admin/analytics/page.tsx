@@ -1,6 +1,7 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { fetchVisitStats, fetchTopPages } from '@/actions/admin/analytics'
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts'
 
 interface DailyStat {
   date: string
@@ -38,6 +39,13 @@ export default function AnalyticsPage() {
   const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   const todayPv = dailyStats.find((s) => s.date === todayStr)?.pv || 0
 
+  const chartData = useMemo(() =>
+    dailyStats
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(s => ({ ...s, label: s.date.slice(5) })),
+    [dailyStats]
+  )
+
   if (loading) {
     return <div className="text-center py-12 text-muted-foreground">加载中...</div>
   }
@@ -60,6 +68,30 @@ export default function AnalyticsPage() {
           <p className="text-3xl font-bold font-display mt-2 text-foreground">{todayPv.toLocaleString()}</p>
         </div>
       </div>
+
+      {chartData.length > 0 && (
+        <div className="bg-card border border-border rounded-[20px] p-6 mb-8">
+          <h2 className="text-base font-bold font-display text-foreground mb-4">趋势（最近 30 天）</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+              <XAxis dataKey="label" tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }} />
+              <YAxis tick={{ fontSize: 12, fill: 'var(--color-muted-foreground)' }} />
+              <Tooltip
+                contentStyle={{
+                  background: 'var(--color-card)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                }}
+              />
+              <Legend />
+              <Line type="monotone" dataKey="pv" name="PV" stroke="var(--color-primary)" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="uv" name="UV" stroke="#94a3b8" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-card border border-border rounded-[20px]">
