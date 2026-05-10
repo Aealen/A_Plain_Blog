@@ -1,12 +1,12 @@
 import { MetadataRoute } from 'next'
 import prisma from '@/lib/prisma'
+import { DEFAULT_BASE_URL } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://example.com'
-
-  const [articles, categories, tags] = await Promise.all([
+  const [config, articles, categories, tags] = await Promise.all([
+    prisma.siteConfig.findUnique({ where: { key: 'baseUrl' } }),
     prisma.article.findMany({
       where: { status: 'PUBLISHED' },
       select: { slug: true, updatedAt: true },
@@ -18,6 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       select: { slug: true, createdAt: true },
     }),
   ])
+
+  const baseUrl = config?.value || process.env.NEXT_PUBLIC_BASE_URL || DEFAULT_BASE_URL
 
   const articleEntries: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${baseUrl}/articles/${article.slug}`,

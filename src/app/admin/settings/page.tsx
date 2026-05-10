@@ -2,24 +2,28 @@
 import { useState, useEffect } from 'react'
 import { getSiteConfig, setSiteConfig } from '@/actions/admin/site'
 import FileUploader from '@/components/admin/FileUploader'
-import { DEFAULT_SITE_NAME } from '@/lib/constants'
+import { DEFAULT_SITE_NAME, DEFAULT_BASE_URL } from '@/lib/constants'
 
 const inputClass = "w-full px-3 py-2 border border-border rounded-[4px] bg-card text-foreground focus:outline-none focus:border-primary transition-colors"
 
 export default function SettingsPage() {
   const [siteName, setSiteName] = useState('')
   const [faviconUrl, setFaviconUrl] = useState('')
+  const [baseUrl, setBaseUrl] = useState('')
   const [nameMsg, setNameMsg] = useState({ type: '', text: '' })
   const [faviconMsg, setFaviconMsg] = useState({ type: '', text: '' })
+  const [baseUrlMsg, setBaseUrlMsg] = useState({ type: '', text: '' })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     Promise.all([
       getSiteConfig('siteName'),
       getSiteConfig('favicon'),
-    ]).then(([name, favicon]) => {
+      getSiteConfig('baseUrl'),
+    ]).then(([name, favicon, url]) => {
       setSiteName(name || '')
       setFaviconUrl(favicon || '')
+      setBaseUrl(url || '')
       setLoading(false)
     })
   }, [])
@@ -43,6 +47,24 @@ export default function SettingsPage() {
       setFaviconMsg({ type: 'success', text: 'Favicon 已保存' })
     } catch (err) {
       setFaviconMsg({ type: 'error', text: err instanceof Error ? err.message : '保存失败' })
+    }
+  }
+
+  async function handleBaseUrlSave(e: React.FormEvent) {
+    e.preventDefault()
+    setBaseUrlMsg({ type: '', text: '' })
+
+    const trimmed = baseUrl.trim()
+    if (trimmed && !/^https?:\/\/.+/.test(trimmed)) {
+      setBaseUrlMsg({ type: 'error', text: '请输入有效的 URL，以 http:// 或 https:// 开头' })
+      return
+    }
+
+    try {
+      await setSiteConfig('baseUrl', trimmed)
+      setBaseUrlMsg({ type: 'success', text: '站点地址已保存，sitemap 和 robots.txt 将使用新地址' })
+    } catch (err) {
+      setBaseUrlMsg({ type: 'error', text: err instanceof Error ? err.message : '保存失败' })
     }
   }
 
@@ -93,6 +115,25 @@ export default function SettingsPage() {
               <input type="url" value={faviconUrl} onChange={e => setFaviconUrl(e.target.value)} placeholder="输入图标 URL 或通过下方上传" className={inputClass} />
             </div>
             <FileUploader onUpload={url => setFaviconUrl(url)} accept="image/*" purpose="site" />
+            <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase hover:bg-primary/90 transition-colors">
+              保存
+            </button>
+          </form>
+        </div>
+
+        <div className="bg-card border border-border rounded-[20px] p-6">
+          <h2 className="text-base font-bold font-display text-foreground mb-4">站点地址</h2>
+          <form onSubmit={handleBaseUrlSave} className="space-y-4">
+            {baseUrlMsg.text && (
+              <div className={`p-3 rounded-[4px] text-sm ${baseUrlMsg.type === 'success' ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
+                {baseUrlMsg.text}
+              </div>
+            )}
+            <div>
+              <label className="block font-mono text-[12px] uppercase tracking-[1.5px] text-muted-foreground mb-1">站点 URL</label>
+              <input type="url" value={baseUrl} onChange={e => setBaseUrl(e.target.value)} placeholder={DEFAULT_BASE_URL} className={inputClass} />
+              <p className="mt-1 text-xs text-muted-foreground">用于 sitemap.xml 和 robots.txt 中的域名，留空则使用默认值「{DEFAULT_BASE_URL}」</p>
+            </div>
             <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-[24px] font-mono uppercase hover:bg-primary/90 transition-colors">
               保存
             </button>
