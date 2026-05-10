@@ -133,3 +133,16 @@ model SiteConfig {
   key   String @id
   value String
 }
+
+model SearchSubmitRecord {
+  id          String    @id @default(uuid()) @db.Uuid
+  url         String
+  engine      String
+  status      String    @default("pending")
+  submittedAt DateTime?
+  error       String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@unique([url, engine])
+  @@map("search_submit_records")
+}
