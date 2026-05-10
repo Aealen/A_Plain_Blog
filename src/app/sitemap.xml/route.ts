@@ -20,7 +20,7 @@ export async function GET() {
 
   const baseUrl = config?.value || process.env.NEXT_PUBLIC_BASE_URL || DEFAULT_BASE_URL
 
-  const entries = [
+  const entries: { url: string; lastmod?: string; changefreq: string; priority: string }[] = [
     { url: baseUrl, changefreq: 'daily', priority: '1.0' },
     { url: `${baseUrl}/categories`, changefreq: 'weekly', priority: '0.7' },
     { url: `${baseUrl}/tags`, changefreq: 'weekly', priority: '0.7' },
